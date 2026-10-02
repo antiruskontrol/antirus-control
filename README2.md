@@ -1,7 +1,7 @@
 [🇺🇦 Українська](#Українська) | [en English](#English)
 
 # UAFilter
-
+# antiruskontrol@ukr.net
 ## English 
 
 A browser-extension content script that blurs Russian text on any website and automatically skips Russian-language YouTube Shorts.
@@ -28,7 +28,7 @@ A browser-extension content script that blurs Russian text on any website and au
 The detection is heuristic, so occasional misses or false positives are possible. The dictionary and patterns are easy to tune at the top of the script.
 
 Author: Афтіпа Марко Оцтович
-
+# antiruskontrol@ukr.net
 ---
 
 ## Українська
@@ -57,3 +57,4 @@ Author: Афтіпа Марко Оцтович
 Визначення мови евристичне, тому можливі поодинокі пропуски або хибні спрацювання. Словник і патерни легко налаштувати на початку скрипта.
 
 Автор: Афтіпа Марко Оцтович
+# antiruskontrol@ukr.net
