@@ -1,4 +1,4 @@
-[🇺🇦 Українська](#Українська) | [🇬🇧 English](#English)
+[🇺🇦 Українська](#Українська) | [en English](#English)
 
 # UAFilter
 
