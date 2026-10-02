@@ -12,3 +12,4 @@ Ukrainian social open-source project for Antirus-Control. Completely privacy-foc
 <img width="1672" height="941" alt="ChatGPT Image 29 вер  2026 р , 16_30_32" src="https://github.com/user-attachments/assets/8aaad99c-35b1-4c27-a544-366526165e80" />
 <img width="1408" height="768" alt="image_98ccf19d" src="https://github.com/user-attachments/assets/8f0e07a0-1714-4473-ae04-1dec0f6d03bd" />
 
+# antiruskontrol@ukr.net
