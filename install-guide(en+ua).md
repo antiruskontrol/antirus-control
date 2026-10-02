@@ -12,7 +12,7 @@ Follow these 4 simple steps to install the extension from the ZIP archive:
 	• In the top-left corner, click the "Load unpacked" button.
 	• Select the folder where you just extracted the files (the folder that contains manifest.json).
 Done! The extension icon will appear in your browser bar, and Smart Skip is already running to protect your feed.
-
+# antiruskontrol@ukr.net
 
 # 📦 Як встановити розширення "Antirus-Control" вручну
 
@@ -34,3 +34,5 @@ Done! The extension icon will appear in your browser bar, and Smart Skip is alre
 * У вікні, що відкрилося, виберіть папку, в яку ви щойно розпакували файли (усередині цієї папки має одразу лежати файл `manifest.json`). Натисніть «Вибір папки».
 
 **Готово!** Іконка розширення з'явиться на панелі браузера, а функція *Smart Skip* уже активована та захищає вашу стрічку.
+
+# antiruskontrol@ukr.net
