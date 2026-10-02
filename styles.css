@@ -1,0 +1,22 @@
+
+/* Розумне плавного розмиття для новинних сайтів (наприклад, ukr.net) */
+.antirus-blurred {
+  filter: blur(8px) !important;
+  opacity: 0.3 !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+/* Спеціальне потужне розмиття для відеоплеєра в YouTube Shorts */
+.antirus-shorts-blurred {
+  filter: blur(40px) !important; 
+  opacity: 0.15 !important;
+  pointer-events: none !important;
+}
+
+/* Додатково повністю приховуємо текст поверх заблокованого відео Shorts */
+.antirus-shorts-blurred #overlay, 
+.antirus-shorts-blurred .headline {
+  opacity: 0 !important;
+}
