@@ -1,4 +1,5 @@
 # antirus-control
+A browser-extension content script that blurs Russian text on any website and automatically skips Russian-language YouTube Shorts.
 Ukrainian social open-source project for Antirus-Control. Completely privacy-focused with zero data collection.
                                                                                                                
                                                                                                                
