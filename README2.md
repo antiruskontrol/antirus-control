@@ -1,6 +1,8 @@
+[🇺🇦 Українська](#Українська) | [🇬🇧 English](#English)
+
 # UAFilter
 
-**English** | [Українська](#українська)
+## English 
 
 A browser-extension content script that blurs Russian text on any website and automatically skips Russian-language YouTube Shorts.
 
