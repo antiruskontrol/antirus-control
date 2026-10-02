@@ -1,5 +1,5 @@
 # antirus-control
-№ antiruskontrol@ukr.net
+# antiruskontrol@ukr.net
 
 
 A browser-extension content script that blurs Russian text on any website and automatically skips Russian-language YouTube Shorts.
