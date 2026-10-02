@@ -2,13 +2,13 @@
 
 **English** | [Українська](#українська)
 
-A browser-extension content script for YouTube that automatically skips Russian-language Shorts and blurs Russian text on the page.
+A browser-extension content script that blurs Russian text on any website and automatically skips Russian-language YouTube Shorts.
 
 ## Features
 
-- **Auto-skip in Shorts.** Detects Russian-language videos by title, channel name and description, then moves to the next Short (Next button, with an `ArrowDown` fallback). The audio is muted during the skip, a failed skip is retried, and a previously skipped video is skipped again if you scroll back to it.
+- **Auto-skip in YouTube Shorts.** Detects Russian-language videos by title, channel name and description, then moves to the next Short (Next button, with an `ArrowDown` fallback). The audio is muted during the skip, a failed skip is retried, and a previously skipped video is skipped again if you scroll back to it.
 - **Confirmation via video metadata.** A marker found in the page is double-checked against the video's title and description fetched from YouTube (same-origin request to `youtube.com`). This filters out UI texts and stale DOM content, so false skips are rare.
-- **Text blur.** Russian comments, descriptions and titles are blurred. The blur is removed automatically if YouTube reuses the element for clean text.
+- **Text blur on all websites.** Russian text (comments, descriptions, titles, links and other page elements) is blurred on any site, not only on YouTube. The blur is removed automatically if the page reuses the element for clean text.
 - **Language detection without external services.** Unicode-aware regex layers:
   - letters unique to Russian (`ы э ъ ё`);
   - typical endings and short particles;
@@ -31,13 +31,13 @@ Author: Афтіпа Марко Оцтович
 
 ## Українська
 
-Контент-скрипт для браузерного розширення на YouTube, який автоматично пропускає російськомовні Shorts і розмиває російський текст на сторінці.
+Контент-скрипт для браузерного розширення, який розмиває російський текст на будь-яких сайтах і автоматично пропускає російськомовні YouTube Shorts.
 
 ## Можливості
 
-- **Автоскіп у Shorts.** Визначає російськомовні відео за назвою, каналом та описом і перегортає на наступне (кнопка «Наступне», запасний варіант `ArrowDown`). Під час скіпу звук вимикається, невдалий скіп повторюється, а якщо ви повернулись на раніше скіпнуте відео, воно пропускається знову.
+- **Автоскіп у YouTube Shorts.** Визначає російськомовні відео за назвою, каналом та описом і перегортає на наступне (кнопка «Наступне», запасний варіант `ArrowDown`). Під час скіпу звук вимикається, невдалий скіп повторюється, а якщо ви повернулись на раніше скіпнуте відео, воно пропускається знову.
 - **Підтвердження через метадані відео.** Маркер, знайдений на сторінці, додатково перевіряється за назвою й описом відео, які завантажуються з YouTube (запит на той самий `youtube.com`). Це відсіює службові тексти інтерфейсу та застарілий вміст DOM, тому хибні скіпи трапляються рідко.
-- **Розмиття тексту.** Російські коментарі, описи та заголовки розмиваються. Якщо YouTube підставляє в той самий елемент чистий текст, розмиття знімається автоматично.
+- **Розмиття тексту на всіх сайтах.** Російський текст (коментарі, описи, заголовки, посилання та інші елементи сторінки) розмивається на будь-якому сайті, а не лише на YouTube. Якщо сторінка підставляє в той самий елемент чистий текст, розмиття знімається автоматично.
 - **Визначення мови без зовнішніх сервісів.** Багаторівневі регулярні вирази з підтримкою Unicode:
   - літери, унікальні для російської (`ы э ъ ё`);
   - типові закінчення та короткі частки;
