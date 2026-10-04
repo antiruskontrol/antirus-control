@@ -1,5 +1,5 @@
 # 🛡️ UAFilter (Antirus-Control)
-🌐 **[Відкрити офіційний сайт проєкту](https://github.io/antirus-control)**
+🌐 **[Відкрити офіційний сайт проєкту](https://antiruskontrol.github.io/antirus-control/)**
 
 [🇺🇦 Українська](#-українська) | [🇬🇧 English](#-english)
 
@@ -78,6 +78,5 @@
 * **Author:** Aftipa Marko Otsvych
 * **Email:** [antiruskontrol@ukr.net](mailto:antiruskontrol@ukr.net)
 ---
-🌐 **Офіційні ресурси проєкту:**
-* **Сайт-візитка розширення:** [antiruskontrol.github.io/antirus-control/](https://github.io)
+🌐 **[Відкрити офіційний сайт проєкту](https://antiruskontrol.github.io/antirus-control/)**
 * **Завантажити актуальну версію:** [Релізи на GitHub](https://github.com)
