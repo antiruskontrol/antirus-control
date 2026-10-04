@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* 🌟 Пульсуючий фоновий логотип із ПОВНІСТЮ прозорим білим тлом */
+        /* 🌟 Пульсуючий фоновий логотип із ЧИСТИМ та ЯСКРАВИМ оригінальним кольором */
         body::before {
             content: "";
             position: fixed;
@@ -39,28 +39,26 @@
             background-size: contain;
             z-index: -1;
             pointer-events: none;
-            /* 🔥 Магія: прибирає біле тло з JPG/PNG картинки, роблячи його прозорим на темному фоні */
-            mix-blend-mode: color-dodge; 
             animation: heartbeat 4s infinite ease-in-out;
         }
 
-        /* 💓 Анімація серцебиття (розмір 65-85%, прозорість 95-85%) */
+        /* 💓 Анімація серцебиття (розмір 65-85%, видимість м'яка, але кольори чисті) */
         @keyframes heartbeat {
             0% {
                 transform: translate(-50%, -50%) scale(0.65);
-                opacity: 0.04; /* 96% прозорості */
+                opacity: 0.04; /* Дуже легка видимість у спокої */
             }
             30% {
                 transform: translate(-50%, -50%) scale(0.85);
-                opacity: 0.12; /* 88% прозорості */
+                opacity: 0.12; /* Максимальна яскравість під час удару */
             }
             45% {
                 transform: translate(-50%, -50%) scale(0.75);
-                opacity: 0.08;
+                opacity: 0.07;
             }
             60% {
                 transform: translate(-50%, -50%) scale(0.85);
-                opacity: 0.12; /* Другий удар серця */
+                opacity: 0.12; /* Другий удар */
             }
             100% {
                 transform: translate(-50%, -50%) scale(0.65);
@@ -170,7 +168,7 @@
             margin-top: 3rem;
         }
         .card {
-            background-color: rgba(22, 27, 34, 0.85); /* Матові картки */
+            background-color: rgba(22, 27, 34, 0.85);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 1.5rem;
