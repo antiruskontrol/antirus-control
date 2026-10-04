@@ -243,9 +243,10 @@
         <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
     </footer>
 
-    <script>
+        <script>
         let audioCtx = null;
         let isSetup = false;
+        let silentAudio = null;
 
         // Створення низькочастотного удару (синтез звуку)
         function playThump(volume = 0.5) {
@@ -278,13 +279,20 @@
         // Активація аудіо та візуальної анімації ОДНОЧАСНО після першого кліку
         function initAudio() {
             if (isSetup) return;
+            
+            // 🌟 Створюємо мікроскопічний беззвучний MP3-трек у пам'яті браузера, 
+            // щоб Chrome вважав цю вкладку активним медіа-плеєром і не засипляв її
+            silentAudio = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
+            silentAudio.loop = true;
+            silentAudio.play().catch(e => console.log("Silent audio blocked"));
+
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
             isSetup = true;
             
-            // 🎯 Секрет ідеальної синхронізації: вмикаємо CSS-анімацію точно в момент запуску звукового циклу
+            // Секрет ідеальної синхронізації: вмикаємо CSS-анімацію точно в момент запуску звукового циклу
             document.body.classList.add('playing');
             startHeartbeatLoop();
             
@@ -295,6 +303,7 @@
         document.addEventListener('click', initAudio);
         document.addEventListener('keydown', initAudio);
     </script>
+
 
 </body>
 </html>
