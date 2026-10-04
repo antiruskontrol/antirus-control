@@ -243,59 +243,91 @@
         <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
     </footer>
 
-        <script>
+            <script>
         let audioCtx = null;
         let isSetup = false;
-        let silentAudio = null;
 
-        // Створення низькочастотного удару (синтез звуку)
+        // 💓 1. Функція створення одного низькочастотного удару серця (синтез)
         function playThump(volume = 0.5) {
             if (!audioCtx) return;
-            
             const osc = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
             
             osc.connect(gainNode);
             gainNode.connect(audioCtx.destination);
             
-            osc.frequency.setValueAtTime(60, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(1, audioCtx.currentTime + 0.15);
+            osc.frequency.setValueAtTime(55, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1, audioCtx.currentTime + 0.16);
             
             gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.16);
             
             osc.start();
-            osc.stop(audioCtx.currentTime + 0.15);
+            osc.stop(audioCtx.currentTime + 0.16);
         }
 
-        // Синхронізація: 1-й удар на 30% (1.2с), 2-й удар на 60% (2.4с) від 4-секундного циклу
+        // 🌬️ 2. Генератор фонового шуму вітру та зливи (синтез хвиль для тримання карти активною)
+        function startNatureBackground() {
+            if (!audioCtx) return;
+
+            const bufferSize = 2 * audioCtx.sampleRate;
+            const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            
+            // Генерація базового білого шуму
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+
+            const whiteNoise = audioCtx.createBufferSource();
+            whiteNoise.buffer = noiseBuffer;
+            whiteNoise.loop = true;
+
+            // Фільтр низьких частот для створення ефекту гулу вітру та шуму дощу за вікном
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(350, audioCtx.currentTime); // Глухий гул зливи
+
+            const gainNode = audioCtx.createGain();
+            gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime); // Легкий фоновий об'єм (не заважає)
+
+            whiteNoise.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            whiteNoise.start();
+
+            // Автоматична легка зміна гучності вітру (ефект поривів шторму)
+            setInterval(() => {
+                const targetVolume = 0.02 + Math.random() * 0.04;
+                gainNode.gain.linearRampToValueAtTime(targetVolume, audioCtx.currentTime + 2);
+            }, 3000);
+        }
+
+        // ⏳ 3. Синхронізація серцебиття: 1-й удар на 1.2с, 2-й — на 2.4с від 4-секундного циклу
         function startHeartbeatLoop() {
             setInterval(() => {
-                setTimeout(() => { playThump(0.4); }, 1200);
-                setTimeout(() => { playThump(0.35); }, 2400);
+                setTimeout(() => { playThump(0.45); }, 1200); // Перший поштовх
+                setTimeout(() => { playThump(0.38); }, 2400); // Другий поштовх (відлуння)
             }, 4000);
         }
 
-        // Активація аудіо та візуальної анімації ОДНОЧАСНО після першого кліку
+        // 🚀 4. Запуск усього медіа-середовища після першого кліку по сайту
         function initAudio() {
             if (isSetup) return;
             
-            // 🌟 Створюємо мікроскопічний беззвучний MP3-трек у пам'яті браузера, 
-            // щоб Chrome вважав цю вкладку активним медіа-плеєром і не засипляв її
-            silentAudio = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
-            silentAudio.loop = true;
-            silentAudio.play().catch(e => console.log("Silent audio blocked"));
-
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
             isSetup = true;
             
-            // Секрет ідеальної синхронізації: вмикаємо CSS-анімацію точно в момент запуску звукового циклу
+            // Запускаємо візуальну анімацію, штормовий фон та серце
             document.body.classList.add('playing');
+            startNatureBackground();
             startHeartbeatLoop();
             
+            // Видаляємо слухачі
             document.removeEventListener('click', initAudio);
             document.removeEventListener('keydown', initAudio);
         }
@@ -303,6 +335,7 @@
         document.addEventListener('click', initAudio);
         document.addEventListener('keydown', initAudio);
     </script>
+
 
 
 </body>
