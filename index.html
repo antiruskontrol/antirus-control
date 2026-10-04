@@ -24,45 +24,47 @@
             overflow-x: hidden;
         }
 
-        /* 🌟 Пульсуючий фоновий логотип (Ефект серцебиття) */
+        /* 🌟 Пульсуючий фоновий логотип із ПОВНІСТЮ прозорим білим тлом */
         body::before {
             content: "";
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 75vw; /* Середній розмір бекграунду */
+            width: 75vw;
             height: 75vh;
             background-image: url('icon.png');
             background-repeat: no-repeat;
             background-position: center;
             background-size: contain;
-            z-index: -1; /* Ховаємо під текст сайту */
-            pointer-events: none; /* Щоб мишка не чіпляла фон */
+            z-index: -1;
+            pointer-events: none;
+            /* 🔥 Магія: прибирає біле тло з JPG/PNG картинки, роблячи його прозорим на темному фоні */
+            mix-blend-mode: color-dodge; 
             animation: heartbeat 4s infinite ease-in-out;
         }
 
-        /* 💓 Анімація серцебиття з вашими параметрами розміру (65-85%) та прозорості (95-85% прозорості, тобто 5-15% видимості) */
+        /* 💓 Анімація серцебиття (розмір 65-85%, прозорість 95-85%) */
         @keyframes heartbeat {
             0% {
                 transform: translate(-50%, -50%) scale(0.65);
-                opacity: 0.05; /* 95% прозорості */
+                opacity: 0.04; /* 96% прозорості */
             }
             30% {
                 transform: translate(-50%, -50%) scale(0.85);
-                opacity: 0.15; /* 85% прозорості */
+                opacity: 0.12; /* 88% прозорості */
             }
             45% {
                 transform: translate(-50%, -50%) scale(0.75);
-                opacity: 0.10;
+                opacity: 0.08;
             }
             60% {
                 transform: translate(-50%, -50%) scale(0.85);
-                opacity: 0.15; /* Другий удар серця */
+                opacity: 0.12; /* Другий удар серця */
             }
             100% {
                 transform: translate(-50%, -50%) scale(0.65);
-                opacity: 0.05; /* Повернення у спокій */
+                opacity: 0.04;
             }
         }
 
@@ -168,11 +170,11 @@
             margin-top: 3rem;
         }
         .card {
-            background-color: rgba(22, 27, 34, 0.8); /* Напівпрозорі картки, щоб було видно фон */
+            background-color: rgba(22, 27, 34, 0.85); /* Матові картки */
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 1.5rem;
-            backdrop-filter: blur(4px); /* Легке розмиття під картками для читабельності тексту */
+            backdrop-filter: blur(6px);
         }
         .card h3 {
             margin-top: 0;
