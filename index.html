@@ -24,13 +24,13 @@
             overflow-x: hidden;
         }
 
-        /* 🌟 Пульсуючий фоновий логотип із ЧИСТИМ та ЯСКРАВИМ оригінальним кольором */
+        /* 🌟 Фоновий логотип у стані спокою (статичний до першого кліку) */
         body::before {
             content: "";
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) scale(0.65);
             width: 75vw;
             height: 75vh;
             background-image: url('iconhtml.png');
@@ -39,10 +39,15 @@
             background-size: contain;
             z-index: -1;
             pointer-events: none;
+            opacity: 0.04;
+            transition: opacity 0.5s ease;
+        }
+
+        /* 💓 Анімація запускається ТІЛЬКИ тоді, коли додано клас .playing */
+        body.playing::before {
             animation: heartbeat 4s infinite ease-in-out;
         }
 
-        /* 💓 Анімація серцебиття */
         @keyframes heartbeat {
             0% {
                 transform: translate(-50%, -50%) scale(0.65);
@@ -58,7 +63,7 @@
             }
             60% {
                 transform: translate(-50%, -50%) scale(0.85);
-                opacity: 0.12;
+                opacity: 0.17;
             }
             100% {
                 transform: translate(-50%, -50%) scale(0.65);
@@ -102,7 +107,6 @@
             flex-wrap: wrap;
         }
         
-        /* 🖤 Стильна чорна кнопка встановлення */
         .btn-logo-download {
             display: flex;
             align-items: center;
@@ -226,7 +230,7 @@
             </div>
             <div class="card">
                 <h3>👁 Розумне розмиття (Blur)</h3>
-                <p>Російські коментарі та тексти на будь-яких сайтах стають нечитабельними. Якщо текст змінюється на український — розмиття зникає.</p>
+                <p>Російські коментарі та тексти на будь-Яких сайтах стають нечитабельними. Якщо текст змінюється на український — розмиття зникає.</p>
             </div>
             <div class="card">
                 <h3>🔒 100% Приватність</h3>
@@ -243,7 +247,7 @@
         let audioCtx = null;
         let isSetup = false;
 
-        // Створення низькочастотного удару (синтез звуку без сторонніх файлів)
+        // Створення низькочастотного удару (синтез звуку)
         function playThump(volume = 0.5) {
             if (!audioCtx) return;
             
@@ -271,7 +275,7 @@
             }, 4000);
         }
 
-        // Активація аудіо після першої взаємодії (вимога безпеки браузерів)
+        // Активація аудіо та візуальної анімації ОДНОЧАСНО після першого кліку
         function initAudio() {
             if (isSetup) return;
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -279,6 +283,9 @@
                 audioCtx.resume();
             }
             isSetup = true;
+            
+            // 🎯 Секрет ідеальної синхронізації: вмикаємо CSS-анімацію точно в момент запуску звукового циклу
+            document.body.classList.add('playing');
             startHeartbeatLoop();
             
             document.removeEventListener('click', initAudio);
