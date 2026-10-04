@@ -1,5 +1,7 @@
 # 🛡️ UAFilter (Antirus-Control)
 
+**[Відкрити офіційний сайт проєкту](https://antiruskontrol.github.io/antirus-control/)**
+
 [🇺🇦 Українська](#-українська) | [🇬🇧 English](#-english)
 
 ---
@@ -29,7 +31,8 @@
 Якщо ви знайшли помилку, хочете запропонувати нові правила блокування або покращити словник:
 * **Автор:** Афтіпа Марко Оцтович
 * **Email:** [antiruskontrol@ukr.net](mailto:antiruskontrol@ukr.net)
-
+* 
+🌐 **[Відкрити офіційний сайт проєкту](https://antiruskontrol.github.io/antirus-control/)**
 ---
 
 ## 🇬🇧 English
@@ -51,5 +54,7 @@
 * **Safe Zones:** Automatically stays inactive on AI chat services (ChatGPT, Claude, Gemini, etc.).
 
 ### 📬 Contact & Feedback
-* **Author:** Aftipa Marko Otsvych
+* **Author:** Aftipa Marko Otstovych
 * **Email:** [antiruskontrol@ukr.net](mailto:antiruskontrol@ukr.net)
+* 
+🌐 **[Відкрити офіційний сайт проєкту](https://antiruskontrol.github.io/antirus-control/)**
