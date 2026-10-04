@@ -20,7 +20,52 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
         }
+
+        /* 🌟 Пульсуючий фоновий логотип (Ефект серцебиття) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 75vw; /* Середній розмір бекграунду */
+            height: 75vh;
+            background-image: url('icon.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            z-index: -1; /* Ховаємо під текст сайту */
+            pointer-events: none; /* Щоб мишка не чіпляла фон */
+            animation: heartbeat 4s infinite ease-in-out;
+        }
+
+        /* 💓 Анімація серцебиття з вашими параметрами розміру (65-85%) та прозорості (95-85% прозорості, тобто 5-15% видимості) */
+        @keyframes heartbeat {
+            0% {
+                transform: translate(-50%, -50%) scale(0.65);
+                opacity: 0.05; /* 95% прозорості */
+            }
+            30% {
+                transform: translate(-50%, -50%) scale(0.85);
+                opacity: 0.15; /* 85% прозорості */
+            }
+            45% {
+                transform: translate(-50%, -50%) scale(0.75);
+                opacity: 0.10;
+            }
+            60% {
+                transform: translate(-50%, -50%) scale(0.85);
+                opacity: 0.15; /* Другий удар серця */
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.65);
+                opacity: 0.05; /* Повернення у спокій */
+            }
+        }
+
         header {
             background: linear-gradient(180deg, rgba(0,87,183,0.1) 0%, rgba(255,223,0,0.05) 100%);
             padding: 4rem 2rem;
@@ -56,6 +101,8 @@
             align-items: center;
             flex-wrap: wrap;
         }
+        
+        /* 🖤 Стильна чорна кнопка завантаження */
         .btn-logo-download {
             display: flex;
             align-items: center;
@@ -67,14 +114,14 @@
             text-decoration: none;
             font-weight: bold;
             font-size: 1.2rem;
-            border: 2px solid #ff3333;
+            border: 1px solid var(--border-color);
             transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
-            box-shadow: 0 6px 20px rgba(204, 0, 0, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
         }
         .btn-logo-download:hover {
             transform: translateY(-3px);
-            background-color: #e60000;
-            box-shadow: 0 8px 25px rgba(204, 0, 0, 0.6);
+            background-color: #0a0e14;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
         }
         .btn-logo-download img {
             width: 50px;
@@ -88,7 +135,7 @@
         .btn-logo-download .btn-subtext {
             display: block;
             font-size: 0.8rem;
-            color: #ffcccc;
+            color: #8b949e;
             font-weight: normal;
             margin-top: 0.1rem;
         }
@@ -112,6 +159,7 @@
             max-width: 900px;
             margin: 0 auto;
             padding: 3rem 2rem;
+            position: relative;
         }
         .grid {
             display: grid;
@@ -120,10 +168,11 @@
             margin-top: 3rem;
         }
         .card {
-            background-color: var(--card-bg);
+            background-color: rgba(22, 27, 34, 0.8); /* Напівпрозорі картки, щоб було видно фон */
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 1.5rem;
+            backdrop-filter: blur(4px); /* Легке розмиття під картками для читабельності тексту */
         }
         .card h3 {
             margin-top: 0;
@@ -136,6 +185,8 @@
             color: #8b949e;
             border-top: 1px solid var(--border-color);
             margin-top: 4rem;
+            background-color: var(--bg-color);
+            position: relative;
         }
         footer a { color: var(--accent-yellow); text-decoration: none; }
     </style>
