@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAFilter (Antirus-Control) — Безпека вашого браузера</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --accent-yellow: #ffdf00;
+            --accent-blue: #0057b7;
+            --card-bg: #161b22;
+            --border-color: #30363d;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(180deg, rgba(0,87,183,0.1) 0%, rgba(255,223,0,0.05) 100%);
+            padding: 4rem 2rem text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .badge {
+            background-color: rgba(255, 223, 0, 0.15);
+            color: var(--accent-yellow);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border: 1px solid rgba(255, 223, 0, 0.3);
+        }
+        h1 {
+            font-size: 2.8rem;
+            margin: 1rem 0;
+            color: #fff;
+        }
+        .tagline {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+            color: #8b949e;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: opacity 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 87, 183, 0.4);
+        }
+        .btn:hover { opacity: 0.9; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #fff;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            color: #8b949e;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+        footer a { color: var(--accent-yellow); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="badge">Open-Source Проєкт 🇺🇦</span>
+        <h1>UAFilter (Antirus-Control)</h1>
+        <p class="tagline">Браузерне розширення для інформаційної гігієни. Автоматично розмиває російський текст на сайтах та пропускає YouTube Shorts.</p>
+        <a href="https://github.com" class="btn">Перейти на GitHub проєкту</a>
+    </header>
+
+    <div class="container">
+        <h2 style="text-align: center; color: #fff;">Головні можливості розширення</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>⏩ Автоскіп YouTube Shorts</h3>
+                <p>Аналізує назви, описи та канали й миттєво перегортає російськомовний контент, блокуючи непотрібну монетизацію.</p>
+            </div>
+            <div class="card">
+                <h3>👁️ Розумне розмиття (Blur)</h3>
+                <p>Російські коментарі та тексти на будь-яких сайтах стають нечитабельними. Якщо текст змінюється на український — розмиття зникає.</p>
+            </div>
+            <div class="card">
+                <h3>🔒 100% Приватність</h3>
+                <p>Скрипт працює локально у вашому браузері. Ніяких зовнішніх серверів, баз даних чи збору вашої персональної інформації.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
+    </footer>
+
+</body>
+</html>
