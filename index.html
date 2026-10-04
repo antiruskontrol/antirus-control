@@ -50,7 +50,7 @@
             }
             30% {
                 transform: translate(-50%, -50%) scale(0.85);
-                opacity: 0.12; /* Максимальна яскравість під час удару */
+                opacity: 0.12; /* Максимальна яскравість під час першого удару */
             }
             45% {
                 transform: translate(-50%, -50%) scale(0.75);
@@ -198,46 +198,45 @@
         <h1>UAFilter (Antirus-Control)</h1>
         <p class="tagline">Браузерне розширення для інформаційної гігієни. Автоматично розмиває російський текст на сайтах та пропускає YouTube Shorts.</p>
         <div class="cta-group">
-    <!-- Перша кнопка: для встановлення (поки що веде на головну репозиторію, замініть на Chrome Store у майбутньому) -->
-    <a href="https://github.com/antiruskontrol/antirus-control" class="btn btn-logo-download">
-        <img src="icon.png" alt="Логотип UAFilter">
-        <div class="btn-text-block">
-            <span>Встановити UAFilter</span>
+            <!-- Перша кнопка: для встановлення -->
+            <a href="https://github.com/antiruskontrol/antirus-control" class="btn btn-logo-download">
+                <img src="icon.png" alt="Логотип UAFilter">
+                <div class="btn-text-block">
+                    <span>Встановити UAFilter</span>
+                </div>
+            </a>
+
+            <!-- Друга кнопка: окреме посилання суто для завантаження ZIP-архіву -->
+            <a href="https://github.com/antiruskontrol/antirus-control/releases/download/v2.0/antirus-control-extension.zip" class="btn btn-secondary" style="margin-top: 10px; display: inline-block;">
+                Завантажити безкоштовно (ZIP-архів версії 2.0)
+            </a>
         </div>
-    </a>
+    </header>
 
-    <!-- Друга кнопка: окреме посилання суто для завантаження ZIP-архіву -->
-   <a href="https://github.com/antiruskontrol/antirus-control/releases/download/v2.0/antirus-control-extension.zip" class="btn btn-secondary" style="margin-top: 10px; display: inline-block;">
-        Завантажити безкоштовно (ZIP-архів версії 2.0)
-    </a>
-</div>
-</header>
-
-<section class="instructions" style="max-width: 800px; margin: 40px auto; padding: 20px; font-family: sans-serif; line-height: 1.6; color: #fff;">
-    <h2 style="color: #4da3ff; border-bottom: 2px solid #ffd700; padding-bottom: 10px; margin-top: 0;">🛠 Інструкція зі встановлення розширення вручну</h2>
-    <p>Оскільки розширення UAFilter наразі встановлюється з ZIP-архіву, виконайте такі прості кроки:</p>
-    
-    <ol style="padding-left: 20px;">
-        <li style="margin-bottom: 15px;"><strong>Завантажте та розархівуйте файл:</strong> Натисніть кнопку вище, щоб завантажити архів, і розпакуйте його в окрему папку на комп'ютері.</li>
-        <li style="margin-bottom: 15px;"><strong>Відкрийте налаштування браузера:</strong> Перейдіть за адресою <code style="background: #222; color: #ff4d4d; padding: 2px 6px; border-radius: 4px;">chrome://extensions/</code> у вашому браузері (Chrome, Edge, Opera, Brave).</li>
-        <li style="margin-bottom: 15px;"><strong>Увімкніть режим розробника:</strong> Знайдіть і активуйте тумблер <strong>«Режим розробника»</strong> (Developer mode) у правому верхньому кутку сторінки.</li>
-        <li style="margin-bottom: 15px;"><strong>Встановіть розширення:</strong> Натисніть кнопку <strong>«Завантажити розпаковане розширення»</strong> (Load unpacked) зліва та виберіть папку з розпакованим архівом (всередині якої лежить файл <code style="background: #222; color: #ffd700; padding: 2px 6px; border-radius: 4px;">manifest.json</code>).</li>
-    </ol>
-    
-    <p style="background: #112233; border-left: 5px solid #ffd700; padding: 15px; border-radius: 4px; margin-top: 20px;">
-        🎉 <strong>Готово!</strong> Розширення з'явиться у списку та миттєво почне працювати. Папку з розпакованими файлами видаляти не можна, вона має залишатися на комп'ютері.
-    </p>
-</section>
+    <section class="instructions" style="max-width: 800px; margin: 40px auto; padding: 20px; font-family: sans-serif; line-height: 1.6; color: #fff;">
+        <h2 style="color: #4da3ff; border-bottom: 2px solid #ffd700; padding-bottom: 10px; margin-top: 0;">🛠 Інструкція зі встановлення розширення вручну</h2>
+        <p>Оскільки розширення UAFilter наразі встановлюється з ZIP-архіву, виконайте такі прості кроки:</p>
+        
+        <ol style="padding-left: 20px;">
+            <li style="margin-bottom: 15px;"><strong>Завантажте та розархівуйте файл:</strong> Натисніть кнопку вище, щоб завантажити архів, і розпакуйте його в окрему папку на комп'ютері.</li>
+            <li style="margin-bottom: 15px;"><strong>Відкрийте налаштування браузера:</strong> Перейдіть за адресою <code style="background: #222; color: #ff4d4d; padding: 2px 6px; border-radius: 4px;">chrome://extensions/</code> у вашому браузері (Chrome, Edge, Opera, Brave).</li>
+            <li style="margin-bottom: 15px;"><strong>Увімкніть режим розробника:</strong> Знайдіть і активуйте тумблер <strong>«Режим розробника»</strong> (Developer mode) у правому верхньому кутку сторінки.</li>
+            <li style="margin-bottom: 15px;"><strong>Встановіть розширення:</strong> Натисніть кнопку <strong>«Завантажити розпаковане розширення»</strong> (Load unpacked) зліва та виберіть папку з розпакованим архівом (всередині якої лежить файл <code style="background: #222; color: #ffd700; padding: 2px 6px; border-radius: 4px;">manifest.json</code>).</li>
+        </ol>
+        
+        <p style="background: #112233; border-left: 5px solid #ffd700; padding: 15px; border-radius: 4px; margin-top: 20px;">
+            🎉 <strong>Готово!</strong> Розширення з'явиться у списку та миттєво почне працювати. Папку з розпакованими файлами видаляти не можна, вона має залишатися на комп'ютері.
+        </p>
+    </section>
 
     <div class="container">
-        <h2 style="text-align: center; color: #fff;">Головні можливості розширення</h2>
         <div class="grid">
             <div class="card">
                 <h3>⏩ Автоскіп YouTube Shorts</h3>
                 <p>Аналізує назви, описи та канали й миттєво перегортає російськомовний контент, блокуючи небажану монетизацію.</p>
             </div>
             <div class="card">
-                <h3>👁️ Розумне розмиття (Blur)</h3>
+                <h3>👁 Розумне розмиття (Blur)</h3>
                 <p>Російські коментарі та тексти на будь-яких сайтах стають нечитабельними. Якщо текст змінюється на український — розмиття зникає.</p>
             </div>
             <div class="card">
@@ -248,8 +247,3 @@
     </div>
 
     <footer>
-        <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
-    </footer>
-
-</body>
-</html>
