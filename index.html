@@ -42,7 +42,7 @@
             animation: heartbeat 4s infinite ease-in-out;
         }
 
-        /* 💓 Анімація серцебиття (розмір 65-85%, видимість м'яка, але кольори чисті) */
+        /* 💓 Анімація серцебиття */
         @keyframes heartbeat {
             0% {
                 transform: translate(-50%, -50%) scale(0.65);
@@ -102,7 +102,7 @@
             flex-wrap: wrap;
         }
         
-        /* 🖤 Стильна чорна кнопка завантаження */
+        /* 🖤 Стильна чорна кнопка встановлення */
         .btn-logo-download {
             display: flex;
             align-items: center;
@@ -131,13 +131,6 @@
         }
         .btn-logo-download .btn-text-block {
             text-align: left;
-        }
-        .btn-logo-download .btn-subtext {
-            display: block;
-            font-size: 0.8rem;
-            color: #8b949e;
-            font-weight: normal;
-            margin-top: 0.1rem;
         }
         .btn-secondary {
             display: inline-block;
@@ -211,22 +204,33 @@
     </header>
     <section class="instructions" style="max-width: 800px; margin: 40px auto; padding: 20px; font-family: sans-serif; line-height: 1.6; color: #fff;">
         <h2 style="color: #4da3ff; border-bottom: 2px solid #ffd700; padding-bottom: 10px; margin-top: 0;">🛠 Інструкція зі встановлення розширення вручну</h2>
-        <p>Оскільки розширення UAFilter наразі встановлюється з ZIP-архіву, виконайте такі прості кроки щодо завантаження, налаштування та активації в режимі розробника браузера.</p>
+        <p>Оскільки розширення UAFilter наразі встановлюється з ZIP-архіву, виконайте такі прості кроки:</p>
+        
+        <ol style="padding-left: 20px;">
+            <li style="margin-bottom: 15px;"><strong>Завантажте та розархівуйте файл:</strong> Натисніть кнопку вище, щоб завантажити архів, і розпакуйте його в окрему папку на комп'ютері.</li>
+            <li style="margin-bottom: 15px;"><strong>Відкрийте налаштування браузера:</strong> Перейдіть за адресою <code style="background: #222; color: #ff4d4d; padding: 2px 6px; border-radius: 4px;">chrome://extensions/</code> у вашому браузері (Chrome, Edge, Opera, Brave).</li>
+            <li style="margin-bottom: 15px;"><strong>Увімкніть режим розробника:</strong> Знайдіть і активуйте тумблер <strong>«Режим розробника»</strong> (Developer mode) у правому верхньому кутку сторінки.</li>
+            <li style="margin-bottom: 15px;"><strong>Встановіть розширення:</strong> Натисніть кнопку <strong>«Завантажити розпаковане розширення»</strong> (Load unpacked) зліва та виберіть папку з розпакованим архівом (всередині якої лежить файл <code style="background: #222; color: #ffd700; padding: 2px 6px; border-radius: 4px;">manifest.json</code>).</li>
+        </ol>
+        
+        <p style="background: #112233; border-left: 5px solid #ffd700; padding: 15px; border-radius: 4px; margin-top: 20px;">
+            🎉 <strong>Готово!</strong> Розширення з'явиться у списку та миттєво почне працювати. Папку з розпакованими файлами видаляти не можна, вона має залишатися на комп'ютері.
+        </p>
     </section>
 
     <div class="container">
         <div class="grid">
             <div class="card">
                 <h3>⏩ Автоскіп YouTube Shorts</h3>
-                <p>Миттєво перегортає російськомовний контент.</p>
+                <p>Аналізує назви, описи та канали й миттєво перегортає російськомовний контент, блокуючи небажану монетизацію.</p>
             </div>
             <div class="card">
                 <h3>👁 Розумне розмиття (Blur)</h3>
-                <p>Робить російські коментарі та тексти нечитабельними.</p>
+                <p>Російські коментарі та тексти на будь-яких сайтах стають нечитабельними. Якщо текст змінюється на український — розмиття зникає.</p>
             </div>
             <div class="card">
                 <h3>🔒 100% Приватність</h3>
-                <p>Скрипт працює локально без збору персональних даних.</p>
+                <p>Скрипт працює локально у вашому браузері. Ніяких зовнішніх серверів, баз даних чи збору вашої персональної інформації.</p>
             </div>
         </div>
     </div>
@@ -235,61 +239,55 @@
         <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
     </footer>
 
-   <script>
-    let audioCtx = null;
-    let isSetup = false;
+    <script>
+        let audioCtx = null;
+        let isSetup = false;
 
-    // Функція для створення одного низькочастотного удару серця (синтез звуку)
-    function playThump(volume = 0.5) {
-        if (!audioCtx) return;
-        
-        const osc = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-        
-        osc.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-        
-        // Налаштування низької, глухої частоти удару серця (60 Гц з падінням до 1 Гц)
-        osc.frequency.setValueAtTime(60, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(1, audioCtx.currentTime + 0.15);
-        
-        // Налаштування форми хвиль (плавне згасання)
-        gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-        
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.15);
-    }
-
-    // Функція синхронізації звукових ударів із CSS-анімацією (перший удар на 1.2с, другий на 2.4с із 4-секундного циклу)
-    function startHeartbeatLoop() {
-        setInterval(() => {
-            // Перший удар (30% від 4 секунд = 1200мс)
-            setTimeout(() => { playThump(0.4); }, 1200);
-            // Другий удар (60% від 4 секунд = 2400мс)
-            setTimeout(() => { playThump(0.35); }, 2400);
-        }, 4000);
-    }
-
-    // Ініціалізація аудіо після першої взаємодії користувача із сайтом (вимога політики безпеки браузерів)
-    function initAudio() {
-        if (isSetup) return;
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
+        // Створення низькочастотного удару (синтез звуку без сторонніх файлів)
+        function playThump(volume = 0.5) {
+            if (!audioCtx) return;
+            
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1, audioCtx.currentTime + 0.15);
+            
+            gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.15);
         }
-        isSetup = true;
-        startHeartbeatLoop();
-        
-        // Видаляємо слухачі, оскільки запуск відбувся
-        document.removeEventListener('click', initAudio);
-        document.removeEventListener('keydown', initAudio);
-    }
 
-    // Слухаємо перший клік або натискання клавіші користувачем для активації звуку
-    document.addEventListener('click', initAudio);
-    document.addEventListener('keydown', initAudio);
-</script>
+        // Синхронізація: 1-й удар на 30% (1.2с), 2-й удар на 60% (2.4с) від 4-секундного циклу
+        function startHeartbeatLoop() {
+            setInterval(() => {
+                setTimeout(() => { playThump(0.4); }, 1200);
+                setTimeout(() => { playThump(0.35); }, 2400);
+            }, 4000);
+        }
+
+        // Активація аудіо після першої взаємодії (вимога безпеки браузерів)
+        function initAudio() {
+            if (isSetup) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            isSetup = true;
+            startHeartbeatLoop();
+            
+            document.removeEventListener('click', initAudio);
+            document.removeEventListener('keydown', initAudio);
+        }
+
+        document.addEventListener('click', initAudio);
+        document.addEventListener('keydown', initAudio);
+    </script>
 
 </body>
 </html>
