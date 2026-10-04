@@ -1,5 +1,5 @@
 # 🛡️ UAFilter (Antirus-Control)
-🌐 **[Відкрити офіційний сайт проєкту](https://github.io/antirus-control)** | [🇺🇦 Українська](#-українська) | [🇬🇧 English](#-english)
+🌐 **[Відкрити офіційний сайт проєкту](https://github.io/antirus-control)**
 
 [🇺🇦 Українська](#-українська) | [🇬🇧 English](#-english)
 
