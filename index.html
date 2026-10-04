@@ -235,9 +235,61 @@
         <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
     </footer>
 
-    <script>
-        // Повний код аудіо-синтезу та звукових ефектів серцебиття дивіться у вихідному файлі репозиторію.
-    </script>
+   <script>
+    let audioCtx = null;
+    let isSetup = false;
+
+    // Функція для створення одного низькочастотного удару серця (синтез звуку)
+    function playThump(volume = 0.5) {
+        if (!audioCtx) return;
+        
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        // Налаштування низької, глухої частоти удару серця (60 Гц з падінням до 1 Гц)
+        osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1, audioCtx.currentTime + 0.15);
+        
+        // Налаштування форми хвиль (плавне згасання)
+        gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.15);
+    }
+
+    // Функція синхронізації звукових ударів із CSS-анімацією (перший удар на 1.2с, другий на 2.4с із 4-секундного циклу)
+    function startHeartbeatLoop() {
+        setInterval(() => {
+            // Перший удар (30% від 4 секунд = 1200мс)
+            setTimeout(() => { playThump(0.4); }, 1200);
+            // Другий удар (60% від 4 секунд = 2400мс)
+            setTimeout(() => { playThump(0.35); }, 2400);
+        }, 4000);
+    }
+
+    // Ініціалізація аудіо після першої взаємодії користувача із сайтом (вимога політики безпеки браузерів)
+    function initAudio() {
+        if (isSetup) return;
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+        isSetup = true;
+        startHeartbeatLoop();
+        
+        // Видаляємо слухачі, оскільки запуск відбувся
+        document.removeEventListener('click', initAudio);
+        document.removeEventListener('keydown', initAudio);
+    }
+
+    // Слухаємо перший клік або натискання клавіші користувачем для активації звуку
+    document.addEventListener('click', initAudio);
+    document.addEventListener('keydown', initAudio);
+</script>
 
 </body>
 </html>
