@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* 🌟 Фоновий логотип у стані спокою (статичний до першого кліку) */
+        /* 🌟 Фоновий логотип у стані спокою */
         body::before {
             content: "";
             position: fixed;
@@ -43,32 +43,17 @@
             transition: opacity 0.5s ease;
         }
 
-        /* 💓 Анімація запускається ТІЛЬКИ тоді, коли додано клас .playing */
+        /* 💓 Анімація запускається тільки тоді, коли додано клас .playing */
         body.playing::before {
             animation: heartbeat 4s infinite ease-in-out;
         }
 
         @keyframes heartbeat {
-            0% {
-                transform: translate(-50%, -50%) scale(0.65);
-                opacity: 0.04;
-            }
-            30% {
-                transform: translate(-50%, -50%) scale(0.85);
-                opacity: 0.12;
-            }
-            45% {
-                transform: translate(-50%, -50%) scale(0.75);
-                opacity: 0.07;
-            }
-            60% {
-                transform: translate(-50%, -50%) scale(0.85);
-                opacity: 0.17;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(0.65);
-                opacity: 0.04;
-            }
+            0% { transform: translate(-50%, -50%) scale(0.65); opacity: 0.04; }
+            30% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.12; }
+            45% { transform: translate(-50%, -50%) scale(0.75); opacity: 0.07; }
+            60% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.12; }
+            100% { transform: translate(-50%, -50%) scale(0.65); opacity: 0.04; }
         }
 
         header {
@@ -76,6 +61,13 @@
             padding: 4rem 2rem;
             text-align: center;
             border-bottom: 1px solid var(--border-color);
+        }
+        .badge-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
         }
         .badge {
             display: inline-block;
@@ -86,26 +78,36 @@
             font-size: 0.9rem;
             font-weight: bold;
             border: 1px solid rgba(255, 223, 0, 0.3);
-            margin-bottom: 1rem;
         }
-        h1 {
-            font-size: 2.8rem;
-            margin: 1rem 0;
-            color: #fff;
-        }
-        .tagline {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto 2.5rem auto;
-            color: #8b949e;
-        }
-        .cta-group {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
+        
+        /* 🎧 Кнопка ввімкнення звукової атмосфери */
+        .btn-sound {
+            display: inline-flex;
             align-items: center;
-            flex-wrap: wrap;
+            gap: 0.5rem;
+            background-color: rgba(0, 87, 183, 0.2);
+            color: #fff;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border: 1px solid rgba(0, 87, 183, 0.4);
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
         }
+        .btn-sound:hover {
+            background-color: rgba(0, 87, 183, 0.4);
+            transform: scale(1.03);
+        }
+        .btn-sound.active {
+            background-color: rgba(46, 160, 67, 0.2);
+            border-color: rgba(46, 160, 67, 0.4);
+            color: #58a6ff;
+        }
+
+        h1 { font-size: 2.8rem; margin: 1rem 0; color: #fff; }
+        .tagline { font-size: 1.2rem; max-width: 600px; margin: 0 auto 2.5rem auto; color: #8b949e; }
+        .cta-group { display: flex; gap: 1.5rem; justify-content: center; align-items: center; flex-wrap: wrap; }
         
         .btn-logo-download {
             display: flex;
@@ -127,15 +129,9 @@
             background-color: #0a0e14;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
         }
-        .btn-logo-download img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-            border-radius: 6px;
-        }
-        .btn-logo-download .btn-text-block {
-            text-align: left;
-        }
+        .btn-logo-download img { width: 50px; height: 50px; object-fit: contain; border-radius: 6px; }
+        .btn-logo-download .btn-text-block { text-align: left; }
+        
         .btn-secondary {
             display: inline-block;
             background-color: transparent;
@@ -148,50 +144,24 @@
             border: 1px solid var(--border-color);
             transition: background-color 0.2s, transform 0.2s;
         }
-        .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            transform: translateY(-3px);
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            position: relative;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-        .card {
-            background-color: rgba(22, 27, 34, 0.85);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.5rem;
-            backdrop-filter: blur(6px);
-        }
-        .card h3 {
-            margin-top: 0;
-            color: #fff;
-        }
-        footer {
-            text-align: center;
-            padding: 2rem;
-            font-size: 0.9rem;
-            color: #8b949e;
-            border-top: 1px solid var(--border-color);
-            margin-top: 4rem;
-            background-color: var(--bg-color);
-            position: relative;
-        }
+        .btn-secondary:hover { background-color: rgba(255, 255, 255, 0.05); transform: translateY(-3px); }
+        
+        .container { max-width: 900px; margin: 0 auto; padding: 3rem 2rem; position: relative; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+        .card { background-color: rgba(22, 27, 34, 0.85); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; backdrop-filter: blur(6px); }
+        .card h3 { margin-top: 0; color: #fff; }
+        footer { text-align: center; padding: 2rem; font-size: 0.9rem; color: #8b949e; border-top: 1px solid var(--border-color); margin-top: 4rem; background-color: var(--bg-color); position: relative; }
         footer a { color: var(--accent-yellow); text-decoration: none; }
     </style>
 </head>
 <body>
 
     <header>
-        <span class="badge">UAFilter v2.0 🇺🇦</span>
+        <div class="badge-group">
+            <span class="badge">UAFilter v2.0 🇺🇦</span>
+            <!-- Наша інтерактивна кнопка звуку -->
+            <button id="soundBtn" class="btn-sound">Увімкнути звук 🔈</button>
+        </div>
         <h1>UAFilter (Antirus-Control)</h1>
         <p class="tagline">Браузерне розширення для інформаційної гігієни. Автоматично розмиває російський текст на сайтах та пропускає YouTube Shorts.</p>
         <div class="cta-group">
@@ -230,7 +200,7 @@
             </div>
             <div class="card">
                 <h3>👁 Розумне розмиття (Blur)</h3>
-                <p>Російські коментарі та тексти на будь-Яких сайтах стають нечитабельними. Якщо текст змінюється на український — розмиття зникає.</p>
+                <p>Російські коментарі та тексти на будь-яких сайтах стають нечитабельними. Якщо текст змінюється на український — розмиття зникає.</p>
             </div>
             <div class="card">
                 <h3>🔒 100% Приватність</h3>
@@ -243,9 +213,10 @@
         <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
     </footer>
 
-            <script>
+    <script>
         let audioCtx = null;
         let isSetup = false;
+        const soundBtn = document.getElementById('soundBtn');
 
         // 💓 1. Функція створення одного низькочастотного удару серця (синтез)
         function playThump(volume = 0.5) {
@@ -266,7 +237,7 @@
             osc.stop(audioCtx.currentTime + 0.16);
         }
 
-        // 🌬️ 2. Генератор фонового шуму вітру та зливи (синтез хвиль для тримання карти активною)
+        // 🌬️ 2. Генератор фонового шуму вітру та зливи (тримає карту активною)
         function startNatureBackground() {
             if (!audioCtx) return;
 
@@ -274,7 +245,6 @@
             const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const output = noiseBuffer.getChannelData(0);
             
-            // Генерація базового білого шуму
             for (let i = 0; i < bufferSize; i++) {
                 output[i] = Math.random() * 2 - 1;
             }
@@ -283,13 +253,12 @@
             whiteNoise.buffer = noiseBuffer;
             whiteNoise.loop = true;
 
-            // Фільтр низьких частот для створення ефекту гулу вітру та шуму дощу за вікном
             const filter = audioCtx.createBiquadFilter();
             filter.type = 'lowpass';
             filter.frequency.setValueAtTime(350, audioCtx.currentTime); // Глухий гул зливи
 
             const gainNode = audioCtx.createGain();
-            gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime); // Легкий фоновий об'єм (не заважає)
+            gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime); // Легкий фоновий об'єм
 
             whiteNoise.connect(filter);
             filter.connect(gainNode);
@@ -297,24 +266,23 @@
 
             whiteNoise.start();
 
-            // Автоматична легка зміна гучності вітру (ефект поривів шторму)
             setInterval(() => {
                 const targetVolume = 0.02 + Math.random() * 0.04;
                 gainNode.gain.linearRampToValueAtTime(targetVolume, audioCtx.currentTime + 2);
             }, 3000);
         }
 
-        // ⏳ 3. Синхронізація серцебиття: 1-й удар на 1.2с, 2-й — на 2.4с від 4-секундного циклу
+        // ⏳ 3. Синхронізація серцебиття
         function startHeartbeatLoop() {
             setInterval(() => {
-                setTimeout(() => { playThump(0.45); }, 1200); // Перший поштовх
-                setTimeout(() => { playThump(0.38); }, 2400); // Другий поштовх (відлуння)
+                setTimeout(() => { playThump(0.45); }, 1200); // 1-й удар
+                setTimeout(() => { playThump(0.38); }, 2400); // 2-й удар
             }, 4000);
         }
 
-        // 🚀 4. Запуск усього медіа-середовища після першого кліку по сайту
-        function initAudio() {
-            if (isSetup) return;
+        // 🚀 4. Запуск усього медіа-середовища СУТО ПІСЛЯ натискання на кнопку звуку
+        function toggleSound() {
+            if (isSetup) return; // Якщо вже запущено — нічого не робимо
             
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') {
@@ -322,21 +290,19 @@
             }
             isSetup = true;
             
-            // Запускаємо візуальну анімацію, штормовий фон та серце
+            // Змінюємо зовнішній вигляд кнопки звуку
+            soundBtn.innerText = "Атмосферу увімкнено 🔊";
+            soundBtn.classList.add('active');
+            
+            // Запускаємо візуальне пульсування та звуковий шторм
             document.body.classList.add('playing');
             startNatureBackground();
             startHeartbeatLoop();
-            
-            // Видаляємо слухачі
-            document.removeEventListener('click', initAudio);
-            document.removeEventListener('keydown', initAudio);
         }
 
-        document.addEventListener('click', initAudio);
-        document.addEventListener('keydown', initAudio);
+        // Прив'язуємо запуск аудіосистеми до кліку по кнопці
+        soundBtn.addEventListener('click', toggleSound);
     </script>
-
-
 
 </body>
 </html>
