@@ -40,7 +40,7 @@
             z-index: -1;
             pointer-events: none;
             opacity: 0.04;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         /* 💓 Анімація запускається тільки тоді, коли додано клас .playing */
@@ -80,7 +80,7 @@
             border: 1px solid rgba(255, 223, 0, 0.3);
         }
         
-        /* 🎧 Кнопка ввімкнення звукової атмосфери */
+        /* 🎧 Інтерактивна кнопка звукової атмосфери */
         .btn-sound {
             display: inline-flex;
             align-items: center;
@@ -103,6 +103,11 @@
             background-color: rgba(46, 160, 67, 0.2);
             border-color: rgba(46, 160, 67, 0.4);
             color: #58a6ff;
+        }
+        .btn-sound.muted {
+            background-color: rgba(248, 81, 73, 0.15);
+            border-color: rgba(248, 81, 73, 0.4);
+            color: #ff7b72;
         }
 
         h1 { font-size: 2.8rem; margin: 1rem 0; color: #fff; }
@@ -159,7 +164,6 @@
     <header>
         <div class="badge-group">
             <span class="badge">UAFilter v2.0 🇺🇦</span>
-            <!-- Наша інтерактивна кнопка звуку -->
             <button id="soundBtn" class="btn-sound">Увімкнути звук 🔈</button>
         </div>
         <h1>UAFilter (Antirus-Control)</h1>
@@ -212,20 +216,26 @@
     <footer>
         <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
     </footer>
-
     <script>
         let audioCtx = null;
-        let isSetup = false;
+        let isEnabled = false;       // Загальний статус: увімкнено звук чи ні
+        let globalInterval = null;
+        let thunderTimeout = null;
+        
+        // Вузли регулювання гучності для незалежного керування елементами оточення
+        let masterGain = null;
+        let natureGain = null;
+        
         const soundBtn = document.getElementById('soundBtn');
 
-        // 💓 1. Функція створення одного низькочастотного удару серця (синтез)
+        // 💓 1. Синтез удару серця (низькочастотний імпульс)
         function playThump(volume = 0.5) {
-            if (!audioCtx) return;
+            if (!audioCtx || !isEnabled) return;
             const osc = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
             
             osc.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
+            gainNode.connect(masterGain);
             
             osc.frequency.setValueAtTime(55, audioCtx.currentTime);
             osc.frequency.exponentialRampToValueAtTime(1, audioCtx.currentTime + 0.16);
@@ -237,7 +247,7 @@
             osc.stop(audioCtx.currentTime + 0.16);
         }
 
-        // 🌬️ 2. Генератор фонового шуму вітру та зливи (тримає карту активною)
+        // 🌬️ 2. Постійний фоновий гул вітру та зливи
         function startNatureBackground() {
             if (!audioCtx) return;
 
@@ -255,53 +265,149 @@
 
             const filter = audioCtx.createBiquadFilter();
             filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(350, audioCtx.currentTime); // Глухий гул зливи
-
-            const gainNode = audioCtx.createGain();
-            gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime); // Легкий фоновий об'єм
+            filter.frequency.setValueAtTime(300, audioCtx.currentTime); // Глухий зріз частот для ефекту зливи
 
             whiteNoise.connect(filter);
-            filter.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
+            filter.connect(natureGain);
 
             whiteNoise.start();
 
+            // Динамічні пориви штормового вітру
             setInterval(() => {
+                if (!isEnabled) return;
                 const targetVolume = 0.02 + Math.random() * 0.04;
-                gainNode.gain.linearRampToValueAtTime(targetVolume, audioCtx.currentTime + 2);
+                natureGain.gain.linearRampToValueAtTime(targetVolume, audioCtx.currentTime + 2);
             }, 3000);
         }
 
-        // ⏳ 3. Синхронізація серцебиття
+        // ⚡ 3. Синтез випадкових м'яких і далеких розкатів грому
+        function playThunderStrike() {
+            if (!audioCtx || !isEnabled) return;
+
+            const bufferSize = 3 * audioCtx.sampleRate; // Тривалість розкату ~3 секунди
+            const thunderBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = thunderBuffer.getChannelData(0);
+
+            // Створення низькочастотної текстури грому за допомогою броунівського фільтрування шуму
+            let lastOut = 0.0;
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                output[i] = (lastOut + (0.02 * white)) / 1.02;
+                lastOut = output[i];
+            }
+
+            const thunderSource = audioCtx.createBufferSource();
+            thunderSource.buffer = thunderBuffer;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(120, audioCtx.currentTime); // Дуже низький гуркіт далеко за обрієм
+
+            const gainNode = audioCtx.createGain();
+            const randomVolume = 0.15 + Math.random() * 0.25;
+            gainNode.gain.setValueAtTime(randomVolume, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.8);
+
+            thunderSource.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(masterGain);
+
+            thunderSource.start();
+
+            // Планування наступного хаотичного розкату грому (через випадковий інтервал від 15 до 35 секунд)
+            const nextStrikeDelay = 15000 + Math.random() * 20000;
+            thunderTimeout = setTimeout(playThunderStrike, nextStrikeDelay);
+        }
+
+        // ⏳ 4. Запуск циклу пульсації серця
         function startHeartbeatLoop() {
-            setInterval(() => {
-                setTimeout(() => { playThump(0.45); }, 1200); // 1-й удар
-                setTimeout(() => { playThump(0.38); }, 2400); // 2-й удар
+            if (globalInterval) clearInterval(globalInterval);
+            globalInterval = setInterval(() => {
+                if (!isEnabled) return;
+                setTimeout(() => { playThump(0.45); }, 1200); 
+                setTimeout(() => { playThump(0.38); }, 2400); 
             }, 4000);
         }
 
-        // 🚀 4. Запуск усього медіа-середовища СУТО ПІСЛЯ натискання на кнопку звуку
-        function toggleSound() {
-            if (isSetup) return; // Якщо вже запущено — нічого не робимо
+        // 🟢 5. Функція активації звукової атмосфери (спрацьовує від будь-якої першої дії)
+        function turnSoundOn() {
+            if (isEnabled) return; // Якщо звук вже працює — ігноруємо
             
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                masterGain = audioCtx.createGain();
+                masterGain.connect(audioCtx.destination);
+                
+                natureGain = audioCtx.createGain();
+                natureGain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                natureGain.connect(masterGain);
+                
+                startNatureBackground();
+            }
+
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
-            isSetup = true;
+
+            isEnabled = true;
             
-            // Змінюємо зовнішній вигляд кнопки звуку
+            // Оновлення інтерфейсу та запуск процесів
             soundBtn.innerText = "Атмосферу увімкнено 🔊";
-            soundBtn.classList.add('active');
-            
-            // Запускаємо візуальне пульсування та звуковий шторм
+            soundBtn.className = "btn-sound active";
             document.body.classList.add('playing');
-            startNatureBackground();
+            
+            masterGain.gain.linearRampToValueAtTime(1.0, audioCtx.currentTime + 0.5); // Плавне збільшення гучності
+            
             startHeartbeatLoop();
+            thunderTimeout = setTimeout(playThunderStrike, 8000);
+
+            // Повністю знімаємо глобальні слухачі
+            removeGlobalTriggers();
         }
 
-        // Прив'язуємо запуск аудіосистеми до кліку по кнопці
-        soundBtn.addEventListener('click', toggleSound);
+        // 🔴 6. Функція вимкнення звуку (СУРОВО за натисканням кнопки)
+        function turnSoundOff() {
+            if (!isEnabled || !audioCtx) return;
+
+            masterGain.gain.linearRampToValueAtTime(0.0, audioCtx.currentTime + 0.3);
+            
+            setTimeout(() => {
+                isEnabled = false;
+                document.body.classList.remove('playing');
+                soundBtn.innerText = "Звук вимкнено 🔈";
+                soundBtn.className = "btn-sound muted";
+                
+                if (thunderTimeout) clearTimeout(thunderTimeout);
+            }, 300);
+        }
+
+        // 🎛️ 7. Диспетчер кнопки звуку
+        function handleBtnClick(e) {
+            e.stopPropagation(); // Зупиняє вспливання події, щоб клік по кнопці не вважався «кліком будь-де»
+            if (!isEnabled) {
+                turnSoundOn();
+            } else {
+                turnSoundOff();
+            }
+        }
+
+        // 🔗 Налаштування та зняття глобальних пасток активації
+        function removeGlobalTriggers() {
+            document.removeEventListener('click', turnSoundOn);
+            window.removeEventListener('scroll', turnSoundOn);
+            document.removeEventListener('keydown', turnSoundOn);
+        }
+
+        function addGlobalTriggers() {
+            document.addEventListener('click', turnSoundOn);
+            window.addEventListener('scroll', turnSoundOn);
+            document.addEventListener('keydown', turnSoundOn);
+        }
+
+        // Старт моніторингу дій користувача
+        addGlobalTriggers();
+        soundBtn.addEventListener('click', handleBtnClick);
     </script>
 
 </body>
