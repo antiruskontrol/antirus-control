@@ -262,11 +262,36 @@
 
 
     <header>
-        <div class="badge-group">
-            <span class="badge">UAFilter v2.0 🇺🇦</span>
-            <button id="soundBtn" class="btn-sound">Увімкнути звук 🔈</button>
+                <div class="badge-group">
+            <!-- Робимо плашку клікабельною -->
+            <span id="openChangelogBtn" class="badge" style="cursor: pointer;">UAFilter v2.0 UA</span>
+            
+            <button id="soundBtn" class="btn-sound">Увімкнути звук 🔊</button>
         </div>
-        <h1>UAFilter (Antirus-Control)</h1>
+
+        <!-- Саме вікно, яке буде спливати (ставимо його одразу нижче) -->
+        <dialog id="changelogModal" class="changelog-modal">
+            <div class="modal-header">
+                <h3>📋 Історія релізів та змін</h3>
+                <button id="closeChangelogBtn" class="btn-close-modal">✕</button>
+            </div>
+            <div class="modal-content">
+                <h4>Версія 2.0 (Поточна)</h4>
+                <ul>
+                    <li>Додано автоматичне розмиття російського тексту на сайтах.</li>
+                    <li>Реалізовано пропуск YouTube Shorts з лічильником у кутку екрана.</li>
+                    <li>Повністю локальна робота без збору персональних даних.</li>
+                    <li>Оптимізовано швидкість роботи та фільтрації.</li>
+                </ul>
+                
+                <h4>Версія 1.0</h4>
+                <ul>
+                    <li>Базовий реліз розширення та перші фільтри контенту.</li>
+                </ul>
+            </div>
+        </dialog>
+
+        <h1 style="opacity: 0.6;">UAFilter (Antirus-Control)</h1>
         <p class="tagline">Браузерне розширення для інформаційної гігієни. Автоматично розмиває російський текст на сайтах та пропускає YouTube Shorts.</p>
                <div class="buttons-container" style="display: flex !important; flex-direction: row !important; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 30px; width: 100%;">
         
@@ -277,7 +302,7 @@
         </a>
 
         <!-- Друга кнопка (Зелена за замовчуванням) -->
-        <a href="https://github.com/archive/refs/heads/main.zip" class="btn-logo-download btn-archive" style="width: 350px !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
+        <a href="https://github.com/antiruskontrol/antirus-control/releases/download/v2.0/antirus-control-extension.zip" class="btn-logo-download btn-archive" style="width: 350px !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
             <img src="iconhtml.png" alt="Логотип" style="width: 50px !important; height: 50px !important; object-fit: contain !important; margin-right: 15px !important;">
             <span style="color: #ffffff !important; font-weight: bold !important; font-size: 1.1rem !important; text-align: left !important;">Завантажити ZIP-архів v2.0</span>
         </a>
@@ -298,7 +323,7 @@
         </ol>
         
         <p style="background: #112233; border-left: 5px solid #ffd700; padding: 15px; border-radius: 4px; margin-top: 20px;">
-            🎉 <strong>Готово!</strong> Розширення з'явиться у списку та миттєво почне працювати. Папку з розпакованими файлами видаляти не можна, вона має залишатися на комп'ютері. В правому нижньому кутку має з'явитися індікатор"UAFilter:0"  це лічильник скіпів для YouTube Shorts, вітаю, розширення встановлене та працює!"
+             <strong>Готово!</strong> Розширення з'явиться у списку та миттєво почне працювати. Папку з розпакованими файлами видаляти не можна, вона має залишатися на комп'ютері. В правому нижньому кутку має з'явитися індікатор UAFilter:0 це лічильник скіпів для YouTube Shorts, вітаю, розширення встановлене та працює!
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -529,3 +554,26 @@
 
 </body>
 </html>
+<script>
+    const modal = document.getElementById('changelogModal');
+    const openBtn = document.getElementById('openChangelogBtn');
+    const closeBtn = document.getElementById('closeChangelogBtn');
+
+    // Відкриваємо вікно при кліку на жовту плашку
+    openBtn.addEventListener('click', () => {
+        modal.showModal();
+    });
+
+    // Закриваємо на хрестик
+    closeBtn.addEventListener('click', () => {
+        modal.close();
+    });
+
+    // Закриваємо, якщо клікнути мишкою поза вікном (на темне тло)
+    modal.addEventListener('click', (e) => {
+        const box = modal.getBoundingClientRect();
+        if (e.clientX < box.left || e.clientX > box.right || e.clientY < box.top || e.clientY > box.bottom) {
+            modal.close();
+        }
+    });
+</script>
