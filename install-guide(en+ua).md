@@ -1,3 +1,5 @@
+**[Відкрити офіційний сайт проєкту](https://antiruskontrol.github.io/antirus-control/)**
+
 📦 How to Install "Antirus-Control" in Chrome manually
 Follow these 4 simple steps to install the extension from the ZIP archive:
 1. Download and Extract:
@@ -13,8 +15,11 @@ Follow these 4 simple steps to install the extension from the ZIP archive:
 	• Select the folder where you just extracted the files (the folder that contains manifest.json).
 Done! The extension icon will appear in your browser bar, and Smart Skip is already running to protect your feed.
 # antiruskontrol@ukr.net
+**[Відкрити офіційний сайт проєкту](https://antiruskontrol.github.io/antirus-control/)**
+
 
 # 📦 Як встановити розширення "Antirus-Control" вручну
+
 
 Виконайте ці **4 прості кроки**, щоб встановити розширення із завантаженого ZIP-архіву:
 
@@ -35,4 +40,5 @@ Done! The extension icon will appear in your browser bar, and Smart Skip is alre
 
 **Готово!** Іконка розширення з'явиться на панелі браузера, а функція *Smart Skip* уже активована та захищає вашу стрічку.
 
+**[Відкрити офіційний сайт проєкту](https://antiruskontrol.github.io/antirus-control/)**
 # antiruskontrol@ukr.net
