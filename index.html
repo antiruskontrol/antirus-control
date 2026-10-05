@@ -551,29 +551,127 @@
         addGlobalTriggers();
         soundBtn.addEventListener('click', handleBtnClick);
     </script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Знаходимо вашу оригінальну плашку за текстом версії
+    const badges = document.querySelectorAll('.badge');
+    let versionBadge = null;
+    
+    badges.forEach(badge => {
+        if (badge.textContent.includes('UAFilter v2.0 UA')) {
+            versionBadge = badge;
+        }
+    });
+
+    // Якщо плашку знайдено, автоматизуємо її
+    if (versionBadge) {
+        // Робимо її візуально клікабельною для користувача
+        versionBadge.style.cursor = 'pointer';
+        versionBadge.style.transition = 'transform 0.1s ease, filter 0.2s ease';
+        
+        // Додаємо ефекти наведення миші прямо через JS
+                // Додаємо ефект яскравого жовтого неону при наведенні миші прямо через JS
+        versionBadge.addEventListener('mouseenter', () => {
+            versionBadge.style.filter = 'brightness(1.2)';
+            // 💡 Додаємо потужне жовте неонове свічення, як на кнопці ZIP
+            versionBadge.style.boxShadow = '0 0 15px #ffdd00, 0 0 5px #ffdd00';
+            versionBadge.style.borderColor = '#ffdd00';
+        });
+        
+        versionBadge.addEventListener('mouseleave', () => {
+            versionBadge.style.filter = 'brightness(1)';
+            // 💡 Прибираємо свічення, коли мишка йде геть
+            versionBadge.style.boxShadow = 'none';
+            versionBadge.style.borderColor = ''; // Повертає дефолтну рамку
+        });
+        // 2. ЕФЕКТИ ДЛЯ СИНЬОЇ КНОПКИ ЗВУКУ (Атмосфера)
+        const soundButton = document.getElementById('soundBtn');
+        if (soundButton) {
+            soundButton.style.transition = 'transform 0.1s ease, filter 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease';
+            soundButton.style.cursor = 'pointer';
+
+            soundButton.addEventListener('mouseenter', () => {
+                soundButton.style.filter = 'brightness(1.2)';
+                soundButton.style.boxShadow = '0 0 15px #4da3ff, 0 0 5px #4da3ff';
+                soundButton.style.borderColor = '#4da3ff';
+            });
+            
+            soundButton.addEventListener('mouseleave', () => {
+                soundButton.style.filter = 'brightness(1)';
+                soundButton.style.boxShadow = 'none';
+                soundButton.style.borderColor = '';
+            });
+
+            soundButton.addEventListener('mousedown', () => soundButton.style.transform = 'scale(0.95)');
+            soundButton.addEventListener('mouseup', () => soundButton.style.transform = 'scale(1)');
+        }
+
+        // 2. Автоматично створюємо та вбудовуємо модальне вікно, щоб не смітити в HTML
+        const modal = document.createElement('dialog');
+        modal.id = 'dynamicChangelogModal';
+        
+        // Задаємо повністю безпечні стилі вікна, які ніяк не вплинуть на ваші великі кнопки
+        Object.assign(modal.style, {
+            border: '1px solid rgba(77, 163, 255, 0.3)',
+            borderRadius: '12px',
+            background: 'rgba(20, 20, 20, 0.98)',
+            color: '#ffffff',
+            padding: '20px',
+            maxWidth: '450px',
+            width: '90%',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.7)',
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            fontFamily: 'sans-serif'
+        });
+
+        // Наповнюємо вікно вмістом (текст релізу)
+                // Наповнюємо вікно вмістом (текст релізу та вирівняна шапка)
+        modal.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 5px 0 12px 0; margin-bottom: 5px;">
+                <h3 style="margin: 0; color: #4da3ff; font-size: 18px; font-family: sans-serif; font-weight: bold;">📋 Що нового у v2.0?</h3>
+                <button id="closeDynamicModal" style="background: none; border: none; color: #aaa; font-size: 22px; cursor: pointer; line-height: 1; padding: 0 5px; transition: color 0.2s;" onmouseenter="this.style.color='#ff4d4d'" onmouseleave="this.style.color='#aaa'">✕</button>
+            </div>
+            <div style="margin-top: 15px; text-align: left; font-family: sans-serif;">
+                <h4 style="color: #ffdd00; margin: 15px 0 8px 0; font-size: 15px; font-weight: bold;">Версія 2.0 (Поточна)</h4>
+                <ul style="padding-left: 20px; color: #d0d0d0; font-size: 14px; line-height: 1.6; margin: 0 0 15px 0;">
+                    <li>Додано автоматичне розмиття російського тексту на сайтах.</li>
+                    <li>Реалізовано пропуск YouTube Shorts з лічильником у кутку екрана.</li>
+                    <li>Повністю локальна робота без збору персональних даних.</li>
+                </ul>
+                
+                <h4 style="color: #a0a0a0; margin: 15px 0 5px 0; font-size: 14px; font-weight: bold;">Версія 1.0</h4>
+                <ul style="padding-left: 20px; color: #888888; font-size: 13px; line-height: 1.5; margin: 0;">
+                    <li>Базовий реліз розширення та перші фільтри контенту.</li>
+                </ul>
+            </div>
+        `;
+
+
+        document.body.appendChild(modal);
+
+        // Додаємо стилі для заднього фону (затемнення та розмиття сайту)
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = `#dynamicChangelogModal::backdrop { background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(5px); }`;
+        document.head.appendChild(styleSheet);
+
+        // 3. Логіка відкриття та закриття
+        versionBadge.addEventListener('click', () => modal.showModal());
+        
+        modal.querySelector('#closeDynamicModal').addEventListener('click', () => modal.close());
+
+        // Закриття при кліку на порожню область навколо вікна
+        modal.addEventListener('click', (e) => {
+            const box = modal.getBoundingClientRect();
+            if (e.clientX < box.left || e.clientX > box.right || e.clientY < box.top || e.clientY > box.bottom) {
+                modal.close();
+            }
+        });
+    }
+});
+</script>
 
 </body>
 </html>
-<script>
-    const modal = document.getElementById('changelogModal');
-    const openBtn = document.getElementById('openChangelogBtn');
-    const closeBtn = document.getElementById('closeChangelogBtn');
-
-    // Відкриваємо вікно при кліку на жовту плашку
-    openBtn.addEventListener('click', () => {
-        modal.showModal();
-    });
-
-    // Закриваємо на хрестик
-    closeBtn.addEventListener('click', () => {
-        modal.close();
-    });
-
-    // Закриваємо, якщо клікнути мишкою поза вікном (на темне тло)
-    modal.addEventListener('click', (e) => {
-        const box = modal.getBoundingClientRect();
-        if (e.clientX < box.left || e.clientX > box.right || e.clientY < box.top || e.clientY > box.bottom) {
-            modal.close();
-        }
-    });
-</script>
