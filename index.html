@@ -355,7 +355,7 @@
             <!-- Робимо плашку клікабельною -->
             <span id="openChangelogBtn" class="badge" style="cursor: pointer;">UAFilter v2.0 UA</span>
             
-            <button id="soundBtn" class="btn-sound">Увімкнути звук 🔊</button>
+            <button id="soundBtn" class="btn-sound">Атмосферу вимкнуто 🔇</button>
         </div>
 
         <!-- Саме вікно, яке буде спливати (ставимо його одразу нижче) -->
@@ -636,7 +636,7 @@
             setTimeout(() => {
                 isEnabled = false;
                 document.body.classList.remove('playing');
-                soundBtn.innerText = "Звук вимкнено 🔈";
+                soundBtn.innerText = "Атмосферу вимкнено 🔈";
                 soundBtn.className = "btn-sound muted";
                 
                 if (thunderTimeout) clearTimeout(thunderTimeout);
