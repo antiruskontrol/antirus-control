@@ -137,37 +137,34 @@
         .tagline { font-size: 1.2rem; max-width: 600px; margin: 0 auto 2.5rem auto; color: #8b949e; }
         .cta-group { display: flex; gap: 1.5rem; justify-content: center; align-items: center; flex-wrap: wrap; }
         
+                /* Базові налаштування для обох кнопок, щоб вони були однакового розміру */
         .btn-logo-download {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            background-color: transparent; /* Робимо фон прозорим */
-            color: #ffffff;
-            padding: 0.8rem 2rem 0.8rem 1rem;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2rem;
-            border: 1px solid var(--border-color); /* Така ж рамка, як у другої кнопки */
-            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
-        }
-                   .btn-logo-download:hover {
-            transform: translateY(-3px);
-            background-color: rgba(248, 81, 73, 0.05); /* Легкий червоний фон */
-            border-color: #ff4d4d; /* Яскраво-червона рамка */
-            box-shadow: 0 0 15px rgba(248, 81, 73, 0.4); /* Червоне неонове сяйво */
+            width: 350px !important; /* Однакова фіксована ширина */
+            height: 70px !important;  /* Однакова фіксована висота */
+            display: inline-flex !important;
+            justify-content: flex-start !important; /* Рівняємо контент по лівому краю */
+            align-items: center !important;
+            box-sizing: border-box !important;
+            padding: 10px 20px !important;
         }
 
-                    .btn-archive-download:hover {
-            transform: translateY(-3px);
-            background-color: rgba(46, 160, 67, 0.15); /* Насичений зелений фон */
-            border-color: #3fb950; /* Яскрава зелена рамка */
-            box-shadow: 0 0 20px rgba(46, 160, 67, 0.6); /* Потужне зелене неонове сяйво */
+                /* Ефект для першої кнопки (Надяскравий Червоний Неон) */
+        .btn-logo-download:not(.btn-archive):hover {
+            transform: translateY(-3px) !important;
+            background-color: rgba(248, 81, 73, 0.25) !important; /* Яскравіший фон */
+            border-color: #ff3333 !important; /* Вогняно-червона рамка */
+            box-shadow: 0 0 25px rgba(258, 40, 40, 0.95), 0 0 10px rgba(258, 40, 40, 0.5) !important; /* Подвійне насичене сяйво */
         }
 
+        /* Ефект для другої кнопки (Надяскравий Зелений Неон) */
+        .btn-logo-download.btn-archive:hover {
+            transform: translateY(-3px) !important;
+            background-color: rgba(46, 160, 67, 0.3) !important; /* Яскравіший фон */
+            border-color: #00ff44 !important; /* Кислотно-зелена рамка */
+            box-shadow: 0 0 25px rgba(0, 255, 68, 0.95), 0 0 10px rgba(0, 255, 68, 0.5) !important; /* Подвійне насичене сяйво */
+        }
 
-
-          
+        
         .btn-logo-download img { width: 50px; height: 50px; object-fit: contain; border-radius: 6px; }
         .btn-logo-download .btn-text-block { text-align: left; }
         
@@ -202,17 +199,23 @@
         </div>
         <h1>UAFilter (Antirus-Control)</h1>
         <p class="tagline">Браузерне розширення для інформаційної гігієни. Автоматично розмиває російський текст на сайтах та пропускає YouTube Shorts.</p>
-        <div class="cta-group">
-            <a href="https://github.com" class="btn btn-logo-download">
-                <img src="icon.png" alt="Логотип UAFilter">
-                <div class="btn-text-block">
-                    <span>Встановити UAFilter</span>
-                </div>
-            <a href="https://github.com" class="btn-archive-download">
-    <i class="fas fa-file-archive"></i> Завантажити безкоштовно (ZIP-архів версії 2.0)
-</a>
+               <div class="buttons-container" style="display: flex !important; flex-direction: row !important; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 30px; width: 100%;">
+        
+        <!-- Перша кнопка (Червона за замовчуванням) -->
+        <a href="https://github.com" class="btn-logo-download" style="width: 350px !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
+            <img src="iconhtml.png" alt="Логотип" style="width: 50px !important; height: 50px !important; object-fit: contain !important; margin-right: 15px !important;">
+            <span style="color: #ffffff !important; font-weight: bold !important; font-size: 1.1rem !important; text-align: left !important;">Встановити UAFilter</span>
+        </a>
 
-        </div>
+        <!-- Друга кнопка (Зелена за замовчуванням) -->
+        <a href="https://github.com/archive/refs/heads/main.zip" class="btn-logo-download btn-archive" style="width: 350px !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
+            <img src="iconhtml.png" alt="Логотип" style="width: 50px !important; height: 50px !important; object-fit: contain !important; margin-right: 15px !important;">
+            <span style="color: #ffffff !important; font-weight: bold !important; font-size: 1.1rem !important; text-align: left !important;">Завантажити ZIP-архів v2.0</span>
+        </a>
+
+    </div>
+
+
     </header>
     <section class="instructions" style="max-width: 800px; margin: 40px auto; padding: 20px; font-family: sans-serif; line-height: 1.6; color: #fff;">
         <h2 style="color: #4da3ff; border-bottom: 2px solid #ffd700; padding-bottom: 10px; margin-top: 0;">🛠 Інструкція зі встановлення розширення вручну</h2>
