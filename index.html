@@ -2,8 +2,8 @@
 <!--
   ==================================================================
   Файл:        index.html (сторінка UAFilter / Antirus-Control)
-  Версія:      2.1.8 (версія сторінки; розширення UAFilter v2.0)
-  Дата, час:   2026-10-06 10:57
+  Версія:      2.1.9 (версія сторінки; розширення UAFilter v2.0)
+  Дата, час:   2026-10-06 11:30
   Розробник:   Афтіпа Марко Оцтович
   Опис змін (версія сторінки 2.1; розширення UAFilter v2.0 без змін):
     - Футер: три кнопки в ряд з неоновим hover: «Шана Героям»,
@@ -14,7 +14,9 @@
       без пауз і перемотки (як у «Шана Героям»), автозакриття
     - «Тривога в Україні»: вікно з alerts.in.ua, кнопка «Згорнути»
     - Фон футера: відео прапора media/flag.mp4 (за наявності файлу)
-    - Футер: прозорий напис версії сторінки («Сторінка v2.1.8») унизу ліворуч;
+    - Фон-прапор: відео у 3 рази повільніше; верхні 20% плавно переходять
+      у фон сайту (прозорий градієнт), верхню межу футера прибрано
+    - Футер: прозорий напис версії сторінки («Сторінка v2.1.9») унизу ліворуч;
       бейдж і вікно «Що нового» належать розширенню й лишаються на v2.0
     - Консоль: діагностичні маркери [UAFilter-UI]
   Детальний журнал змін скрипта: блок на початку <script> внизу файлу
@@ -368,7 +370,8 @@
     </style>
 
 <style id="hero-buttons-css">
-footer.site-footer{position:relative;isolation:isolate;overflow:hidden;padding:2.2rem 1rem 1.6rem;color:#e6edf3;background:linear-gradient(to bottom,#0057b7 0 50%,#ffdf00 50% 100%)}
+footer.site-footer{position:relative;isolation:isolate;overflow:hidden;padding:2.2rem 1rem 1.6rem;color:#e6edf3;background:transparent;border-top:0}
+.footer-media{position:absolute;inset:0;z-index:-1;background:linear-gradient(to bottom,#0057b7 0 50%,#ffdf00 50% 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 20%);mask-image:linear-gradient(to bottom,transparent 0%,#000 20%)}
 .footer-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
 .footer-shade{position:absolute;inset:0;background:rgba(13,17,23,.62);z-index:-1}
 .footer-inner p{margin:.35rem 0}
@@ -531,8 +534,10 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
     </div>
 
     <footer class="site-footer">
+        <div class="footer-media" aria-hidden="true">
         <video class="footer-bg" src="media/flag.mp4" autoplay loop muted playsinline preload="metadata" aria-hidden="true" onerror="this.remove()"></video>
         <div class="footer-shade"></div>
+        </div>
         <div class="footer-inner">
             <div class="hero-btns" role="group" aria-label="Патріотичні кнопки">
                 <button type="button" id="honorBtn" class="hero-btn hero-honor">Шана Героям</button>
@@ -541,7 +546,7 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
             </div>
             <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
             <p class="footer-city">Kyiv Ukraine 2026</p>
-            <div class="page-version" title="Версія сторінки 2.1.8 · 2026-10-06 10:57"><span>Сторінка v2.1.8</span></div>
+            <div class="page-version" title="Версія сторінки 2.1.9 · 2026-10-06 11:30"><span>Сторінка v2.1.9</span></div>
         </div>
     </footer>
     <script>
@@ -877,6 +882,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /*
  * UAFilter-UI: кнопки футера (Шана Героям / Слава Героям / Тривога в Україні)
  * Журнал змін (нові записи додаються зверху):
+ * v2.1.9 | 2026-10-06 11:30 | Розробник: Афтіпа Марко Оцтович | фон-прапор у 3 рази повільніше (FLAG_SPEED), верхні 20% переходять у фон сайту (маска-градієнт), прибрано верхню межу футера
  * v2.1.8 | 2026-10-06 10:57 | Розробник: Афтіпа Марко Оцтович | бейдж і вікно «Що нового» повернуто до v2.0 (версія розширення, скасовано частину v2.1.7); у футері додано напис версії сторінки
  * v2.1.7 | 2026-10-06 10:34 | Розробник: Афтіпа Марко Оцтович | версія сайту v2.1: бейдж, вікно «Що нового» (статичне й динамічне), перевірка бейджа в JS
  * v2.1.6 | 2026-10-06 10:25 | Розробник: Афтіпа Марко Оцтович | «Слава Героям»: плеєр без керування (без паузи/перемотки), заблоковано меню правої кнопки на обох відео
@@ -895,6 +901,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ALERTS_SRC: 'https://alerts.in.ua/',
     DUCK_LEVEL: 0.33,          // рівень оточення під час ролика (1 = без приглушення)
     DUCK_MS: 800,              // тривалість плавного приглушення/повернення
+    FLAG_SPEED: 1 / 3          // швидкість фону-прапора: 1/3 = у 3 рази повільніше (1 = звичайна)
   };
   const $ = id => document.getElementById(id);
   const dbg = (marker, text) => console.log('[UAFilter-UI] маркер: ' + marker + ' → ' + text);
@@ -918,6 +925,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // затримка 60 мс: глобальний клік може саме вмикати атмосферу (turnSoundOn)
   const duck = why => setTimeout(() => { if (isEnabled) rampMaster(CFG.DUCK_LEVEL, 'DUCK_ON:' + why); else dbg('DUCK_SKIP:' + why, 'атмосфера вимкнена'); }, 60);
   const unduck = why => rampMaster(isEnabled ? 1 : 0, 'DUCK_OFF:' + why);
+
+  // ---- фонове відео прапора: уповільнення
+  const flagBg = document.querySelector('.footer-bg');
+  if (flagBg) {
+    const slow = why => { flagBg.defaultPlaybackRate = CFG.FLAG_SPEED; flagBg.playbackRate = CFG.FLAG_SPEED; dbg('FLAG_SPEED:' + why, 'швидкість фону-прапора ×' + CFG.FLAG_SPEED.toFixed(2)); };
+    flagBg.addEventListener('loadedmetadata', () => slow('loadedmetadata'));
+    if (flagBg.readyState >= 1) slow('already-loaded');
+  }
 
   // ---- спільне керування вікнами
   document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => $(b.dataset.close).close()));
