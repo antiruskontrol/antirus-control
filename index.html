@@ -1,4 +1,24 @@
 <!DOCTYPE html>
+<!--
+  ==================================================================
+  Файл:        index.html (сторінка UAFilter / Antirus-Control)
+  Версія:      2.1.7
+  Дата, час:   2026-10-06 10:34
+  Розробник:   Афтіпа Марко Оцтович
+  Опис змін (версія сайту UAFilter v2.1; архів розширення v2.0 без змін):
+    - Футер: три кнопки в ряд з неоновим hover: «Шана Героям»,
+      «Слава Героям», «Тривога в Україні»; рядок «Kyiv Ukraine 2026»
+    - «Шана Героям»: ролик media/minute-silence.mp4 на весь екран,
+      оточення приглушується, після завершення вікно закривається
+    - «Слава Героям»: плеєр на всю сторінку, media/slava-heroyam.mp4,
+      без пауз і перемотки (як у «Шана Героям»), автозакриття
+    - «Тривога в Україні»: вікно з alerts.in.ua, кнопка «Згорнути»
+    - Фон футера: відео прапора media/flag.mp4 (за наявності файлу)
+    - Версія сайту v2.1: бейдж «UAFilter v2.1 UA» і вікно «Що нового»
+    - Консоль: діагностичні маркери [UAFilter-UI]
+  Детальний журнал змін скрипта: блок на початку <script> внизу файлу
+  ==================================================================
+-->
 <html lang="uk">
 <head>
        <meta charset="UTF-8">
@@ -75,7 +95,7 @@
         color: #ffaa00 !important;
     }
 
-    /* 🟢 РІВЕНЬ 1: ТОП СТАТТІ (Поточна версія 2.0 — максимальний неон і розмір) */
+    /* 🟢 РІВЕНЬ 1: ТОП СТАТТІ (Поточна версія 2.1 — максимальний неон і розмір) */
     #dynamicChangelogModal h4:first-of-type {
         color: #ff6600 !important;
         font-size: 24px !important; /* Великий шрифт */
@@ -92,7 +112,7 @@
         margin-bottom: 35px !important;
     }
 
-    /* 🟡 РІВЕНЬ 2: ЗАТУХАННЯ ДОНИЗУ (Стара версія 1.0 — колір згасає, неон слабшає) */
+    /* 🟡 РІВЕНЬ 2: ЗАТУХАННЯ ДОНИЗУ (Попередня версія 2.0 — колір згасає, неон слабшає; далі 1.0 згасає ще більше) */
     #dynamicChangelogModal h4:nth-of-type(2) {
         color: #aa6600 !important; /* Тьмяніший помаранчевий */
         font-size: 20px !important;
@@ -345,6 +365,37 @@
 }
 
     </style>
+
+<style id="hero-buttons-css">
+footer.site-footer{position:relative;isolation:isolate;overflow:hidden;padding:2.2rem 1rem 1.6rem;color:#e6edf3;background:linear-gradient(to bottom,#0057b7 0 50%,#ffdf00 50% 100%)}
+.footer-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.footer-shade{position:absolute;inset:0;background:rgba(13,17,23,.62);z-index:-1}
+.footer-inner p{margin:.35rem 0}
+.footer-city{letter-spacing:.12em;font-size:.85rem;opacity:.9}
+.hero-btns{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:1.4rem}
+.hero-btn{--g:linear-gradient(to bottom,#555,#111);--glow:#fff;width:180px;height:32px;padding:0 10px;border:1px solid rgba(255,255,255,.35);border-radius:12px;background:var(--g);color:#fff;font:bold .92rem/1 inherit;font-family:inherit;text-shadow:0 0 3px #000,0 1px 2px #000;cursor:pointer;transition:box-shadow .25s ease,filter .25s ease,border-color .25s ease}
+.hero-btn:hover,.hero-btn:focus-visible{outline:none;filter:brightness(1.15);border-color:#fff;box-shadow:var(--glow)}
+.hero-honor{--g:linear-gradient(to bottom,#e11d2e,#0a0a0a);--glow:0 0 6px #ff1e2d,0 0 16px #ff1e2d,0 0 34px rgba(255,30,45,.65),0 0 60px rgba(0,0,0,.9)}
+.hero-glory{--g:linear-gradient(to bottom,#0057b7 0%,#3d8bea 35%,#ffe561 68%,#ffdf00 100%);--glow:0 0 8px #2aa0ff,0 0 18px #ffdf00,0 0 36px rgba(255,223,0,.6),0 0 60px rgba(42,160,255,.5)}
+.hero-alert{--g:linear-gradient(to bottom,#ff9a1f,#d1202f);--glow:0 0 8px #ff8a00,0 0 20px #ff3b1f,0 0 38px rgba(255,59,31,.6)}
+@media (max-width:700px){.hero-btns{flex-direction:column;align-items:center;gap:12px}.hero-btn{width:min(320px,100%);height:42px;font-size:1rem}}
+@media (prefers-reduced-motion:reduce){.hero-btn{transition:none}}
+@media (min-width:701px){footer.site-footer{padding-top:calc(2.2rem - 16px)}.hero-btns{margin-bottom:calc(1.4rem + 16px)}}
+dialog.pt-modal{border:0;padding:0;border-radius:12px;background:#0d1117;color:#fff;max-width:none;max-height:none}
+dialog.pt-modal[open]{display:flex;flex-direction:column}
+dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
+.pt-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;border-bottom:1px solid #30363d}
+.pt-head a{color:#ffdf00;text-decoration:none}
+.pt-x{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:4px 12px;cursor:pointer;font-size:1rem}
+.pt-x:hover{border-color:#fff}
+#honorModal{width:100vw;height:100vh;border-radius:0;background:#000}
+#honorModal .pt-x{position:absolute;top:14px;right:14px;z-index:2}
+#honorVideo{width:100%;height:100%;object-fit:contain;background:#000}
+#gloryModal{width:100vw;height:100vh;border-radius:0;background:#000}
+#gloryVideo{flex:1;min-height:0;width:100%;object-fit:contain;background:#000}
+#alertModal{width:min(1100px,94vw);height:88vh}
+#alertFrame{flex:1;width:100%;border:0;background:#fff}
+</style>
 </head>
 <body>
 <div class="neon-vignette" style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; z-index: 9999 !important; pointer-events: none !important; will-change: box-shadow;"></div>
@@ -353,7 +404,7 @@
     <header>
                 <div class="badge-group">
             <!-- Робимо плашку клікабельною -->
-            <span id="openChangelogBtn" class="badge" style="cursor: pointer;">UAFilter v2.0 UA</span>
+            <span id="openChangelogBtn" class="badge" style="cursor: pointer;">UAFilter v2.1 UA</span>
             
             <button id="soundBtn" class="btn-sound">Атмосферу вимкнуто 🔇</button>
         </div>
@@ -365,7 +416,14 @@
                 <button id="closeChangelogBtn" class="btn-close-modal">✕</button>
             </div>
             <div class="modal-content">
-                <h4>Версія 2.0 (Поточна)</h4>
+                <h4>Версія 2.1 (Поточна)</h4>
+                <ul>
+                    <li>Додано кнопку «Шана Героям»: хвилина мовчання на весь екран.</li>
+                    <li>Додано кнопку «Слава Героям»: відео з Гімном України.</li>
+                    <li>Додано кнопку «Тривога в Україні»: мапа тривог alerts.in.ua прямо на сайті.</li>
+                </ul>
+
+                <h4>Версія 2.0</h4>
                 <ul>
                     <li>Додано автоматичне розмиття російського тексту на сайтах.</li>
                     <li>Реалізовано пропуск YouTube Shorts з лічильником у кутку екрана.</li>
@@ -474,8 +532,18 @@
 
     </div>
 
-    <footer>
-        <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
+    <footer class="site-footer">
+        <video class="footer-bg" src="media/flag.mp4" autoplay loop muted playsinline preload="metadata" aria-hidden="true" onerror="this.remove()"></video>
+        <div class="footer-shade"></div>
+        <div class="footer-inner">
+            <div class="hero-btns" role="group" aria-label="Патріотичні кнопки">
+                <button type="button" id="honorBtn" class="hero-btn hero-honor">Шана Героям</button>
+                <button type="button" id="gloryBtn" class="hero-btn hero-glory">Слава Героям</button>
+                <button type="button" id="alertBtn" class="hero-btn hero-alert">Тривога в Україні</button>
+            </div>
+            <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
+            <p class="footer-city">Kyiv Ukraine 2026</p>
+        </div>
     </footer>
     <script>
         let audioCtx = null;
@@ -677,7 +745,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let versionBadge = null;
     
     badges.forEach(badge => {
-        if (badge.textContent.includes('UAFilter v2.0 UA')) {
+        if (badge.textContent.includes('UAFilter v2.1 UA')) {
             versionBadge = badge;
         }
     });
@@ -750,19 +818,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Наповнюємо вікно вмістом (текст релізу та вирівняна шапка)
         modal.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 5px 0 12px 0; margin-bottom: 5px;">
-                <h3 style="margin: 0; color: #4da3ff; font-size: 18px; font-family: sans-serif; font-weight: bold;">📋 Що нового у v2.0?</h3>
+                <h3 style="margin: 0; color: #4da3ff; font-size: 18px; font-family: sans-serif; font-weight: bold;">📋 Що нового у v2.1?</h3>
                 <button id="closeDynamicModal" style="background: none; border: none; color: #aaa; font-size: 22px; cursor: pointer; line-height: 1; padding: 0 5px; transition: color 0.2s;" onmouseenter="this.style.color='#ff4d4d'" onmouseleave="this.style.color='#aaa'">✕</button>
             </div>
             <div style="margin-top: 15px; text-align: left; font-family: sans-serif;">
-                <h4 style="color: #ffdd00; margin: 15px 0 8px 0; font-size: 15px; font-weight: bold;">Версія 2.0 (Поточна)</h4>
+                <h4 style="color: #ffdd00; margin: 15px 0 8px 0; font-size: 15px; font-weight: bold;">Версія 2.1 (Поточна)</h4>
                 <ul style="padding-left: 20px; color: #d0d0d0; font-size: 14px; line-height: 1.6; margin: 0 0 15px 0;">
+                    <li>Додано кнопку «Шана Героям»: хвилина мовчання на весь екран.</li>
+                    <li>Додано кнопку «Слава Героям»: відео з Гімном України.</li>
+                    <li>Додано кнопку «Тривога в Україні»: мапа тривог alerts.in.ua прямо на сайті.</li>
+                </ul>
+
+                <h4 style="color: #a0a0a0; margin: 15px 0 5px 0; font-size: 14px; font-weight: bold;">Версія 2.0</h4>
+                <ul style="padding-left: 20px; color: #888888; font-size: 13px; line-height: 1.5; margin: 0 0 15px 0;">
                     <li>Додано автоматичне розмиття російського тексту на сайтах.</li>
                     <li>Реалізовано пропуск YouTube Shorts з лічильником у кутку екрана.</li>
                     <li>Повністю локальна робота без збору персональних даних.</li>
                 </ul>
-                
-                <h4 style="color: #a0a0a0; margin: 15px 0 5px 0; font-size: 14px; font-weight: bold;">Версія 1.0</h4>
-                <ul style="padding-left: 20px; color: #888888; font-size: 13px; line-height: 1.5; margin: 0;">
+
+                <h4 style="color: #777777; margin: 15px 0 5px 0; font-size: 13px; font-weight: bold;">Версія 1.0</h4>
+                <ul style="padding-left: 20px; color: #666666; font-size: 12px; line-height: 1.5; margin: 0;">
                     <li>Базовий реліз розширення та перші фільтри контенту.</li>
                 </ul>
             </div>
@@ -792,5 +867,108 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+
+<dialog id="honorModal" class="pt-modal" aria-label="Хвилина мовчання">
+    <button type="button" class="pt-x" data-close="honorModal" aria-label="Закрити">✕</button>
+    <video id="honorVideo" playsinline disablepictureinpicture></video>
+</dialog>
+<dialog id="gloryModal" class="pt-modal" aria-label="Слава Героям">
+    <div class="pt-head"><strong>Слава Героям</strong><button type="button" class="pt-x" data-close="gloryModal">✕</button></div>
+    <video id="gloryVideo" playsinline disablepictureinpicture></video>
+</dialog>
+<dialog id="alertModal" class="pt-modal" aria-label="Тривога в Україні">
+    <div class="pt-head"><strong>Тривога в Україні</strong><span><a href="https://alerts.in.ua/" target="_blank" rel="noopener">Відкрити на alerts.in.ua ↗</a> <button type="button" class="pt-x" data-close="alertModal">Згорнути</button></span></div>
+    <iframe id="alertFrame" title="Мапа тривог alerts.in.ua" loading="lazy" referrerpolicy="no-referrer"></iframe>
+</dialog>
+
+<script>
+/*
+ * UAFilter-UI: кнопки футера (Шана Героям / Слава Героям / Тривога в Україні)
+ * Журнал змін (нові записи додаються зверху):
+ * v2.1.7 | 2026-10-06 10:34 | Розробник: Афтіпа Марко Оцтович | версія сайту v2.1: бейдж, вікно «Що нового» (статичне й динамічне), перевірка бейджа в JS
+ * v2.1.6 | 2026-10-06 10:25 | Розробник: Афтіпа Марко Оцтович | «Слава Героям»: плеєр без керування (без паузи/перемотки), заблоковано меню правої кнопки на обох відео
+ * v2.1.5 | 2026-10-06 10:20 | Розробник: Афтіпа Марко Оцтович | додано шапку файлу та журнал змін
+ * v2.1.4 | 2026-10-06 10:15 | Розробник: Афтіпа Марко Оцтович | прибрано тестову заставку «Хвилина мовчання»; при помилці відео вікно закривається
+ * v2.1.3 | 2026-10-06 08:35 | Розробник: Афтіпа Марко Оцтович | діагностика помилок відео: код MediaError + адреса
+ * v2.1.2 | 2026-10-06 07:23 | Розробник: Афтіпа Марко Оцтович | вікно «Слава Героям» на всю сторінку + автозакриття
+ * v2.1.1 | 2026-10-06 05:36 | Розробник: Афтіпа Марко Оцтович | прибрано метроном
+ * v2.1.0 | 2026-10-06 05:22 | Розробник: Афтіпа Марко Оцтович | перша версія: кнопки, три вікна, приглушення оточення
+ */
+(() => {
+  'use strict';
+  const CFG = {
+    HONOR_SRC: 'media/minute-silence.mp4',
+    GLORY_SRC: 'media/slava-heroyam.mp4',
+    ALERTS_SRC: 'https://alerts.in.ua/',
+    DUCK_LEVEL: 0.33,          // рівень оточення під час ролика (1 = без приглушення)
+    DUCK_MS: 800,              // тривалість плавного приглушення/повернення
+  };
+  const $ = id => document.getElementById(id);
+  const dbg = (marker, text) => console.log('[UAFilter-UI] маркер: ' + marker + ' → ' + text);
+  const ERR = {1: 'перервано', 2: 'мережа', 3: 'помилка декодування (кодек/файл пошкоджено)', 4: 'формат не підтримується або файл не знайдено'};
+  const vErr = v => { const e = v.error; return 'код ' + (e ? e.code + ' — ' + (ERR[e.code] || '?') : '?') + (e && e.message ? ' | ' + e.message : '') + ' | адреса: ' + v.currentSrc; };
+
+  // ---- приглушення оточення (masterGain із вашого звукового блоку)
+  function rampMaster(to, marker) {
+    try {
+      if (typeof masterGain === 'undefined' || !masterGain || !audioCtx) {
+        dbg(marker, 'оточення не запущене (masterGain відсутній) — приглушення пропущено');
+        return;
+      }
+      const g = masterGain.gain, t = audioCtx.currentTime;
+      g.cancelScheduledValues(t);
+      g.setValueAtTime(g.value, t);
+      g.linearRampToValueAtTime(to, t + CFG.DUCK_MS / 1000);
+      dbg(marker, 'masterGain → ' + to);
+    } catch (e) { dbg(marker + '_ERR', e.message); }
+  }
+  // затримка 60 мс: глобальний клік може саме вмикати атмосферу (turnSoundOn)
+  const duck = why => setTimeout(() => { if (isEnabled) rampMaster(CFG.DUCK_LEVEL, 'DUCK_ON:' + why); else dbg('DUCK_SKIP:' + why, 'атмосфера вимкнена'); }, 60);
+  const unduck = why => rampMaster(isEnabled ? 1 : 0, 'DUCK_OFF:' + why);
+
+  // ---- спільне керування вікнами
+  document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => $(b.dataset.close).close()));
+  ['gloryModal', 'alertModal'].forEach(id => $(id).addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.close(); }));
+
+  // ---- 1. Шана Героям
+  const honor = $('honorModal'), hv = $('honorVideo');
+  $('honorBtn').addEventListener('click', () => {
+    dbg('HONOR_CLICK', 'клік по «Шана Героям»');
+    hv.hidden = false;
+    honor.showModal(); duck('honor');
+    hv.src = CFG.HONOR_SRC; hv.currentTime = 0;
+    hv.play().catch(e => dbg('HONOR_PLAY_REJECT', e.name));
+  });
+  hv.addEventListener('ended', () => { dbg('HONOR_ENDED', 'ролик завершено — закриваємо вікно'); honor.close(); });
+  hv.addEventListener('error', () => { if (!(honor.open && hv.getAttribute('src'))) return; dbg('HONOR_VIDEO_ERROR', vErr(hv) + ' — вікно закрито'); honor.close(); });
+  honor.addEventListener('close', () => {
+    hv.pause(); hv.removeAttribute('src'); hv.load();
+    unduck('honor');
+    dbg('HONOR_CLOSE', 'вікно закрито, сайт без змін');
+  });
+
+  // ---- 2. Слава Героям
+  const glory = $('gloryModal'), gv = $('gloryVideo');
+  [hv, gv].forEach(v => v.addEventListener('contextmenu', e => { e.preventDefault(); dbg('VIDEO_CONTEXTMENU_BLOCKED', 'меню правої кнопки заблоковано — через нього вмикається керування відео'); }));
+  $('gloryBtn').addEventListener('click', () => {
+    dbg('GLORY_CLICK', 'клік по «Слава Героям»');
+    glory.showModal(); duck('glory');
+    gv.src = CFG.GLORY_SRC;
+    gv.play().catch(e => dbg('GLORY_PLAY_REJECT', e.name));
+  });
+  gv.addEventListener('error', () => { if (glory.open && gv.getAttribute('src')) dbg('GLORY_VIDEO_ERROR', vErr(gv)); });
+  gv.addEventListener('ended', () => { dbg('GLORY_ENDED', 'відео завершено — згортаємо вікно'); glory.close(); });
+  glory.addEventListener('close', () => { gv.pause(); gv.removeAttribute('src'); gv.load(); unduck('glory'); dbg('GLORY_CLOSE', 'вікно закрито'); });
+
+  // ---- 3. Тривога в Україні
+  const alertM = $('alertModal'), frame = $('alertFrame');
+  $('alertBtn').addEventListener('click', () => {
+    dbg('ALERT_CLICK', 'клік по «Тривога в Україні»');
+    if (!frame.getAttribute('src')) { frame.src = CFG.ALERTS_SRC; dbg('ALERT_IFRAME_LOAD', CFG.ALERTS_SRC); }
+    alertM.showModal();
+  });
+  alertM.addEventListener('close', () => dbg('ALERT_CLOSE', 'вікно згорнуто, сторінка не змінювалась'));
+})();
+</script>
 </body>
 </html>
