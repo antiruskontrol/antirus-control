@@ -2,10 +2,10 @@
 <!--
   ==================================================================
   Файл:        index.html (сторінка UAFilter / Antirus-Control)
-  Версія:      2.1.7
-  Дата, час:   2026-10-06 10:34
+  Версія:      2.1.8 (версія сторінки; розширення UAFilter v2.0)
+  Дата, час:   2026-10-06 10:57
   Розробник:   Афтіпа Марко Оцтович
-  Опис змін (версія сайту UAFilter v2.1; архів розширення v2.0 без змін):
+  Опис змін (версія сторінки 2.1; розширення UAFilter v2.0 без змін):
     - Футер: три кнопки в ряд з неоновим hover: «Шана Героям»,
       «Слава Героям», «Тривога в Україні»; рядок «Kyiv Ukraine 2026»
     - «Шана Героям»: ролик media/minute-silence.mp4 на весь екран,
@@ -14,7 +14,8 @@
       без пауз і перемотки (як у «Шана Героям»), автозакриття
     - «Тривога в Україні»: вікно з alerts.in.ua, кнопка «Згорнути»
     - Фон футера: відео прапора media/flag.mp4 (за наявності файлу)
-    - Версія сайту v2.1: бейдж «UAFilter v2.1 UA» і вікно «Що нового»
+    - Футер: прозорий напис версії сторінки («Сторінка v2.1.8») унизу ліворуч;
+      бейдж і вікно «Що нового» належать розширенню й лишаються на v2.0
     - Консоль: діагностичні маркери [UAFilter-UI]
   Детальний журнал змін скрипта: блок на початку <script> внизу файлу
   ==================================================================
@@ -95,7 +96,7 @@
         color: #ffaa00 !important;
     }
 
-    /* 🟢 РІВЕНЬ 1: ТОП СТАТТІ (Поточна версія 2.1 — максимальний неон і розмір) */
+    /* 🟢 РІВЕНЬ 1: ТОП СТАТТІ (Поточна версія 2.0 — максимальний неон і розмір) */
     #dynamicChangelogModal h4:first-of-type {
         color: #ff6600 !important;
         font-size: 24px !important; /* Великий шрифт */
@@ -112,7 +113,7 @@
         margin-bottom: 35px !important;
     }
 
-    /* 🟡 РІВЕНЬ 2: ЗАТУХАННЯ ДОНИЗУ (Попередня версія 2.0 — колір згасає, неон слабшає; далі 1.0 згасає ще більше) */
+    /* 🟡 РІВЕНЬ 2: ЗАТУХАННЯ ДОНИЗУ (Стара версія 1.0 — колір згасає, неон слабшає) */
     #dynamicChangelogModal h4:nth-of-type(2) {
         color: #aa6600 !important; /* Тьмяніший помаранчевий */
         font-size: 20px !important;
@@ -372,6 +373,10 @@ footer.site-footer{position:relative;isolation:isolate;overflow:hidden;padding:2
 .footer-shade{position:absolute;inset:0;background:rgba(13,17,23,.62);z-index:-1}
 .footer-inner p{margin:.35rem 0}
 .footer-city{letter-spacing:.12em;font-size:.85rem;opacity:.9}
+.page-version{position:absolute;left:14px;bottom:10px;padding:2px 10px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(13,17,23,.45);backdrop-filter:blur(2px);font:600 .7rem/1.4 ui-monospace,Consolas,monospace;letter-spacing:.08em;background-image:none;color:transparent;opacity:.6;transition:opacity .25s ease;user-select:none;cursor:default}
+.page-version span{background:linear-gradient(90deg,#4da3ff,#ffdf00);-webkit-background-clip:text;background-clip:text;color:transparent}
+.page-version:hover{opacity:1}
+@media (max-width:700px){footer.site-footer{padding-bottom:2.8rem}.page-version{left:50%;transform:translateX(-50%)}}
 .hero-btns{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:1.4rem}
 .hero-btn{--g:linear-gradient(to bottom,#555,#111);--glow:#fff;width:180px;height:32px;padding:0 10px;border:1px solid rgba(255,255,255,.35);border-radius:12px;background:var(--g);color:#fff;font:bold .92rem/1 inherit;font-family:inherit;text-shadow:0 0 3px #000,0 1px 2px #000;cursor:pointer;transition:box-shadow .25s ease,filter .25s ease,border-color .25s ease}
 .hero-btn:hover,.hero-btn:focus-visible{outline:none;filter:brightness(1.15);border-color:#fff;box-shadow:var(--glow)}
@@ -404,7 +409,7 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
     <header>
                 <div class="badge-group">
             <!-- Робимо плашку клікабельною -->
-            <span id="openChangelogBtn" class="badge" style="cursor: pointer;">UAFilter v2.1 UA</span>
+            <span id="openChangelogBtn" class="badge" style="cursor: pointer;">UAFilter v2.0 UA</span>
             
             <button id="soundBtn" class="btn-sound">Атмосферу вимкнуто 🔇</button>
         </div>
@@ -416,14 +421,7 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
                 <button id="closeChangelogBtn" class="btn-close-modal">✕</button>
             </div>
             <div class="modal-content">
-                <h4>Версія 2.1 (Поточна)</h4>
-                <ul>
-                    <li>Додано кнопку «Шана Героям»: хвилина мовчання на весь екран.</li>
-                    <li>Додано кнопку «Слава Героям»: відео з Гімном України.</li>
-                    <li>Додано кнопку «Тривога в Україні»: мапа тривог alerts.in.ua прямо на сайті.</li>
-                </ul>
-
-                <h4>Версія 2.0</h4>
+                <h4>Версія 2.0 (Поточна)</h4>
                 <ul>
                     <li>Додано автоматичне розмиття російського тексту на сайтах.</li>
                     <li>Реалізовано пропуск YouTube Shorts з лічильником у кутку екрана.</li>
@@ -543,6 +541,7 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
             </div>
             <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
             <p class="footer-city">Kyiv Ukraine 2026</p>
+            <div class="page-version" title="Версія сторінки 2.1.8 · 2026-10-06 10:57"><span>Сторінка v2.1.8</span></div>
         </div>
     </footer>
     <script>
@@ -745,7 +744,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let versionBadge = null;
     
     badges.forEach(badge => {
-        if (badge.textContent.includes('UAFilter v2.1 UA')) {
+        if (badge.textContent.includes('UAFilter v2.0 UA')) {
             versionBadge = badge;
         }
     });
@@ -818,26 +817,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Наповнюємо вікно вмістом (текст релізу та вирівняна шапка)
         modal.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 5px 0 12px 0; margin-bottom: 5px;">
-                <h3 style="margin: 0; color: #4da3ff; font-size: 18px; font-family: sans-serif; font-weight: bold;">📋 Що нового у v2.1?</h3>
+                <h3 style="margin: 0; color: #4da3ff; font-size: 18px; font-family: sans-serif; font-weight: bold;">📋 Що нового у v2.0?</h3>
                 <button id="closeDynamicModal" style="background: none; border: none; color: #aaa; font-size: 22px; cursor: pointer; line-height: 1; padding: 0 5px; transition: color 0.2s;" onmouseenter="this.style.color='#ff4d4d'" onmouseleave="this.style.color='#aaa'">✕</button>
             </div>
             <div style="margin-top: 15px; text-align: left; font-family: sans-serif;">
-                <h4 style="color: #ffdd00; margin: 15px 0 8px 0; font-size: 15px; font-weight: bold;">Версія 2.1 (Поточна)</h4>
+                <h4 style="color: #ffdd00; margin: 15px 0 8px 0; font-size: 15px; font-weight: bold;">Версія 2.0 (Поточна)</h4>
                 <ul style="padding-left: 20px; color: #d0d0d0; font-size: 14px; line-height: 1.6; margin: 0 0 15px 0;">
-                    <li>Додано кнопку «Шана Героям»: хвилина мовчання на весь екран.</li>
-                    <li>Додано кнопку «Слава Героям»: відео з Гімном України.</li>
-                    <li>Додано кнопку «Тривога в Україні»: мапа тривог alerts.in.ua прямо на сайті.</li>
-                </ul>
-
-                <h4 style="color: #a0a0a0; margin: 15px 0 5px 0; font-size: 14px; font-weight: bold;">Версія 2.0</h4>
-                <ul style="padding-left: 20px; color: #888888; font-size: 13px; line-height: 1.5; margin: 0 0 15px 0;">
                     <li>Додано автоматичне розмиття російського тексту на сайтах.</li>
                     <li>Реалізовано пропуск YouTube Shorts з лічильником у кутку екрана.</li>
                     <li>Повністю локальна робота без збору персональних даних.</li>
                 </ul>
-
-                <h4 style="color: #777777; margin: 15px 0 5px 0; font-size: 13px; font-weight: bold;">Версія 1.0</h4>
-                <ul style="padding-left: 20px; color: #666666; font-size: 12px; line-height: 1.5; margin: 0;">
+                
+                <h4 style="color: #a0a0a0; margin: 15px 0 5px 0; font-size: 14px; font-weight: bold;">Версія 1.0</h4>
+                <ul style="padding-left: 20px; color: #888888; font-size: 13px; line-height: 1.5; margin: 0;">
                     <li>Базовий реліз розширення та перші фільтри контенту.</li>
                 </ul>
             </div>
@@ -885,6 +877,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /*
  * UAFilter-UI: кнопки футера (Шана Героям / Слава Героям / Тривога в Україні)
  * Журнал змін (нові записи додаються зверху):
+ * v2.1.8 | 2026-10-06 10:57 | Розробник: Афтіпа Марко Оцтович | бейдж і вікно «Що нового» повернуто до v2.0 (версія розширення, скасовано частину v2.1.7); у футері додано напис версії сторінки
  * v2.1.7 | 2026-10-06 10:34 | Розробник: Афтіпа Марко Оцтович | версія сайту v2.1: бейдж, вікно «Що нового» (статичне й динамічне), перевірка бейджа в JS
  * v2.1.6 | 2026-10-06 10:25 | Розробник: Афтіпа Марко Оцтович | «Слава Героям»: плеєр без керування (без паузи/перемотки), заблоковано меню правої кнопки на обох відео
  * v2.1.5 | 2026-10-06 10:20 | Розробник: Афтіпа Марко Оцтович | додано шапку файлу та журнал змін
