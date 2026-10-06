@@ -1,0 +1,36 @@
+# 06.10.2026 17:15
+# Розробник: Афтіпа Марко Оцтович
+# antiruskontrol@ukr.net
+
+name: Automated Extension Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Create Clean Extension ZIP
+        run: |
+          zip -r uafilter-extension.zip manifest.json content.js index.html icon.png iconhtml.png
+      - name: Automated GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: uafilter-extension.zip
+          name: UAFilter Release \${{ github.ref_name }}
+          body: |
+            ## 🛡️ Оновлення розширення UAFilter
+            Автоматичний збір стабільної версії з коду репозиторію.
+            
+            ### 🛠️ Інструкція зі встановлення:
+            1. Завантажте прикріплений нижче архів `uafilter-extension.zip`.
+            2. Розпакуйте його в окрему папку.
+            3. Перейдіть в `chrome://extensions/`, увімкніть **Режим розробника** та натисніть **Load unpacked**.
+        env:
+          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
