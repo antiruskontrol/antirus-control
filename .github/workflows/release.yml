@@ -23,7 +23,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: uafilter-extension.zip
-          name: UAFilter Release \${{ github.ref_name }}
+          name: UAFilter Release ${{ github.ref_name }}
           body: |
             ## 🛡️ Оновлення розширення UAFilter
             Автоматичний збір стабільної версії з коду репозиторію.
@@ -33,4 +33,4 @@ jobs:
             2. Розпакуйте його в окрему папку.
             3. Перейдіть в `chrome://extensions/`, увімкніть **Режим розробника** та натисніть **Load unpacked**.
         env:
-          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
