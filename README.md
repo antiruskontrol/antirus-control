@@ -76,7 +76,7 @@
 * **Safe Zones:** Automatically stays inactive on AI chat services (ChatGPT, Claude, Gemini, etc.).
 
 ### 📬 Contact & Feedback
-* **Author:** Aftipa Marko Otsvych
+* **Author:** Aftipa Marko Otstovych
 * **Email:** [antiruskontrol@ukr.net](mailto:antiruskontrol@ukr.net)
 ---
 🌐 **[Відкрити офіційний сайт проєкту](https://antiruskontrol.github.io/antirus-control/)**
