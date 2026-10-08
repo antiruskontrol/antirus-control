@@ -2,22 +2,21 @@
 <!--
   ==================================================================
   Файл:        index.html (сторінка UAFilter / Antirus-Control)
-  Версія:      2.1.9 (версія сторінки; розширення UAFilter v2.0)
-  Дата, час:   2026-10-06 11:30
+  Версія:      2.1.10 (версія сторінки; розширення UAFilter v2.0)
+  Дата, час:   2026-10-09 00:40
   Розробник:   Афтіпа Марко Оцтович
-  Опис змін (версія сторінки 2.1; розширення UAFilter v2.0 без змін):
-    - Футер: три кнопки в ряд з неоновим hover: «Шана Героям»,
-      «Слава Героям», «Тривога в Україні»; рядок «Kyiv Ukraine 2026»
-    - «Шана Героям»: ролик media/minute-silence.mp4 на весь екран,
-      оточення приглушується, після завершення вікно закривається
-    - «Слава Героям»: плеєр на всю сторінку, media/slava-heroyam.mp4,
-      без пауз і перемотки (як у «Шана Героям»), автозакриття
-    - «Тривога в Україні»: вікно з alerts.in.ua, кнопка «Згорнути»
-    - Фон футера: відео прапора media/flag.mp4 (за наявності файлу)
-    - Фон-прапор: відео у 3 рази повільніше; верхні 20% плавно переходять
-      у фон сайту (прозорий градієнт), верхню межу футера прибрано
-    - Футер: прозорий напис версії сторінки («Сторінка v2.1.9») унизу ліворуч;
-      бейдж і вікно «Що нового» належать розширенню й лишаються на v2.0
+  Опис змін (v2.1.10, SEO та виправлення розмітки):
+    - <head>: canonical, robots, theme-color, og:locale, JSON-LD (вже було)
+    - Виправлено зламаний відеоблок, додано <h2> «Демонстрація роботи»
+    - Прибрано сміття (вкладені html/head/body) з блоку «Готово!»
+    - Прибрано статичний дубль діалогу changelogModal і зайву дужку у CSS
+    - Додано <main>, id="install", FAQ-блок, описові alt, width/height
+    - Демо-відео: без autoplay, preload="none"; грають лише в зоні видимості (маркери DEMO_*)
+    - «індикатор» → «індикатор»; ZIP-кнопка з download і rel="noopener"
+  Попередній опис (v2.1.9; розширення UAFilter v2.0 без змін):
+    - Футер: три кнопки «Шана Героям», «Слава Героям», «Тривога в Україні»
+    - Фон футера: відео прапора media/flag.mp4, у 3 рази повільніше, верх плавно переходить у фон
+    - Футер: напис версії сторінки унизу ліворуч
     - Консоль: діагностичні маркери [UAFilter-UI]
   Детальний журнал змін скрипта: блок на початку <script> внизу файлу
   ==================================================================
@@ -384,8 +383,6 @@
             }
         }
 
-}
-
     </style>
 
 <style id="hero-buttons-css">
@@ -436,41 +433,19 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
             <button id="soundBtn" class="btn-sound">Атмосферу вимкнуто 🔇</button>
         </div>
 
-        <!-- Саме вікно, яке буде спливати (ставимо його одразу нижче) -->
-        <dialog id="changelogModal" class="changelog-modal">
-            <div class="modal-header">
-                <h3>📋 Історія релізів та змін</h3>
-                <button id="closeChangelogBtn" class="btn-close-modal">✕</button>
-            </div>
-            <div class="modal-content">
-                <h4>Версія 2.0 (Поточна)</h4>
-                <ul>
-                    <li>Додано автоматичне розмиття російського тексту на сайтах.</li>
-                    <li>Реалізовано пропуск YouTube Shorts з лічильником у кутку екрана.</li>
-                    <li>Повністю локальна робота без збору персональних даних.</li>
-                    <li>Оптимізовано швидкість роботи та фільтрації.</li>
-                </ul>
-                
-                <h4>Версія 1.0</h4>
-                <ul>
-                    <li>Базовий реліз розширення та перші фільтри контенту.</li>
-                </ul>
-            </div>
-        </dialog>
-
         <h1 style="opacity: 0.6;">UAFilter (Antirus-Control)</h1>
         <p class="tagline">Браузерне розширення для інформаційної гігієни. Автоматично розмиває російський текст на сайтах та пропускає YouTube Shorts.</p>
                <div class="buttons-container" style="display: flex !important; flex-direction: row !important; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 30px; width: 100%;">
         
         <!-- Перша кнопка (Червона за замовчуванням) -->
-        <a href="https://github.com" class="btn-logo-download" style="width: 350px !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
-            <img src="iconhtml.png" alt="Логотип" style="width: 50px !important; height: 50px !important; object-fit: contain !important; margin-right: 15px !important;">
+        <a href="#install" class="btn-logo-download" style="width: 350px !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
+            <img src="iconhtml.png" alt="Іконка UAFilter" width="50" height="50" style="width: 50px !important; height: 50px !important; object-fit: contain !important; margin-right: 15px !important;">
             <span style="color: #ffffff !important; font-weight: bold !important; font-size: 1.1rem !important; text-align: left !important;">Встановити UAFilter</span>
         </a>
 
         <!-- Друга кнопка (Зелена за замовчуванням) -->
-        <a href="https://github.com/antiruskontrol/antirus-control/releases/download/v2.0/antirus-control-extension.zip" class="btn-logo-download btn-archive" style="width: 350px !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
-            <img src="iconhtml.png" alt="Логотип" style="width: 50px !important; height: 50px !important; object-fit: contain !important; margin-right: 15px !important;">
+        <a href="https://github.com/antiruskontrol/antirus-control/releases/download/v2.0/antirus-control-extension.zip" download rel="noopener" class="btn-logo-download btn-archive" style="width: 350px !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
+            <img src="iconhtml.png" alt="Іконка архіву UAFilter" width="50" height="50" style="width: 50px !important; height: 50px !important; object-fit: contain !important; margin-right: 15px !important;">
             <span style="color: #ffffff !important; font-weight: bold !important; font-size: 1.1rem !important; text-align: left !important;">Завантажити ZIP-архів v2.0</span>
         </a>
 
@@ -478,7 +453,8 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
 
 
     </header>
-    <section class="instructions" style="max-width: 800px; margin: 40px auto; padding: 20px; font-family: sans-serif; line-height: 1.6; color: #fff;">
+    <main>
+    <section class="instructions" id="install" style="max-width: 800px; margin: 40px auto; padding: 20px; font-family: sans-serif; line-height: 1.6; color: #fff;">
         <h2 style="color: #4da3ff; border-bottom: 2px solid #ffd700; padding-bottom: 10px; margin-top: 0;">🛠 Інструкція зі встановлення розширення вручну</h2>
         <p>Оскільки розширення UAFilter наразі встановлюється з ZIP-архіву, виконайте такі прості кроки:</p>
         
@@ -491,17 +467,6 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
         
         <p style="background: #112233; border-left: 5px solid #ffd700; padding: 15px; border-radius: 4px; margin-top: 20px;">
              <strong>Готово!</strong> Розширення з'явиться у списку та миттєво почне працювати. Папку з розпакованими файлами видаляти не можна, вона має залишатися на комп'ютері. В правому нижньому кутку має з'явитися індікатор UAFilter:0 це лічильник скіпів для YouTube Shorts, вітаю, розширення встановлене та працює!
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Document</title>
-            </head>
-            <body>
-                
-            </body>
-            </html>
         </p>
     </section>
 
@@ -521,15 +486,13 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
             </div>
 
         </div>
-<!-- Блок демонстраційного відео (UAFilter) -->
-       <!-- Блок демонстраційного відео (UAFilter) -->
-<div class="uafilter-video-section" style="display: flex; flex-wrap: wrap; ju<!-- Блок демонстраційного відео (UAFilter) -->
+<h2 style="color:#fff;text-align:center;margin-top:3rem;">Демонстрація роботи UAFilter</h2>
 <div class="uafilter-video-section" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; width: 100%; max-width: 1100px; margin: 50px auto 30px auto; padding: 0 20px; box-sizing: border-box;">
     
     <!-- Картка 1: Спрацювання та Скіпи -->
     <div class="uafilter-video-card" style="flex: 1 1 800px; max-width: 1000px; width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 16px; box-sizing: border-box; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(219, 40, 40, 0.25)'; this.style.borderColor='rgba(219, 40, 40, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'; this.style.borderColor='rgba(215, 215, 215, 0.1)';">
       <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 10px; overflow: hidden; background: #000;">
-        <video src="./demo-1.mp4" autoplay loop muted playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border: 0;"></video>
+        <video src="./demo-1.mp4" muted loop playsinline preload="none" aria-label="Демонстрація автоскіпу YouTube Shorts: спрацювання та лічильник скіпів" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border: 0;"></video>
       </div>
       <h3 style="color: #ffffff; font-family: inherit; font-size: 1.3rem; margin: 15px 0 5px 0; text-align: center; font-weight: 600;">Діагностика: Спрацювання та Скіпи</h3>
     </div>
@@ -537,20 +500,25 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
     <!-- Картка 2: Аналіз логів консолі -->
     <div class="uafilter-video-card" style="flex: 1 1 800px; max-width: 1000px; width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 16px; box-sizing: border-box; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(219, 40, 40, 0.25)'; this.style.borderColor='rgba(219, 40, 40, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'; this.style.borderColor='rgba(215, 215, 215, 0.1)';">
       <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 10px; overflow: hidden; background: #000;">
-        <video src="./demo-2.mp4" autoplay loop muted playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border: 0;"></video>
+        <video src="./demo-2.mp4" muted loop playsinline preload="none" aria-label="Демонстрація розмиття російського тексту на укрнеті" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border: 0;"></video>
       </div>
       <h3 style="color: #ffffff; font-family: inherit; font-size: 1.3rem; margin: 15px 0 5px 0; text-align: center; font-weight: 600;">Діагностика: Блюр тексту на укрнеті</h3>
     </div>
-
 </div>
-
-    
-  </div>
-
-
-</div>
-
     </div>
+
+    <section class="faq" style="max-width:800px;margin:3rem auto;padding:0 20px;color:#c9d1d9;">
+        <h2 style="color:#4da3ff;">Поширені запитання</h2>
+        <details><summary><strong>Які браузери підтримуються?</strong></summary>
+            <p>Chrome, Edge, Opera та Brave: усі браузери на основі Chromium.</p></details>
+        <details><summary><strong>Чи збирає розширення дані?</strong></summary>
+            <p>Ні. Скрипт працює локально у вашому браузері, без зовнішніх серверів і збору персональної інформації.</p></details>
+        <details><summary><strong>Як UAFilter пропускає YouTube Shorts?</strong></summary>
+            <p>Аналізує назви, описи та канали й автоматично перегортає російськомовний контент; лічильник скіпів видно в кутку екрана.</p></details>
+        <details><summary><strong>Чому встановлення з ZIP-архіву?</strong></summary>
+            <p>Наразі розширення встановлюється вручну через режим розробника за інструкцією вище.</p></details>
+    </section>
+    </main>
 
     <footer class="site-footer">
         <div class="footer-media" aria-hidden="true">
@@ -565,7 +533,7 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
             </div>
             <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
             <p class="footer-city">Kyiv Ukraine 2026</p>
-            <div class="page-version" title="Версія сторінки 2.1.9 · 2026-10-06 11:30"><span>Сторінка v2.1.9</span></div>
+            <div class="page-version" title="Версія сторінки 2.1.10 · 2026-10-09 00:40"><span>Сторінка v2.1.10</span></div>
         </div>
     </footer>
     <script>
@@ -901,6 +869,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /*
  * UAFilter-UI: кнопки футера (Шана Героям / Слава Героям / Тривога в Україні)
  * Журнал змін (нові записи додаються зверху):
+ * v2.1.10 | 2026-10-09 00:40 | Розробник: Афтіпа Марко Оцтович | демо-відео грають лише в зоні видимості (IntersectionObserver, маркери DEMO_*)
  * v2.1.9 | 2026-10-06 11:30 | Розробник: Афтіпа Марко Оцтович | фон-прапор у 3 рази повільніше (FLAG_SPEED), верхні 20% переходять у фон сайту (маска-градієнт), прибрано верхню межу футера
  * v2.1.8 | 2026-10-06 10:57 | Розробник: Афтіпа Марко Оцтович | бейдж і вікно «Що нового» повернуто до v2.0 (версія розширення, скасовано частину v2.1.7); у футері додано напис версії сторінки
  * v2.1.7 | 2026-10-06 10:34 | Розробник: Афтіпа Марко Оцтович | версія сайту v2.1: бейдж, вікно «Що нового» (статичне й динамічне), перевірка бейджа в JS
@@ -926,6 +895,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const dbg = (marker, text) => console.log('[UAFilter-UI] маркер: ' + marker + ' → ' + text);
   const ERR = {1: 'перервано', 2: 'мережа', 3: 'помилка декодування (кодек/файл пошкоджено)', 4: 'формат не підтримується або файл не знайдено'};
   const vErr = v => { const e = v.error; return 'код ' + (e ? e.code + ' — ' + (ERR[e.code] || '?') : '?') + (e && e.message ? ' | ' + e.message : '') + ' | адреса: ' + v.currentSrc; };
+
+  // ---- демо-відео: грає лише в зоні видимості (економія трафіку, краще LCP)
+  const demoVideos = document.querySelectorAll('.uafilter-video-card video');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      const v = en.target, name = v.getAttribute('src');
+      if (en.isIntersecting) {
+        v.play().then(() => dbg('DEMO_PLAY:' + name, 'відео у зоні видимості — відтворюється'))
+                .catch(e => dbg('DEMO_PLAY_REJECT:' + name, e.name + ' — автоплей заблоковано браузером'));
+      } else { v.pause(); dbg('DEMO_PAUSE:' + name, 'відео поза екраном — пауза'); }
+    }), { threshold: 0.25 });
+    demoVideos.forEach(v => io.observe(v));
+    dbg('DEMO_OBSERVER_ON', 'спостерігач запущено, відео: ' + demoVideos.length);
+  } else {
+    demoVideos.forEach(v => v.play().catch(() => {}));
+    dbg('DEMO_OBSERVER_OFF', 'IntersectionObserver недоступний — відео запущено одразу');
+  }
 
   // ---- приглушення оточення (masterGain із вашого звукового блоку)
   function rampMaster(to, marker) {
