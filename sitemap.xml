@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Файл:        sitemap.xml (UAFilter / Antirus-Control)
+  Версія:      1.0
+  Дата, час:   2026-10-09 8:56
+  Розробник:   Афтіпа Марко Оцтович
+  Опис змін:   перша версія; одна сторінка (головна), lastmod = дата v2.1.10
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://antiruskontrol.github.io/antirus-control/</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
