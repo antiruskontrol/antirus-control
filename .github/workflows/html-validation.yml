@@ -12,10 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run HTMLHint Validation
-        uses: htmlhint/action-htmlhint@v2.2.0
-        with:
-          file_pattern: "index.html"
+      - name: Run HTMLHint
+        run: npx htmlhint **/*.html
