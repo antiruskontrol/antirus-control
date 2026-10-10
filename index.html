@@ -2,10 +2,19 @@
 <!--
   ==================================================================
   Файл:        index.html (сторінка UAFilter / Antirus-Control)
-  Версія:      2.1.10 (версія сторінки; розширення UAFilter v2.0)
-  Дата, час:   2026-10-10 18:40
+  Версія:      2.1.11 (версія сторінки; розширення UAFilter v2.0)
+  Дата, час:   2026-10-10 23:01
   Розробник:   Афтіпа Марко Оцтович
-  Опис змін (v2.1.10, SEO та виправлення розмітки):
+  Опис змін (v2.1.11, кнопка сайту погоди):
+    - Нова 3-тя кнопка «Weather in Ukraine ↗» з лого (media/weather-logo.png)
+      у ряду поруч із «Завантажити ZIP-архів»; клік — новий таб antiruskontrol.github.io/WeatherInUkraine/
+    - Зелений неон при наведенні (як у кнопки ZIP); червоний неон лишився тільки в першої кнопки
+    - Спливаюче вікно з описом фіч сайту погоди: поява через 0,75 с після наведення,
+      фон ~69% прозорості, зелений неоновий край; на телефоні 1-й дотик відкриває вікно, 2-й веде на сайт
+    - Усі три кнопки зменшено до 300 px (min(300px,100%)); на екранах до 700 px вони стоять колонкою
+    - Консоль: діагностичні маркери WEATHER_* ([UAFilter-UI])
+    - Версія сторінки скрізь оновлена до 2.1.11
+  Попередній опис (v2.1.10, SEO та виправлення розмітки):
     - <head>: canonical, robots, theme-color, og:locale, JSON-LD (вже було)
     - Виправлено зламаний відеоблок, додано <h2> «Демонстрація роботи»
     - Прибрано сміття (вкладені html/head/body) з блоку «Готово!»
@@ -315,9 +324,9 @@
         .tagline { font-size: 1.2rem; max-width: 600px; margin: 0 auto 2.5rem auto; color: #8b949e; }
         .cta-group { display: flex; gap: 1.5rem; justify-content: center; align-items: center; flex-wrap: wrap; }
         
-        /* Базові налаштування для обох кнопок, щоб вони були однакового розміру */
+        /* Базові налаштування для всіх кнопок ряду, щоб вони були однакового розміру (v2.1.11: 300 px) */
         .btn-logo-download {
-            width: 350px !important; 
+            width: min(300px, 100%) !important; 
             height: 70px !important;  
             display: inline-flex !important;
             justify-content: flex-start !important; 
@@ -327,20 +336,23 @@
         }
 
 
-                /* Ефект для першої кнопки (Надяскравий Червоний Неон) */
-        .btn-logo-download:not(.btn-archive):hover {
+                /* Ефект для першої кнопки (Надяскравий Червоний Неон) — v2.1.11: не діє на кнопку погоди */
+        .btn-logo-download:not(.btn-archive):not(.btn-weather):hover {
             transform: translateY(-3px) !important;
             background-color: rgba(248, 81, 73, 0.25) !important; /* Яскравіший фон */
             border-color: #ff3333 !important; /* Вогняно-червона рамка */
             box-shadow: 0 0 25px rgba(258, 40, 40, 0.95), 0 0 10px rgba(258, 40, 40, 0.5) !important; /* Подвійне насичене сяйво */
         }
 
-        /* Ефект для другої кнопки (Надяскравий Зелений Неон) */
-        .btn-logo-download.btn-archive:hover {
+        /* Ефект для другої та третьої кнопок (Надяскравий Зелений Неон) */
+        .btn-logo-download.btn-archive:hover,
+        .btn-logo-download.btn-weather:hover,
+        .btn-logo-download.btn-weather:focus-visible {
             transform: translateY(-3px) !important;
             background-color: rgba(46, 160, 67, 0.3) !important; /* Яскравіший фон */
             border-color: #00ff44 !important; /* Кислотно-зелена рамка */
             box-shadow: 0 0 25px rgba(0, 255, 68, 0.95), 0 0 10px rgba(0, 255, 68, 0.5) !important; /* Подвійне насичене сяйво */
+            outline: none !important;
         }
 
         
@@ -384,6 +396,29 @@
         }
 
     </style>
+
+<style id="weather-btn-css">
+/* v2.1.11: кнопка «Weather in Ukraine» і її спливаюче вікно */
+.weather-wrap{position:relative;display:block;width:min(300px,100%)}
+.weather-popup{position:absolute;top:calc(100% + 14px);right:0;width:min(360px,calc(100vw - 24px));box-sizing:border-box;padding:16px 18px 18px;text-align:left;border-radius:14px;background:rgba(8,14,10,.69);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(0,255,68,.6);box-shadow:0 0 18px rgba(0,255,68,.45),0 0 40px rgba(0,255,68,.18),inset 0 0 18px rgba(0,255,68,.08);color:#d7ffe2;z-index:100;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .35s ease,transform .35s ease,visibility 0s linear .35s;pointer-events:none}
+.weather-popup.show{opacity:1;visibility:visible;transform:translateY(0);transition:opacity .35s ease,transform .35s ease,visibility 0s;pointer-events:auto}
+/* невидимий «місток» між кнопкою й вікном, щоб вікно не зникало, поки курсор їде до нього */
+.weather-popup::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+.wp-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.wp-head img{width:40px;height:40px;border-radius:8px;flex:none}
+.wp-head strong{display:block;color:#00ff44;font-size:1.05rem;text-shadow:0 0 8px rgba(0,255,68,.7)}
+.wp-head span{display:block;color:#9fbfae;font-size:.8rem}
+.weather-popup ul{margin:0 0 14px;padding-left:18px;font-size:.88rem;line-height:1.5;color:#d7ffe2}
+.weather-popup li{margin:3px 0}
+.wp-open{display:block;text-align:center;padding:8px 12px;border:1px solid #00ff44;border-radius:10px;background:rgba(46,160,67,.2);color:#fff !important;font-weight:bold;text-decoration:none;transition:box-shadow .25s ease,background-color .25s ease}
+.wp-open:hover,.wp-open:focus-visible{outline:none;background:rgba(46,160,67,.4);box-shadow:0 0 14px rgba(0,255,68,.9),0 0 5px rgba(0,255,68,.6)}
+@media (max-width:700px){
+  .buttons-container{flex-direction:column !important;align-items:center !important;gap:14px !important}
+  .weather-popup{right:auto;left:50%;transform:translate(-50%,8px)}
+  .weather-popup.show{transform:translate(-50%,0)}
+}
+@media (prefers-reduced-motion:reduce){.weather-popup,.weather-popup.show{transition:none}}
+</style>
 
 <style id="hero-buttons-css">
 footer.site-footer{position:relative;isolation:isolate;overflow:hidden;padding:2.2rem 1rem 1.6rem;color:#e6edf3;background:transparent;border-top:0}
@@ -435,19 +470,42 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
 
         <h1 style="opacity: 0.6;">UAFilter (Antirus-Control)</h1>
         <p class="tagline">Браузерне розширення для інформаційної гігієни. Автоматично розмиває російський текст на сайтах та пропускає YouTube Shorts.</p>
-               <div class="buttons-container" style="display: flex !important; flex-direction: row !important; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 30px; width: 100%;">
+               <div class="buttons-container" style="display: flex !important; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 30px; width: 100%;">
         
         <!-- Перша кнопка (Червона за замовчуванням) -->
-        <a href="#install" class="btn-logo-download" style="width: 350px !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
+        <a href="#install" class="btn-logo-download" style="width: min(300px, 100%) !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
             <img src="iconhtml.png" alt="Іконка UAFilter" width="50" height="50" style="width: 50px !important; height: 50px !important; object-fit: contain !important; margin-right: 15px !important;">
             <span style="color: #ffffff !important; font-weight: bold !important; font-size: 1.1rem !important; text-align: left !important;">Встановити UAFilter</span>
         </a>
 
         <!-- Друга кнопка (Зелена за замовчуванням) -->
-        <a href="https://github.com/antiruskontrol/antirus-control/releases/download/v2.0/antirus-control-extension.zip" download rel="noopener" class="btn-logo-download btn-archive" style="width: 350px !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
+        <a href="https://github.com/antiruskontrol/antirus-control/releases/download/v2.0/antirus-control-extension.zip" download rel="noopener" class="btn-logo-download btn-archive" style="width: min(300px, 100%) !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
             <img src="iconhtml.png" alt="Іконка архіву UAFilter" width="50" height="50" style="width: 50px !important; height: 50px !important; object-fit: contain !important; margin-right: 15px !important;">
             <span style="color: #ffffff !important; font-weight: bold !important; font-size: 1.1rem !important; text-align: left !important;">Завантажити ZIP-архів v2.0</span>
         </a>
+
+        <!-- Третя кнопка (v2.1.11): перехід на сайт погоди, зелений неон + вікно з описом при наведенні -->
+        <div class="weather-wrap" id="weatherWrap">
+            <a id="weatherBtn" href="https://antiruskontrol.github.io/WeatherInUkraine/" target="_blank" rel="noopener noreferrer" class="btn-logo-download btn-weather" aria-describedby="weatherPopup" style="width: 100% !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
+                <img src="media/weather-logo.png" alt="Лого Weather in Ukraine" width="50" height="50" style="width: 50px !important; height: 50px !important; object-fit: contain !important; margin-right: 15px !important;">
+                <span style="color: #ffffff !important; font-weight: bold !important; font-size: 1.1rem !important; text-align: left !important;">Weather in Ukraine ↗</span>
+            </a>
+            <div id="weatherPopup" class="weather-popup" role="group" aria-label="Про сайт Weather in Ukraine">
+                <div class="wp-head">
+                    <img src="media/weather-logo.png" alt="" width="40" height="40">
+                    <div><strong>Weather in Ukraine</strong><span>Погода по всій Україні</span></div>
+                </div>
+                <ul>
+                    <li>Порівняння погоди за роками 2018–2026: температура, вітер, опади</li>
+                    <li>Усі міста України у випадаючому меню</li>
+                    <li>Живий віджет: хмари, дощ, блискавки, сонце по дузі, місяць із фазами, зорі вночі</li>
+                    <li>Аватарка біля курсора з погодою вашого міста</li>
+                    <li>Звуки природи відповідно до реальної погоди</li>
+                    <li>Дані за 29 лютого високосних років</li>
+                </ul>
+                <a class="wp-open" id="weatherOpenLink" href="https://antiruskontrol.github.io/WeatherInUkraine/" target="_blank" rel="noopener noreferrer">Відкрити сайт ↗</a>
+            </div>
+        </div>
 
     </div>
 
@@ -533,7 +591,7 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
             </div>
             <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
             <p class="footer-city">Kyiv Ukraine 2026</p>
-            <div class="page-version" title="Версія сторінки 2.1.10 · 2026-10-09 00:40"><span>Сторінка v2.1.10</span></div>
+            <div class="page-version" title="Версія сторінки 2.1.11 · 2026-10-10 23:01"><span>Сторінка v2.1.11</span></div>
         </div>
     </footer>
     <script>
@@ -865,10 +923,98 @@ document.addEventListener('DOMContentLoaded', () => {
     <iframe id="alertFrame" title="Мапа тривог alerts.in.ua" loading="lazy" referrerpolicy="no-referrer"></iframe>
 </dialog>
 
+<script id="weather-btn-js">
+/*
+ * UAFilter-UI: кнопка «Weather in Ukraine» + спливаюче вікно (v2.1.11 | 2026-10-10 23:01 | Розробник: Афтіпа Марко Оцтович)
+ * Поведінка:
+ *   - мишка: наведення на кнопку → через SHOW_DELAY мс з'являється вікно; пішов з кнопки й вікна → зникає через HIDE_DELAY мс
+ *   - телефон/планшет: 1-й дотик показує вікно (перехід скасовано), 2-й дотик відкриває сайт
+ *   - клавіатура: фокус (Tab) показує вікно одразу, Esc закриває
+ *   - клік / «Відкрити сайт ↗» → antiruskontrol.github.io/WeatherInUkraine/ у новій вкладці
+ * Маркери консолі: WEATHER_*
+ */
+(() => {
+  'use strict';
+  const SHOW_DELAY = 750;   // мс до появи вікна після наведення мишкою
+  const HIDE_DELAY = 250;   // мс до зникнення після того, як мишка пішла
+  const dbgW = (marker, text) => console.log('[UAFilter-UI] маркер: ' + marker + ' → ' + text);
+
+  const wrap = document.getElementById('weatherWrap');
+  const btn = document.getElementById('weatherBtn');
+  const pop = document.getElementById('weatherPopup');
+  const openLink = document.getElementById('weatherOpenLink');
+  if (!wrap || !btn || !pop) { dbgW('WEATHER_INIT_SKIP', 'не знайдено weatherWrap/weatherBtn/weatherPopup — кнопку не ініціалізовано'); return; }
+
+  let showT = null, hideT = null, lastPtr = 'mouse';
+  const isOpen = () => pop.classList.contains('show');
+
+  const show = why => {
+    clearTimeout(hideT);
+    if (isOpen()) return;
+    pop.classList.add('show');
+    dbgW('WEATHER_POPUP_SHOW', 'вікно показано: ' + why);
+  };
+  const hide = why => {
+    clearTimeout(showT); showT = null;
+    if (!isOpen()) return;
+    pop.classList.remove('show');
+    dbgW('WEATHER_POPUP_HIDE', 'вікно сховано: ' + why);
+  };
+
+  // ---- мишка
+  wrap.addEventListener('pointerenter', e => {
+    if (e.pointerType !== 'mouse') return;
+    clearTimeout(hideT);
+    if (isOpen() || showT) return;
+    dbgW('WEATHER_HOVER', 'курсор на кнопці — вікно через ' + SHOW_DELAY + ' мс');
+    showT = setTimeout(() => { showT = null; show('наведення тривало ' + SHOW_DELAY + ' мс'); }, SHOW_DELAY);
+  });
+  wrap.addEventListener('pointerleave', e => {
+    if (e.pointerType !== 'mouse') return;
+    if (showT) { clearTimeout(showT); showT = null; dbgW('WEATHER_HOVER_CANCEL', 'курсор пішов раніше за ' + SHOW_DELAY + ' мс — вікно не показуємо'); }
+    clearTimeout(hideT);
+    hideT = setTimeout(() => hide('курсор покинув кнопку й вікно'), HIDE_DELAY);
+  });
+
+  // ---- тип останнього вводу (щоб відрізнити дотик від миші/клавіатури)
+  btn.addEventListener('pointerdown', e => { lastPtr = e.pointerType || 'mouse'; });
+  btn.addEventListener('keydown', () => { lastPtr = 'keyboard'; });
+
+  // ---- клік / дотик
+  btn.addEventListener('click', e => {
+    if ((lastPtr === 'touch' || lastPtr === 'pen') && !isOpen()) {
+      e.preventDefault();
+      dbgW('WEATHER_TOUCH_FIRST_TAP', 'перший дотик (' + lastPtr + ') — показуємо опис, перехід при другому дотику');
+      show('перший дотик');
+      return;
+    }
+    dbgW('WEATHER_CLICK', 'клік по кнопці → antiruskontrol.github.io/WeatherInUkraine/ (нова вкладка)');
+  });
+  if (openLink) openLink.addEventListener('click', () => dbgW('WEATHER_CLICK', 'клік по «Відкрити сайт ↗» у вікні → нова вкладка'));
+
+  // ---- клавіатура
+  wrap.addEventListener('focusin', () => { if (btn.matches(':focus-visible')) show('фокус з клавіатури'); });
+  wrap.addEventListener('focusout', e => { if (!wrap.contains(e.relatedTarget)) hide('фокус пішов з кнопки'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen()) hide('натиснуто Esc'); });
+
+  // ---- клік/дотик поза кнопкою закриває вікно
+  document.addEventListener('pointerdown', e => { if (isOpen() && !wrap.contains(e.target)) hide('клік/дотик поза кнопкою'); });
+
+  // ---- діагностика лого (якщо файл media/weather-logo.png не залито на GitHub)
+  wrap.querySelectorAll('img').forEach(img => {
+    const check = () => dbgW('WEATHER_LOGO_ERROR', 'не завантажилось ' + img.currentSrc + ' — перевірте, чи файл залито в media/ репозиторію');
+    img.addEventListener('error', check);
+    if (img.complete && img.naturalWidth === 0) check();
+  });
+  dbgW('WEATHER_INIT', 'кнопку погоди ініціалізовано (показ ' + SHOW_DELAY + ' мс, сховати ' + HIDE_DELAY + ' мс)');
+})();
+</script>
+
 <script>
 /*
  * UAFilter-UI: кнопки футера (Шана Героям / Слава Героям / Тривога в Україні)
  * Журнал змін (нові записи додаються зверху):
+ * v2.1.11 | 2026-10-10 23:01 | Розробник: Афтіпа Марко Оцтович | кнопка «Weather in Ukraine» (лого, зелений неон, вікно з описом через 0,75 с, нова вкладка), кнопки ряду по 300 px, колонка на телефонах, маркери WEATHER_*
  * v2.1.10 | 2026-10-09 00:40 | Розробник: Афтіпа Марко Оцтович | демо-відео грають лише в зоні видимості (IntersectionObserver, маркери DEMO_*)
  * v2.1.9 | 2026-10-06 11:30 | Розробник: Афтіпа Марко Оцтович | фон-прапор у 3 рази повільніше (FLAG_SPEED), верхні 20% переходять у фон сайту (маска-градієнт), прибрано верхню межу футера
  * v2.1.8 | 2026-10-06 10:57 | Розробник: Афтіпа Марко Оцтович | бейдж і вікно «Що нового» повернуто до v2.0 (версія розширення, скасовано частину v2.1.7); у футері додано напис версії сторінки
