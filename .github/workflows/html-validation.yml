@@ -16,5 +16,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run HTMLHint
-        run: npx htmlhint **/*.html !google*.html
+       run: npx htmlhint **/*.html
+
 
