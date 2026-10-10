@@ -1,6 +1,9 @@
 # 🛡️ UAFilter (Antirus-Control)
 
  **[Відкрити офіційний сайт проєкту](https://antiruskontrol.github.io/antirus-control/)**
+## Ще наші проєкти
+
+ **[WeatherInUkraine](https://antiruskontrol.github.io/WeatherInUkraine/) — вебдодаток для порівняльного аналізу клімату та погоди в містах України (2018–2026).**
 
 [🇺🇦 Українська](#-українська) | [🇬🇧 English](#-english)
 
@@ -81,3 +84,6 @@
 ---
 🌐 **[Відкрити офіційний сайт проєкту](https://antiruskontrol.github.io/antirus-control/)**
 * **Завантажити актуальну версію:** [Релізи на GitHub](https://github.com)
+* ## Ще наші проєкти
+
+ **[WeatherInUkraine](https://antiruskontrol.github.io/WeatherInUkraine/) — вебдодаток для порівняльного аналізу клімату та погоди в містах України (2018–2026).**
