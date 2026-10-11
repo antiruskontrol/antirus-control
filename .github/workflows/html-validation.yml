@@ -42,17 +42,16 @@ jobs:
           }' > .stylelintrc.json
           npx stylelint "**/*.css" --allow-empty-input --fix
 
-      # 3. Перевірка JavaScript без жодних сторонніх пакетів та імпортів
+      # 3. Перевірка JavaScript через CommonJS формат файлу
       - name: Lint JavaScript
         run: |
           npm install -g eslint
-          echo "export default [
+          echo "module.exports = [
             {
               languageOptions: {
                 ecmaVersion: 'latest',
-                sourceType: 'module',
+                sourceType: 'script',
                 globals: {
-                  // Повний набір глобальних змінних браузера (на основі ваших логів)
                   window: 'readonly',
                   document: 'readonly',
                   console: 'readonly',
@@ -76,3 +75,4 @@ jobs:
             }
           ];" > eslint.config.js
           npx eslint "**/content.js"
+
