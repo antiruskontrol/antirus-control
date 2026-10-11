@@ -1,4 +1,4 @@
-name: HTML Linter Validation
+name: Code Quality Validation
 
 on:
   push:
@@ -7,13 +7,72 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  htmlhint:
-    name: Lint HTML Files
+  linting:
+    name: Code Quality Checks
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node_version: '20'
+
+      # 1. Перевірка HTML
       - name: Run HTMLHint
         run: npx htmlhint **/*.html --ignore google*.html
+
+      # 2. Перевірка CSS (Пом'якшені правила)
+      - name: Lint CSS
+        run: |
+          npm install -g stylelint stylelint-config-standard
+          echo '{
+            "extends": "stylelint-config-standard",
+            "rules": {
+              "selector-id-pattern": null,
+              "color-function-notation": null,
+              "alpha-value-notation": null,
+              "declaration-block-single-line-max-declarations": null,
+              "color-hex-length": null,
+              "shorthand-property-no-redundant-values": null,
+              "comment-empty-line-before": null
+            }
+          }' > .stylelintrc.json
+          npx stylelint "**/*.css" --allow-empty-input --fix
+
+      # 3. Перевірка JavaScript без жодних сторонніх пакетів та імпортів
+      - name: Lint JavaScript
+        run: |
+          npm install -g eslint
+          echo "export default [
+            {
+              languageOptions: {
+                ecmaVersion: 'latest',
+                sourceType: 'module',
+                globals: {
+                  // Повний набір глобальних змінних браузера (на основі ваших логів)
+                  window: 'readonly',
+                  document: 'readonly',
+                  console: 'readonly',
+                  fetch: 'readonly',
+                  setTimeout: 'readonly',
+                  clearTimeout: 'readonly',
+                  setInterval: 'readonly',
+                  clearInterval: 'readonly',
+                  IntersectionObserver: 'readonly',
+                  MutationObserver: 'readonly',
+                  Node: 'readonly',
+                  KeyboardEvent: 'readonly',
+                  chrome: 'readonly',
+                  browser: 'readonly'
+                }
+              },
+              rules: {
+                'no-unused-vars': 'warn',
+                'no-undef': 'error'
+              }
+            }
+          ];" > eslint.config.js
+          npx eslint "**/content.js"
