@@ -1,37 +1,43 @@
-# 06.10.2026 17:18
-# Розробник: Афтіпа Марко Оцтович
-# antiruskontrol@ukr.net
-
 name: Automated Extension Release
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches: [ "main", "master" ] # Запускається при кожному звичайному пуші в головну гілку
 
 jobs:
-  build:
+  release:
+    name: Update Latest Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Дозвіл на перезапис файлів у релізах
+
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v4
 
+      # Створюємо чистий ZIP-архів актуальної версії коду
       - name: Create Clean Extension ZIP
         run: |
-          zip -r uafilter-extension.zip manifest.json content.js index.html icon.png iconhtml.png
+          zip -r uafilter-extension.zip . -x "*.git*" ".github*"
 
-      - name: Automated GitHub Release
+      # Створюємо або перезаписуємо існуючий стабільний реліз
+      - name: Update GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: uafilter-extension.zip
-          name: UAFilter Release ${{ github.ref_name }}
+          name: UAFilter Latest Stable Build
+          tag_name: latest # Тег завжди буде однаковим, щоб посилання не змінювалося
+          make_latest: true
+          prerelease: false
           body: |
-            ## 🛡️ Оновлення розширення UAFilter
-            Автоматичний збір стабільної версії з коду репозиторію.
-            
-            ### 🛠️ Інструкція зі встановлення:
+            ## 🛡️ Актуальна збірка розширення UAFilter
+            Цей архів оновлюється **автоматично** при кожному збереженні змін у коді репозиторію.
+
+            ⏱️ _Останнє оновлення: \({{ github.event.head_commit.message }} (коміт \){{ github.sha }})_
+
+            ### 📦 Інструкція зі встановлення:
             1. Завантажте прикріплений нижче архів `uafilter-extension.zip`.
-            2. Розпакуйте його в окрему папку.
-            3. Перейдіть в `chrome://extensions/`, увімкніть **Режим розробника** та натисніть **Load unpacked**.
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            2. Розпакуйте архів у зручну папку на комп'ютері.
+            3. Перейдіть в браузері в `chrome://extensions/`.
+            4. Увімкніть **Режим розробника** (Developer mode) у правому верхньому кутку.
+            5. Натисніть кнопку **Завантажити розпаковане розширення** (Load unpacked) та виберіть папку з файлами.
