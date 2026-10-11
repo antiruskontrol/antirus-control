@@ -42,18 +42,19 @@ jobs:
           }' > .stylelintrc.json
           npx stylelint "**/*.css" --allow-empty-input --fix
 
-      # 3. Сучасна перевірка JavaScript (Новий формат конфігурації Flat Config)
+      # 3. Перевірка JavaScript без сторонніх пакетів та імпортів
       - name: Lint JavaScript
         run: |
-          npm install -g eslint globals
-          echo "import globals from 'globals';
-          export default [
+          npm install -g eslint
+          echo "export default [
             {
               languageOptions: {
                 ecmaVersion: 'latest',
                 sourceType: 'module',
                 globals: {
-                  ...globals.browser,
+                  window: 'readonly',
+                  document: 'readonly',
+                  console: 'readonly',
                   chrome: 'readonly',
                   browser: 'readonly'
                 }
