@@ -24,7 +24,7 @@ jobs:
       - name: Run HTMLHint
         run: npx htmlhint **/*.html --ignore google*.html
 
-      # 2. Перевірка CSS (Пом'якшені правила, щоб не чіплятися до дрібниць)
+      # 2. Перевірка CSS (Пом'якшені правила)
       - name: Lint CSS
         run: |
           npm install -g stylelint stylelint-config-standard
@@ -42,9 +42,26 @@ jobs:
           }' > .stylelintrc.json
           npx stylelint "**/*.css" --allow-empty-input --fix
 
-      # 3. Перевірка JavaScript
+      # 3. Сучасна перевірка JavaScript (Новий формат конфігурації Flat Config)
       - name: Lint JavaScript
         run: |
-          npm install -g eslint
-          echo '{"env": {"browser": true, "webextensions": true, "es2021": true}, "extends": "eslint:recommended"}' > .eslintrc.json
-          npx eslint "**/content.js" --no-error-on-unmatched-pattern
+          npm install -g eslint globals
+          echo "import globals from 'globals';
+          export default [
+            {
+              languageOptions: {
+                ecmaVersion: 'latest',
+                sourceType: 'module',
+                globals: {
+                  ...globals.browser,
+                  chrome: 'readonly',
+                  browser: 'readonly'
+                }
+              },
+              rules: {
+                'no-unused-vars': 'warn',
+                'no-undef': 'error'
+              }
+            }
+          ];" > eslint.config.js
+          npx eslint "**/content.js"
