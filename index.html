@@ -2,10 +2,17 @@
 <!--
   ==================================================================
   Файл:        index.html (сторінка UAFilter / Antirus-Control)
-  Версія:      2.1.11 (версія сторінки; розширення UAFilter v2.0)
-  Дата, час:   2026-10-10 23:01
+  Версія:      2.1.12 (версія сторінки; розширення UAFilter v2.0)
+  Дата, час:   2026-10-11 09:32
   Розробник:   Афтіпа Марко Оцтович
-  Опис змін (v2.1.11, кнопка сайту погоди):
+  Опис змін (v2.1.12, вікно версії сторінки):
+    - Біла браузерна підказка (атрибут title) на значку «Сторінка v2.1.12» у футері замінена власним вікном у стилі сайту:
+      темне напівпрозоре скло ~69%, розмиття, синьо-жовте неонове сяйво; всередині «Версія сторінки», номер і дата 11.10.2026 · 09:32
+    - З'являється плавно (~0,3 с) при наведенні; на телефоні дотик відкриває/закриває, дотик поза значком закриває;
+      з клавіатури (Tab) показується одразу, Esc закриває; для доступності є aria-label
+    - Консоль: маркери VERSION_POPUP_* ([UAFilter-UI])
+    - Версія сторінки скрізь оновлена до 2.1.12
+  Попередній опис (v2.1.11, кнопка сайту погоди):
     - Нова 3-тя кнопка «Weather in Ukraine ↗» з лого (media/weather-logo.png)
       у ряду поруч із «Завантажити ZIP-архів»; клік — новий таб antiruskontrol.github.io/WeatherInUkraine/
     - Зелений неон при наведенні (як у кнопки ZIP); червоний неон лишився тільки в першої кнопки
@@ -420,6 +427,18 @@
 @media (prefers-reduced-motion:reduce){.weather-popup,.weather-popup.show{transition:none}}
 </style>
 
+<style id="version-popup-css">
+/* v2.1.12: вікно версії сторінки у стилі сайту (замість білої браузерної підказки title) */
+.page-version:focus-visible,.page-version.open{outline:none;opacity:1;border-color:rgba(77,163,255,.7)}
+.ver-popup{position:absolute;left:14px;bottom:44px;min-width:190px;box-sizing:border-box;padding:10px 14px 11px;text-align:left;border-radius:12px;background:rgba(8,12,22,.69);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(77,163,255,.6);box-shadow:0 0 14px rgba(77,163,255,.45),0 0 26px rgba(255,223,0,.22),inset 0 0 14px rgba(77,163,255,.08);color:#c9d1d9;z-index:5;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .3s ease,transform .3s ease,visibility 0s linear .3s;pointer-events:none}
+.ver-popup.show{opacity:1;visibility:visible;transform:translateY(0);transition:opacity .3s ease,transform .3s ease,visibility 0s}
+.ver-popup .vp-t{display:block;font-size:.72rem;letter-spacing:.06em;color:#4da3ff;text-shadow:0 0 6px rgba(77,163,255,.7)}
+.ver-popup .vp-v{display:block;font:700 1.05rem/1.35 ui-monospace,Consolas,monospace;color:#ffdf00;text-shadow:0 0 8px rgba(255,223,0,.55)}
+.ver-popup .vp-d{display:block;font-size:.8rem;color:#9aa4b0}
+@media (max-width:700px){.ver-popup{left:50%;transform:translate(-50%,6px)}.ver-popup.show{transform:translate(-50%,0)}}
+@media (prefers-reduced-motion:reduce){.ver-popup,.ver-popup.show{transition:none}}
+</style>
+
 <style id="hero-buttons-css">
 footer.site-footer{position:relative;isolation:isolate;overflow:hidden;padding:2.2rem 1rem 1.6rem;color:#e6edf3;background:transparent;border-top:0}
 .footer-media{position:absolute;inset:0;z-index:-1;background:linear-gradient(to bottom,#0057b7 0 50%,#ffdf00 50% 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 20%);mask-image:linear-gradient(to bottom,transparent 0%,#000 20%)}
@@ -591,7 +610,8 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
             </div>
             <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
             <p class="footer-city">Kyiv Ukraine 2026</p>
-            <div class="page-version" title="Версія сторінки 2.1.11 · 2026-10-10 23:01"><span>Сторінка v2.1.11</span></div>
+            <div class="page-version" id="pageVersionBadge" tabindex="0" role="button" aria-describedby="verPopup" aria-label="Версія сторінки 2.1.12, 11.10.2026 · 09:32"><span>Сторінка v2.1.12</span></div>
+            <div class="ver-popup" id="verPopup" role="tooltip"><span class="vp-t">Версія сторінки</span><span class="vp-v">v2.1.12</span><span class="vp-d">11.10.2026 · 09:32</span></div>
         </div>
     </footer>
     <script>
@@ -923,6 +943,37 @@ document.addEventListener('DOMContentLoaded', () => {
     <iframe id="alertFrame" title="Мапа тривог alerts.in.ua" loading="lazy" referrerpolicy="no-referrer"></iframe>
 </dialog>
 
+<script id="version-popup-js">
+/*
+ * UAFilter-UI: вікно версії сторінки (v2.1.12 | 2026-10-11 09:32 | Розробник: Афтіпа Марко Оцтович)
+ * Мишка: наведення на значок показує вікно, відхід ховає. Телефон: дотик відкриває/закриває. Клавіатура: Tab показує, Esc закриває.
+ * Маркери консолі: VERSION_POPUP_*
+ */
+(() => {
+  'use strict';
+  const dbgV = (marker, text) => console.log('[UAFilter-UI] маркер: ' + marker + ' → ' + text);
+  const badge = document.getElementById('pageVersionBadge'), pop = document.getElementById('verPopup');
+  if (!badge || !pop) { dbgV('VERSION_POPUP_INIT_SKIP', 'не знайдено значок або вікно версії'); return; }
+  let hideT = null, lastPtr = 'mouse';
+  const isOpen = () => pop.classList.contains('show');
+  const show = why => { clearTimeout(hideT); if (isOpen()) return; pop.classList.add('show'); badge.classList.add('open'); dbgV('VERSION_POPUP_SHOW', 'вікно версії показано: ' + why); };
+  const hide = why => { clearTimeout(hideT); if (!isOpen()) return; pop.classList.remove('show'); badge.classList.remove('open'); dbgV('VERSION_POPUP_HIDE', 'вікно версії сховано: ' + why); };
+
+  badge.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') show('наведення мишки'); });
+  badge.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') hideT = setTimeout(() => hide('курсор пішов зі значка'), 120); });
+  badge.addEventListener('pointerdown', e => { lastPtr = e.pointerType || 'mouse'; });
+  badge.addEventListener('keydown', () => { lastPtr = 'keyboard'; });
+  badge.addEventListener('click', () => {
+    if (lastPtr === 'touch' || lastPtr === 'pen') { isOpen() ? hide('повторний дотик') : show('дотик'); }
+  });
+  badge.addEventListener('focus', () => { if (badge.matches(':focus-visible')) show('фокус з клавіатури'); });
+  badge.addEventListener('blur', () => hide('фокус пішов зі значка'));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen()) hide('натиснуто Esc'); });
+  document.addEventListener('pointerdown', e => { if (isOpen() && !badge.contains(e.target)) hide('клік/дотик поза значком'); });
+  dbgV('VERSION_POPUP_INIT', 'вікно версії ініціалізовано (v2.1.12, 11.10.2026 · 09:32)');
+})();
+</script>
+
 <script id="weather-btn-js">
 /*
  * UAFilter-UI: кнопка «Weather in Ukraine» + спливаюче вікно (v2.1.11 | 2026-10-10 23:01 | Розробник: Афтіпа Марко Оцтович)
@@ -1014,6 +1065,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /*
  * UAFilter-UI: кнопки футера (Шана Героям / Слава Героям / Тривога в Україні)
  * Журнал змін (нові записи додаються зверху):
+ * v2.1.12 | 2026-10-11 09:32 | Розробник: Афтіпа Марко Оцтович | вікно версії сторінки у стилі сайту замість браузерної підказки title (темне скло ~69%, синьо-жовтий неон, дата 11.10.2026 · 09:32), маркери VERSION_POPUP_*
  * v2.1.11 | 2026-10-10 23:01 | Розробник: Афтіпа Марко Оцтович | кнопка «Weather in Ukraine» (лого, зелений неон, вікно з описом через 0,75 с, нова вкладка), кнопки ряду по 300 px, колонка на телефонах, маркери WEATHER_*
  * v2.1.10 | 2026-10-09 00:40 | Розробник: Афтіпа Марко Оцтович | демо-відео грають лише в зоні видимості (IntersectionObserver, маркери DEMO_*)
  * v2.1.9 | 2026-10-06 11:30 | Розробник: Афтіпа Марко Оцтович | фон-прапор у 3 рази повільніше (FLAG_SPEED), верхні 20% переходять у фон сайту (маска-градієнт), прибрано верхню межу футера
