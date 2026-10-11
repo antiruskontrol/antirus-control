@@ -42,19 +42,17 @@ jobs:
           }' > .stylelintrc.json
           npx stylelint "**/*.css" --allow-empty-input --fix
 
-      # 3. Перевірка JavaScript з повною підтримкою браузерного середовища
+      # 3. Перевірка JavaScript без жодних сторонніх пакетів та імпортів
       - name: Lint JavaScript
         run: |
-          npm install -g eslint @eslint/js
-          echo "import js from '@eslint/js';
-          export default [
-            js.configurations.recommended,
+          npm install -g eslint
+          echo "export default [
             {
               languageOptions: {
                 ecmaVersion: 'latest',
                 sourceType: 'module',
                 globals: {
-                  // Стандартне середовище браузера
+                  // Повний набір глобальних змінних браузера (на основі ваших логів)
                   window: 'readonly',
                   document: 'readonly',
                   console: 'readonly',
@@ -67,7 +65,6 @@ jobs:
                   MutationObserver: 'readonly',
                   Node: 'readonly',
                   KeyboardEvent: 'readonly',
-                  // Специфіка розширень
                   chrome: 'readonly',
                   browser: 'readonly'
                 }
