@@ -1,4 +1,4 @@
-name: HTML Linter Validation
+name: Code Quality Validation
 
 on:
   push:
@@ -7,13 +7,32 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  htmlhint:
-    name: Lint HTML Files
+  linting:
+    name: Code Quality Checks
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 1. Перевірка HTML (ваш попередній крок)
       - name: Run HTMLHint
         run: npx htmlhint **/*.html --ignore google*.html
+
+      # 2. Перевірка CSS (Stylelint)
+      - name: Lint CSS
+        uses: stylelint/actions-stylelint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-check
+          # Перевіряє всі файли .css у вашому проекті
+          lint_target: "**/*.css"
+
+      # 3. Перевірка JavaScript (ESLint)
+      - name: Lint JavaScript
+        uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-check
+          # Перевіряє всі файли .js
+          eslint_flags: "**/*.js"
