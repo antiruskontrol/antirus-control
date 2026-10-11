@@ -24,17 +24,16 @@ jobs:
       - name: Run HTMLHint
         run: npx htmlhint **/*.html --ignore google*.html
 
-      # 2. Перевірка CSS (безпечний вбудований синтаксичний запуск)
+      # 2. Автономна перевірка CSS (використовує стандартний конфіг прямо під час білду)
       - name: Lint CSS
         run: |
-          if ls *.css 1> /dev/null 2>&1; then
-            npx stylelint "*.css" --allow-empty-input
-          else
-            echo "CSS файлів не знайдено, пропускаємо."
-          fi
+          npm install -g stylelint stylelint-config-standard
+          echo '{"extends": "stylelint-config-standard"}' > .stylelintrc.json
+          npx stylelint "**/*.css" --allow-empty-input
 
-      # 3. Перевірка JavaScript
+      # 3. Автономна перевірка JavaScript (створює тимчасові базові правила)
       - name: Lint JavaScript
         run: |
           npm install -g eslint
-          npx eslint "**/content.js" --env browser --parser-options=ecmaVersion:latest --no-eslintrc || echo "JS перевірено"
+          echo '{"env": {"browser": true, "webextensions": true, "es2021": true}, "extends": "eslint:recommended"}' > .eslintrc.json
+          npx eslint "**/content.js" --no-error-on-unmatched-pattern
