@@ -1,8 +1,8 @@
-name: Automated Extension Release
+name: Automated Weather Application Release
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main" ] # Запускаємо тільки для головної гілки
 
 jobs:
   release:
@@ -15,62 +15,48 @@ jobs:
       - name: Checkout repository code
         uses: actions/checkout@v4
 
-      # 1. Витягуємо версію модифікації (першу цифру з рядка "Версія:")
-      - name: Sync HTML Modification Version to Manifest
-        id: sync_version
+      # 1. Зчитуємо версію (наприклад, 1.7.0) з файлу index.html
+      - name: Extract Version from index.html
+        id: get_version
         run: |
           node -e "
             const fs = require('fs');
             const html = fs.readFileSync('index.html', 'utf8');
-            
-            // Шукаємо рядок 'Версія:' та забираємо першу комбінацію цифр (наприклад, 2.1.13)
             const match = html.match(/Версія:\s*([\d.]+)/i);
             
             if (!match) {
-              console.error('Помилка: Не вдалося знайти версію модифікації в index.html!');
+              console.error('Помилка: Не вдалося знайти версію в index.html!');
               process.exit(1);
             }
             
-            const modVersion = match[1];
-            console.log('Знайдено версію модифікації сторінки:', modVersion);
-            
-            // Оновлюємо manifest.json знайденою версією модифікації
-            const manifestPath = 'manifest.json';
-            const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-            manifest.version = modVersion;
-            
-            fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
-            console.log('Маніфест успішно оновлено на версію:', modVersion);
-            
-            // Передаємо змінну далі в GitHub Actions
-            fs.appendFileSync(process.env.GITHUB_ENV, 'EXT_VERSION=' + modVersion + '\n');
+            const version = match[1];
+            console.log('Знайдено версію проекту:', version);
+            fs.appendFileSync(process.env.GITHUB_ENV, 'APP_VERSION=' + version + '\n');
           "
 
-      # 2. Створюємо чистий ZIP-архів з назвою версії модифікації
-      - name: Create Clean Extension ZIP
+      # 2. ВИПРАВЛЕННЯ: Спочатку створюємо той самий ZIP архів, який будемо публікувати
+      - name: Create Release ZIP Archive
         run: |
-          zip -r uafilter-extension-v\${{ env.EXT_VERSION }}.zip . -x "*.git*" ".github*" "uafilter-extension-*.zip"
+          zip -r weather-ukraine-v${{ env.APP_VERSION }}.zip . -x "*.git*" ".github*"
 
-      # 3. Публікуємо актуальний стабільний реліз
+      # 3. Публікуємо актуальний реліз вебдодатка разом із створеним архівом
       - name: Update GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: uafilter-extension-v\${{ env.EXT_VERSION }}.zip
-          name: UAFilter Build v\${{ env.EXT_VERSION }}
+          files: weather-ukraine-v${{ env.APP_VERSION }}.zip
+          name: WeatherInUkraine Build v${{ env.APP_VERSION }}
           tag_name: latest
           make_latest: "true"
           prerelease: false
+          overwrite: true
           body: |
-            ## 🛡️ Актуальна збірка розширення UAFilter
-            Поточна версія модифікації сторінки: **v\${{ env.EXT_VERSION }}** (Концепція v2.0).
+            ## 🌤️ Актуальна стабільна збірка додатка WeatherInUkraine
+            Поточна версія сторінки: **v${{ env.APP_VERSION }}** (WeatherScope Pro).
 
-            ⏱️ _Останні зміни: \({{ github.event.head_commit.message }} (коміт \){{ github.sha }})_
+            ⏱️ _Останні зміни: ${{ github.event.head_commit.message }} (коміт ${{ github.sha }})_
 
-            ### 📦 Інструкція зі встановлення:
-            1. Завантажте прикріплений нижче архів `uafilter-extension-v${{ env.EXT_VERSION }}.zip`.
-            2. Розпакуйте архів у зручну папку на комп'ютері.
-            3. Перейдіть в браузері в `chrome://extensions/`.
-            4. Увімкніть **Режим розробника** (Developer mode) у правому верхньому кутку.
-            5. Натисніть кнопку **Завантажити розпаковане розширення** (Load unpacked) та виберіть папку з файлами.
+            ### 📦 Інструкція:
+            Цей архів містить повну резервну копію коду для версії **v${{ env.APP_VERSION }}**. 
+            Ви можете завантажити його для локального тестування або розгортання вебсторінки на власному хостингу.
         env:
-          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
