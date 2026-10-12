@@ -6,14 +6,6 @@ on:
 
 jobs:
   release:
-    name: Automated Extension Release
-    runs-on: ubuntu-latest
-
-  push:
-    branches: [ "main", "master" ]
-
-jobs:
-  release:
     name: Update Latest Release
     runs-on: ubuntu-latest
     permissions:
@@ -23,7 +15,7 @@ jobs:
       - name: Checkout repository code
         uses: actions/checkout@v4
 
-      # 1. Витягуємо саме версію модифікації (першу цифру з рядка "Версія:")
+      # 1. Витягуємо версію модифікації (першу цифру з рядка "Версія:")
       - name: Sync HTML Modification Version to Manifest
         id: sync_version
         run: |
@@ -60,75 +52,6 @@ jobs:
           zip -r uafilter-extension-v\${{ env.EXT_VERSION }}.zip . -x "*.git*" ".github*" "uafilter-extension-*.zip"
 
       # 3. Публікуємо актуальний стабільний реліз
-      - name: Update GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: uafilter-extension-v\${{ env.EXT_VERSION }}.zip
-          name: UAFilter Build v\${{ env.EXT_VERSION }}
-          tag_name: latest
-          make_latest: "true"
-          prerelease: false
-          body: |
-            ## 🛡️ Актуальна збірка розширення UAFilter
-            Поточна версія модифікації сторінки: **v\${{ env.EXT_VERSION }}** (Концепція v2.0).
-
-            ⏱️ _Останні зміни: \({{ github.event.head_commit.message }} (коміт \){{ github.sha }})_
-
-            ### 📦 Інструкція зі встановлення:
-            1. Завантажте прикріплений нижче архів `uafilter-extension-v${{ env.EXT_VERSION }}.zip`.
-            2. Розпакуйте архів у зручную папку на комп'ютері.
-            3. Перейдіть в браузері в `chrome://extensions/`.
-            4. Увімкніть **Режим розробника** (Developer mode) у правому верхньому кутку.
-            5. Натисніть кнопку **Завантажити розпаковане розширення** (Load unpacked) та виберіть папку з файлами.
-        env:
-          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
-
-    name: Update Latest Release
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v4
-
-      # 1. Витягуємо саме версію модифікації (першу цифру з рядка "Версія:")
-      - name: Sync HTML Modification Version to Manifest
-        id: sync_version
-        run: |
-          node -e "
-            const fs = require('fs');
-            const html = fs.readFileSync('index.html', 'utf8');
-            
-            // Шукаємо рядок 'Версія:' та забираємо першу комбінацію цифр (наприклад, 2.1.13)
-            const match = html.match(/Версія:\s*([\d.]+)/i);
-            
-            if (!match) {
-              console.error('Помилка: Не вдалося знайти версію модифікації в index.html!');
-              process.exit(1);
-            }
-            
-            const modVersion = match[1];
-            console.log('Знайдено версію модифікації сторінки:', modVersion);
-            
-            // Оновлюємо manifest.json знайденою версією модифікації
-            const manifestPath = 'manifest.json';
-            const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-            manifest.version = modVersion;
-            
-            fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
-            console.log('Маніфест успішно оновлено на версію:', modVersion);
-            
-            // Передаємо змінну далі в GitHub Actions
-            fs.appendFileSync(process.env.GITHUB_ENV, 'EXT_VERSION=' + modVersion + '\n');
-          "
-
-      # 2. Створюємо чистий ZIP-архів з назвою версії модифікації (Виправлено екранування \$)
-      - name: Create Clean Extension ZIP
-        run: |
-          zip -r uafilter-extension-v\${{ env.EXT_VERSION }}.zip . -x "*.git*" ".github*" "uafilter-extension-*.zip"
-
-                 # 3. Публікуємо актуальний стабільний реліз
       - name: Update GitHub Release
         uses: softprops/action-gh-release@v2
         with:
