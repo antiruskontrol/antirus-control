@@ -5,9 +5,10 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  release:name: Automated Extension Release
+  release:
+    name: Automated Extension Release
+    runs-on: ubuntu-latest
 
-on:
   push:
     branches: [ "main", "master" ]
 
