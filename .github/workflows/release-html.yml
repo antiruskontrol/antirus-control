@@ -51,27 +51,27 @@ jobs:
         run: |
           zip -r uafilter-extension-v\${{ env.EXT_VERSION }}.zip . -x "*.git*" ".github*" "uafilter-extension-*.zip"
 
-      # 3. Публікуємо актуальний стабільний реліз (Виправлено екранування та текст)
+            # 3. Публікуємо або оновлюємо актуальний стабільний реліз
       - name: Update GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: uafilter-extension-v\${{ env.EXT_VERSION }}.zip
-          name: UAFilter Build v\${{ env.EXT_VERSION }}
+          name: UAFilter Build v\${{ env.APP_VERSION || env.EXT_VERSION }}
           tag_name: latest
           make_latest: "true"
           prerelease: false
-          overwrite: true
           body: |
             ## 🛡️ Актуальна збірка розширення UAFilter
-            Поточна версія модифікації сторінки: **v\${{ env.EXT_VERSION }}** (Концепція v2.0).
+            Поточна версія модифікації сторінки: **v\${{ env.APP_VERSION || env.EXT_VERSION }}**.
 
             ⏱️ _Останні зміни: \({{ github.event.head_commit.message }} (коміт \){{ github.sha }})_
 
             ### 📦 Інструкція зі встановлення:
-            1. Завантажте прикріплений нижче архів `uafilter-extension-v${{ env.EXT_VERSION }}.zip`.
-            2. Rozпакуйте архів у зручну папку на комп'ютері.
+            1. Завантажте прикріплений нижче архів `uafilter-extension-v${{ env.APP_VERSION || env.EXT_VERSION }}.zip`.
+            2. Розпакуйте архів у зручну папку на комп'ютері.
             3. Перейдіть в браузері в `chrome://extensions/`.
             4. Увімкніть **Режим розробника** (Developer mode) у правому верхньому кутку.
             5. Натисніть кнопку **Завантажити розпаковане розширення** (Load unpacked) та виберіть папку з файлами.
         env:
           GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+.GITHUB_TOKEN }}
