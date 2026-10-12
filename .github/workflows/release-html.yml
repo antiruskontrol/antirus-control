@@ -46,12 +46,12 @@ jobs:
             fs.appendFileSync(process.env.GITHUB_ENV, 'EXT_VERSION=' + modVersion + '\n');
           "
 
-      # 2. Створюємо чистий ZIP-архів з назвою версії модифікації
+      # 2. Створюємо чистий ZIP-архів з назвою версії модифікації (Виправлено екранування \$)
       - name: Create Clean Extension ZIP
         run: |
           zip -r uafilter-extension-v\${{ env.EXT_VERSION }}.zip . -x "*.git*" ".github*" "uafilter-extension-*.zip"
 
-      # 3. Публікуємо актуальний стабільний реліз
+      # 3. Публікуємо актуальний стабільний реліз (Виправлено екранування та текст)
       - name: Update GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -63,13 +63,13 @@ jobs:
           overwrite: true
           body: |
             ## 🛡️ Актуальна збірка розширення UAFilter
-            Текуча версія модифікації сторінки: **v\${{ env.EXT_VERSION }}** (Концепція v2.0).
+            Поточна версія модифікації сторінки: **v\${{ env.EXT_VERSION }}** (Концепція v2.0).
 
             ⏱️ _Останні зміни: \({{ github.event.head_commit.message }} (коміт \){{ github.sha }})_
 
             ### 📦 Інструкція зі встановлення:
             1. Завантажте прикріплений нижче архів `uafilter-extension-v${{ env.EXT_VERSION }}.zip`.
-            2. Розпакуйте архів у зручну папку на комп'ютері.
+            2. Rozпакуйте архів у зручну папку на комп'ютері.
             3. Перейдіть в браузері в `chrome://extensions/`.
             4. Увімкніть **Режим розробника** (Developer mode) у правому верхньому кутку.
             5. Натисніть кнопку **Завантажити розпаковане розширення** (Load unpacked) та виберіть папку з файлами.
