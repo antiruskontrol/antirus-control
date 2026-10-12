@@ -148,6 +148,4 @@ jobs:
             3. Перейдіть в браузері в `chrome://extensions/`.
             4. Увімкніть **Режим розробника** (Developer mode) у правому верхньому кутку.
             5. Натисніть кнопку **Завантажити розпаковане розширення** (Load unpacked) та виберіть папку з файлами.
-        env:
-          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
-.GITHUB_TOKEN }}
+      
