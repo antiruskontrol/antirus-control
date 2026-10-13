@@ -2,10 +2,18 @@
 <!--
   ==================================================================
   Файл:        index.html (сторінка UAFilter / Antirus-Control)
-  Версія:      2.1.13 (версія сторінки; розширення UAFilter v2.0)
-  Дата, час:   2026-10-11 16:23
+  Версія:      2.1.14 (версія сторінки; розширення UAFilter v2.0)
+  Дата, час:   2026-10-13 12:00
   Розробник:   Афтіпа Марко Оцтович
-  Опис змін (v2.1.13, друга позначка версії):
+  Опис змін (v2.1.14, кнопка BanderiZZation, плавні вікна 1,2 с):
+    - Нова 4-та кнопка «BanderiZZation! ↗» другим рядком під трьома (по центру) з АКТИВНИМ лого banderlogo.png (корінь репозиторію):
+      лого повільно пульсує рожево-блакитним світлом, при наведенні збільшується й яскравішає; зелений неон кнопки як у ZIP;
+      клік відкриває https://antiruskontrol.github.io/BanderiZZation/index.html у новій вкладці
+    - При наведенні (через 0,75 с) вікно з описом сайту; на телефоні 1-й дотик показує вікно, 2-й відкриває сайт
+    - ВСІ вікна, що спливають на сторінці (версія верхня й нижня, «Weather in Ukraine», «BanderiZZation!»): поява й зникнення 1,2 с
+    - Верхнє вікно версії: додано «Розробник: Афтіпа Марко Оцтович» і пошту antiruskontrol@ukr.net (клікабельна; вікно не зникає, поки курсор над ним)
+    - Консоль: маркери BANDER_* і VERSION_POPUP_*; версія сторінки скрізь оновлена до 2.1.14, дата вікон версії 13.10.2026 · 12:00
+  Попередній опис (v2.1.13, друга позначка версії):
     - Додано позначку «Сторінка v2.1.13» у верхньому правому куті шапки (така сама «пігулка» й те саме вікно у стилі сайту,
       що й унизу; вікно розкривається вниз і вирівняне по правому краю); звичайна, не закріплена: їде вгору разом із шапкою
     - Нижня позначка у футері лишається без змін; на екрані одночасно відкрите не більше одного вікна на пару «позначка + вікно»
@@ -350,7 +358,7 @@
 
 
                 /* Ефект для першої кнопки (Надяскравий Червоний Неон) — v2.1.11: не діє на кнопку погоди */
-        .btn-logo-download:not(.btn-archive):not(.btn-weather):hover {
+        .btn-logo-download:not(.btn-archive):not(.btn-weather):not(.btn-bander):hover {
             transform: translateY(-3px) !important;
             background-color: rgba(248, 81, 73, 0.25) !important; /* Яскравіший фон */
             border-color: #ff3333 !important; /* Вогняно-червона рамка */
@@ -360,7 +368,9 @@
         /* Ефект для другої та третьої кнопок (Надяскравий Зелений Неон) */
         .btn-logo-download.btn-archive:hover,
         .btn-logo-download.btn-weather:hover,
-        .btn-logo-download.btn-weather:focus-visible {
+        .btn-logo-download.btn-weather:focus-visible,
+        .btn-logo-download.btn-bander:hover,
+        .btn-logo-download.btn-bander:focus-visible {
             transform: translateY(-3px) !important;
             background-color: rgba(46, 160, 67, 0.3) !important; /* Яскравіший фон */
             border-color: #00ff44 !important; /* Кислотно-зелена рамка */
@@ -413,8 +423,8 @@
 <style id="weather-btn-css">
 /* v2.1.11: кнопка «Weather in Ukraine» і її спливаюче вікно */
 .weather-wrap{position:relative;display:block;width:min(300px,100%)}
-.weather-popup{position:absolute;top:calc(100% + 14px);right:0;width:min(360px,calc(100vw - 24px));box-sizing:border-box;padding:16px 18px 18px;text-align:left;border-radius:14px;background:rgba(8,14,10,.69);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(0,255,68,.6);box-shadow:0 0 18px rgba(0,255,68,.45),0 0 40px rgba(0,255,68,.18),inset 0 0 18px rgba(0,255,68,.08);color:#d7ffe2;z-index:100;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .35s ease,transform .35s ease,visibility 0s linear .35s;pointer-events:none}
-.weather-popup.show{opacity:1;visibility:visible;transform:translateY(0);transition:opacity .35s ease,transform .35s ease,visibility 0s;pointer-events:auto}
+.weather-popup{position:absolute;top:calc(100% + 14px);right:0;width:min(360px,calc(100vw - 24px));box-sizing:border-box;padding:16px 18px 18px;text-align:left;border-radius:14px;background:rgba(8,14,10,.69);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(0,255,68,.6);box-shadow:0 0 18px rgba(0,255,68,.45),0 0 40px rgba(0,255,68,.18),inset 0 0 18px rgba(0,255,68,.08);color:#d7ffe2;z-index:100;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity 1.2s ease,transform 1.2s ease,visibility 0s linear 1.2s;pointer-events:none}
+.weather-popup.show{opacity:1;visibility:visible;transform:translateY(0);transition:opacity 1.2s ease,transform 1.2s ease,visibility 0s;pointer-events:auto}
 /* невидимий «місток» між кнопкою й вікном, щоб вікно не зникало, поки курсор їде до нього */
 .weather-popup::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
 .wp-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
@@ -436,8 +446,8 @@
 <style id="version-popup-css">
 /* v2.1.12: вікно версії сторінки у стилі сайту (замість білої браузерної підказки title) */
 .page-version:focus-visible,.page-version.open{outline:none;opacity:1;border-color:rgba(77,163,255,.7)}
-.ver-popup{position:absolute;left:14px;bottom:44px;min-width:190px;box-sizing:border-box;padding:10px 14px 11px;text-align:left;border-radius:12px;background:rgba(8,12,22,.69);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(77,163,255,.6);box-shadow:0 0 14px rgba(77,163,255,.45),0 0 26px rgba(255,223,0,.22),inset 0 0 14px rgba(77,163,255,.08);color:#c9d1d9;z-index:5;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .3s ease,transform .3s ease,visibility 0s linear .3s;pointer-events:none}
-.ver-popup.show{opacity:1;visibility:visible;transform:translateY(0);transition:opacity .3s ease,transform .3s ease,visibility 0s}
+.ver-popup{position:absolute;left:14px;bottom:44px;min-width:190px;box-sizing:border-box;padding:10px 14px 11px;text-align:left;border-radius:12px;background:rgba(8,12,22,.69);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(77,163,255,.6);box-shadow:0 0 14px rgba(77,163,255,.45),0 0 26px rgba(255,223,0,.22),inset 0 0 14px rgba(77,163,255,.08);color:#c9d1d9;z-index:5;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity 1.2s ease,transform 1.2s ease,visibility 0s linear 1.2s;pointer-events:none}
+.ver-popup.show{opacity:1;visibility:visible;transform:translateY(0);transition:opacity 1.2s ease,transform 1.2s ease,visibility 0s}
 .ver-popup .vp-t{display:block;font-size:.72rem;letter-spacing:.06em;color:#4da3ff;text-shadow:0 0 6px rgba(77,163,255,.7)}
 .ver-popup .vp-v{display:block;font:700 1.05rem/1.35 ui-monospace,Consolas,monospace;color:#ffdf00;text-shadow:0 0 8px rgba(255,223,0,.55)}
 .ver-popup .vp-d{display:block;font-size:.8rem;color:#9aa4b0}
@@ -449,6 +459,24 @@ header{position:relative}
 .ver-popup.top{top:40px;right:14px;bottom:auto;left:auto;transform:translateY(-6px)}
 .ver-popup.top.show{transform:translateY(0)}
 @media (max-width:700px){.page-version.top{right:12px}.ver-popup.top{right:12px}}
+/* v2.1.14: верхнє вікно версії — розробник і пошта */
+.ver-popup.top{min-width:250px}
+.ver-popup .vp-dev{display:block;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.12);font-size:.78rem;color:#c9d1d9;white-space:nowrap}
+.ver-popup .vp-mail{display:block;font-size:.8rem;color:#4da3ff;text-decoration:none;white-space:nowrap;transition:text-shadow 1.2s ease}
+.ver-popup .vp-mail:hover,.ver-popup .vp-mail:focus-visible{outline:none;text-shadow:0 0 8px rgba(77,163,255,.9)}
+</style>
+
+<style id="bander-btn-css">
+/* v2.1.14: кнопка «BanderiZZation!» — вікно по центру кнопки, активне лого */
+.weather-popup.bander-popup{right:auto;left:50%;transform:translate(-50%,8px)}
+.weather-popup.bander-popup.show{transform:translate(-50%,0)}
+.bander-logo{border-radius:8px;animation:banderPulse 3.2s ease-in-out infinite;transition:transform .5s ease,filter .5s ease}
+@keyframes banderPulse{
+  0%,100%{box-shadow:0 0 5px rgba(255,64,200,.35),0 0 11px rgba(0,200,255,.25)}
+  50%{box-shadow:0 0 13px rgba(255,64,200,.75),0 0 24px rgba(0,200,255,.6)}
+}
+.btn-bander:hover .bander-logo,.btn-bander:focus-visible .bander-logo{transform:scale(1.12);filter:brightness(1.25) saturate(1.2)}
+@media (prefers-reduced-motion:reduce){.bander-logo{animation:none;box-shadow:0 0 8px rgba(255,64,200,.5),0 0 16px rgba(0,200,255,.4)}}
 </style>
 
 <style id="hero-buttons-css">
@@ -493,8 +521,8 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
 
     <header>
         <!-- v2.1.13: верхня позначка версії сторінки -->
-        <div class="page-version top" id="pageVersionBadgeTop" tabindex="0" role="button" aria-describedby="verPopupTop" aria-label="Версія сторінки 2.1.13, 11.10.2026 · 16:23"><span>Сторінка v2.1.13</span></div>
-        <div class="ver-popup top" id="verPopupTop" role="tooltip"><span class="vp-t">Версія сторінки</span><span class="vp-v">v2.1.13</span><span class="vp-d">11.10.2026 · 16:23</span></div>
+        <div class="page-version top" id="pageVersionBadgeTop" tabindex="0" role="button" aria-describedby="verPopupTop" aria-label="Версія сторінки 2.1.14, 13.10.2026 · 12:00. Розробник: Афтіпа Марко Оцтович, antiruskontrol@ukr.net"><span>Сторінка v2.1.14</span></div>
+        <div class="ver-popup top" id="verPopupTop" role="tooltip"><span class="vp-t">Версія сторінки</span><span class="vp-v">v2.1.14</span><span class="vp-d">13.10.2026 · 12:00</span><span class="vp-dev">Розробник: Афтіпа Марко Оцтович</span><a class="vp-mail" href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></div>
                 <div class="badge-group">
             <!-- Робимо плашку клікабельною -->
             <span id="openChangelogBtn" class="badge" style="cursor: pointer;">UAFilter v2.0 UA</span>
@@ -504,7 +532,7 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
 
         <h1 style="opacity: 0.6;">UAFilter (Antirus-Control)</h1>
         <p class="tagline">Браузерне розширення для інформаційної гігієни. Автоматично розмиває російський текст на сайтах та пропускає YouTube Shorts.</p>
-               <div class="buttons-container" style="display: flex !important; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 30px; width: 100%;">
+               <div class="buttons-container" style="display: flex !important; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 20px; width: 100%;">
         
         <!-- Перша кнопка (Червона за замовчуванням) -->
         <a href="#install" class="btn-logo-download" style="width: min(300px, 100%) !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
@@ -522,7 +550,7 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
         <div class="weather-wrap" id="weatherWrap">
             <a id="weatherBtn" href="https://antiruskontrol.github.io/WeatherInUkraine/" target="_blank" rel="noopener noreferrer" class="btn-logo-download btn-weather" aria-describedby="weatherPopup" style="width: 100% !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
                 <img src="media/weather-logo.png" alt="Лого Weather in Ukraine" width="50" height="50" style="width: 50px !important; height: 50px !important; object-fit: contain !important; margin-right: 15px !important;">
-                <span style="color: #ffffff !important; font-weight: bold !important; font-size: 1.1rem !important; text-align: left !important;">Weather in Ukraine</span>
+                <span style="color: #ffffff !important; font-weight: bold !important; font-size: 1.1rem !important; text-align: left !important;">Weather in Ukraine ↗</span>
             </a>
             <div id="weatherPopup" class="weather-popup" role="group" aria-label="Про сайт Weather in Ukraine">
                 <div class="wp-head">
@@ -537,12 +565,33 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
                     <li>Звуки природи відповідно до реальної погоди</li>
                     <li>Дані за 29 лютого високосних років</li>
                 </ul>
-                <a class="wp-open" id="weatherOpenLink" href="https://antiruskontrol.github.io/WeatherInUkraine/" target="_blank" rel="noopener noreferrer">Відкрити сайт</a>
+                <a class="wp-open" id="weatherOpenLink" href="https://antiruskontrol.github.io/WeatherInUkraine/" target="_blank" rel="noopener noreferrer">Відкрити сайт ↗</a>
             </div>
         </div>
 
     </div>
 
+    <!-- v2.1.14: другий ряд — кнопка на інший наш сайт BanderiZZation!, активне лого + вікно з описом при наведенні -->
+    <div class="buttons-container bander-row" style="display: flex !important; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 30px; width: 100%;">
+        <div class="weather-wrap" id="bnWrap">
+            <a id="bnBtn" href="https://antiruskontrol.github.io/BanderiZZation/index.html" target="_blank" rel="noopener noreferrer" class="btn-logo-download btn-bander" aria-describedby="bnPopup" style="width: 100% !important; height: 75px !important; display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; box-sizing: border-box !important; padding: 10px 20px !important; background-color: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; text-decoration: none !important; transition: all 0.3s ease !important;">
+                <img class="bander-logo" src="banderlogo.png" alt="Лого BanderiZZation!" width="50" height="50" style="width: 50px !important; height: 50px !important; object-fit: contain !important; margin-right: 15px !important;">
+                <span style="color: #ffffff !important; font-weight: bold !important; font-size: 1.1rem !important; text-align: left !important;">BanderiZZation! ↗</span>
+            </a>
+            <div id="bnPopup" class="weather-popup bander-popup" role="group" aria-label="Про сайт BanderiZZation!">
+                <div class="wp-head">
+                    <img class="bander-logo" src="banderlogo.png" alt="" width="40" height="40">
+                    <div><strong>BanderiZZation!</strong><span>Наш інший сайт</span></div>
+                </div>
+                <ul>
+                    <li>Казуальні ігри з українським колоритом, гумором і мемами</li>
+                    <li>Грати можна просто в браузері</li>
+                    <li>Є сторінки коментарів і донатів на підтримку проєкту</li>
+                </ul>
+                <a class="wp-open" id="bnOpenLink" href="https://antiruskontrol.github.io/BanderiZZation/index.html" target="_blank" rel="noopener noreferrer">Відкрити сайт ↗</a>
+            </div>
+        </div>
+    </div>
 
     </header>
     <main>
@@ -625,8 +674,8 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
             </div>
             <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
             <p class="footer-city">Kyiv Ukraine 2026</p>
-            <div class="page-version" id="pageVersionBadge" tabindex="0" role="button" aria-describedby="verPopup" aria-label="Версія сторінки 2.1.13, 11.10.2026 · 16:23"><span>Сторінка v2.1.13</span></div>
-            <div class="ver-popup" id="verPopup" role="tooltip"><span class="vp-t">Версія сторінки</span><span class="vp-v">v2.1.13</span><span class="vp-d">11.10.2026 · 16:23</span></div>
+            <div class="page-version" id="pageVersionBadge" tabindex="0" role="button" aria-describedby="verPopup" aria-label="Версія сторінки 2.1.14, 13.10.2026 · 12:00"><span>Сторінка v2.1.14</span></div>
+            <div class="ver-popup" id="verPopup" role="tooltip"><span class="vp-t">Версія сторінки</span><span class="vp-v">v2.1.14</span><span class="vp-d">13.10.2026 · 12:00</span></div>
         </div>
     </footer>
     <script>
@@ -960,8 +1009,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <script id="version-popup-js">
 /*
- * UAFilter-UI: вікна версії сторінки — нижня (футер) і верхня (шапка) позначки (v2.1.13 | 2026-10-11 16:23 | Розробник: Афтіпа Марко Оцтович)
- * Мишка: наведення на позначку показує вікно, відхід ховає. Телефон: дотик відкриває/закриває. Клавіатура: Tab показує, Esc закриває.
+ * UAFilter-UI: вікна версії сторінки — нижня (футер) і верхня (шапка) позначки (v2.1.14 | 2026-10-13 12:00 | Розробник: Афтіпа Марко Оцтович)
+ * Мишка: наведення на позначку показує вікно, відхід ховає (поява/зникнення 1,2 с задає CSS); вікно не зникає, поки курсор над ним.
+ * Телефон: дотик відкриває/закриває. Клавіатура: Tab показує, Esc закриває.
  * Маркери консолі: VERSION_POPUP_* (у тексті — назва позначки: «верхня» / «нижня»)
  */
 (() => {
@@ -978,20 +1028,91 @@ document.addEventListener('DOMContentLoaded', () => {
     const isOpen = () => pop.classList.contains('show');
     const show = why => { clearTimeout(hideT); if (isOpen()) return; pop.classList.add('show'); badge.classList.add('open'); dbgV('VERSION_POPUP_SHOW', 'вікно версії (' + cfg.name + ') показано: ' + why); };
     const hide = why => { clearTimeout(hideT); if (!isOpen()) return; pop.classList.remove('show'); badge.classList.remove('open'); dbgV('VERSION_POPUP_HIDE', 'вікно версії (' + cfg.name + ') сховано: ' + why); };
+    const hideSoon = why => { clearTimeout(hideT); hideT = setTimeout(() => hide(why), 120); };
 
     badge.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') show('наведення мишки'); });
-    badge.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') hideT = setTimeout(() => hide('курсор пішов зі значка'), 120); });
+    badge.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') hideSoon('курсор пішов зі значка'); });
+    // курсор перейшов зі значка у вікно (щоб можна було клікнути пошту) — вікно лишається
+    pop.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse' && isOpen()) { clearTimeout(hideT); dbgV('VERSION_POPUP_KEEP', 'вікно версії (' + cfg.name + ') утримується: курсор над вікном'); } });
+    pop.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') hideSoon('курсор пішов із вікна'); });
     badge.addEventListener('pointerdown', e => { lastPtr = e.pointerType || 'mouse'; });
     badge.addEventListener('keydown', () => { lastPtr = 'keyboard'; });
     badge.addEventListener('click', () => {
       if (lastPtr === 'touch' || lastPtr === 'pen') { isOpen() ? hide('повторний дотик') : show('дотик'); }
     });
     badge.addEventListener('focus', () => { if (badge.matches(':focus-visible')) show('фокус з клавіатури'); });
-    badge.addEventListener('blur', () => hide('фокус пішов зі значка'));
+    badge.addEventListener('blur', e => { if (!pop.contains(e.relatedTarget)) hide('фокус пішов зі значка'); });
+    pop.addEventListener('focusout', e => { if (e.relatedTarget !== badge && !pop.contains(e.relatedTarget)) hide('фокус пішов із вікна'); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen()) hide('натиснуто Esc'); });
-    document.addEventListener('pointerdown', e => { if (isOpen() && !badge.contains(e.target)) hide('клік/дотик поза значком'); });
-    dbgV('VERSION_POPUP_INIT', 'вікно версії (' + cfg.name + ') ініціалізовано (v2.1.13, 11.10.2026 · 16:23)');
+    document.addEventListener('pointerdown', e => { if (isOpen() && !badge.contains(e.target) && !pop.contains(e.target)) hide('клік/дотик поза значком'); });
+    dbgV('VERSION_POPUP_INIT', 'вікно версії (' + cfg.name + ') ініціалізовано (v2.1.14, 13.10.2026 · 12:00)');
   });
+})();
+</script>
+
+<script id="bander-btn-js">
+/*
+ * UAFilter-UI: кнопка «BanderiZZation!» + спливаюче вікно (v2.1.14 | 2026-10-13 12:00 | Розробник: Афтіпа Марко Оцтович)
+ * Мишка: наведення на кнопку → через SHOW_DELAY мс вікно (поява 1,2 с задає CSS); пішов з кнопки й вікна → зникає через HIDE_DELAY мс.
+ * Телефон: 1-й дотик показує вікно (перехід скасовано), 2-й відкриває сайт. Клавіатура: Tab показує, Esc закриває.
+ * Клік → https://antiruskontrol.github.io/BanderiZZation/index.html у новій вкладці.
+ * Лого: banderlogo.png (корінь репозиторію); якщо немає — одноразова спроба banderlogo.jpg.
+ * Маркери консолі: BANDER_*
+ */
+(() => {
+  'use strict';
+  const SHOW_DELAY = 750, HIDE_DELAY = 250, URL = 'https://antiruskontrol.github.io/BanderiZZation/index.html';
+  const dbgB = (marker, text) => console.log('[UAFilter-UI] маркер: ' + marker + ' → ' + text);
+  const wrap = document.getElementById('bnWrap'), btn = document.getElementById('bnBtn'), pop = document.getElementById('bnPopup'), openLink = document.getElementById('bnOpenLink');
+  if (!wrap || !btn || !pop) { dbgB('BANDER_INIT_SKIP', 'не знайдено bnWrap/bnBtn/bnPopup — кнопку не ініціалізовано'); return; }
+
+  let showT = null, hideT = null, lastPtr = 'mouse';
+  const isOpen = () => pop.classList.contains('show');
+  const show = why => { clearTimeout(hideT); if (isOpen()) return; pop.classList.add('show'); dbgB('BANDER_POPUP_SHOW', 'вікно показано: ' + why); };
+  const hide = why => { clearTimeout(showT); showT = null; if (!isOpen()) return; pop.classList.remove('show'); dbgB('BANDER_POPUP_HIDE', 'вікно сховано: ' + why); };
+
+  wrap.addEventListener('pointerenter', e => {
+    if (e.pointerType !== 'mouse') return;
+    clearTimeout(hideT);
+    if (isOpen() || showT) return;
+    dbgB('BANDER_HOVER', 'курсор на кнопці — вікно через ' + SHOW_DELAY + ' мс');
+    showT = setTimeout(() => { showT = null; show('наведення тривало ' + SHOW_DELAY + ' мс'); }, SHOW_DELAY);
+  });
+  wrap.addEventListener('pointerleave', e => {
+    if (e.pointerType !== 'mouse') return;
+    if (showT) { clearTimeout(showT); showT = null; dbgB('BANDER_HOVER_CANCEL', 'курсор пішов раніше за ' + SHOW_DELAY + ' мс — вікно не показуємо'); }
+    clearTimeout(hideT);
+    hideT = setTimeout(() => hide('курсор покинув кнопку й вікно'), HIDE_DELAY);
+  });
+
+  btn.addEventListener('pointerdown', e => { lastPtr = e.pointerType || 'mouse'; });
+  btn.addEventListener('keydown', () => { lastPtr = 'keyboard'; });
+  btn.addEventListener('click', e => {
+    if ((lastPtr === 'touch' || lastPtr === 'pen') && !isOpen()) {
+      e.preventDefault();
+      dbgB('BANDER_TOUCH_FIRST_TAP', 'перший дотик (' + lastPtr + ') — показуємо опис, перехід при другому дотику');
+      show('перший дотик');
+      return;
+    }
+    dbgB('BANDER_CLICK', 'клік по кнопці → ' + URL + ' (нова вкладка)');
+  });
+  if (openLink) openLink.addEventListener('click', () => dbgB('BANDER_CLICK', 'клік по «Відкрити сайт ↗» у вікні → нова вкладка'));
+
+  wrap.addEventListener('focusin', () => { if (btn.matches(':focus-visible')) show('фокус з клавіатури'); });
+  wrap.addEventListener('focusout', e => { if (!wrap.contains(e.relatedTarget)) hide('фокус пішов з кнопки'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen()) hide('натиснуто Esc'); });
+  document.addEventListener('pointerdown', e => { if (isOpen() && !wrap.contains(e.target)) hide('клік/дотик поза кнопкою'); });
+
+  // лого: banderlogo.png → (якщо немає) одноразово banderlogo.jpg
+  const logoFail = img => {
+    if (!img.dataset.fb) { img.dataset.fb = '1'; img.src = 'banderlogo.jpg'; dbgB('BANDER_LOGO_FALLBACK', 'banderlogo.png не завантажилось — пробуємо banderlogo.jpg (залийте banderlogo.png у корінь репозиторію)'); }
+    else dbgB('BANDER_LOGO_ERROR', 'не завантажилось ' + img.currentSrc + ' — перевірте, чи файл banderlogo.png залито в корінь репозиторію');
+  };
+  wrap.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', () => logoFail(img));
+    if (img.complete && img.naturalWidth === 0) logoFail(img);
+  });
+  dbgB('BANDER_INIT', 'кнопку BanderiZZation ініціалізовано (показ ' + SHOW_DELAY + ' мс, сховати ' + HIDE_DELAY + ' мс)');
 })();
 </script>
 
@@ -1002,7 +1123,7 @@ document.addEventListener('DOMContentLoaded', () => {
  *   - мишка: наведення на кнопку → через SHOW_DELAY мс з'являється вікно; пішов з кнопки й вікна → зникає через HIDE_DELAY мс
  *   - телефон/планшет: 1-й дотик показує вікно (перехід скасовано), 2-й дотик відкриває сайт
  *   - клавіатура: фокус (Tab) показує вікно одразу, Esc закриває
- *   - клік / «Відкрити сайт» → antiruskontrol.github.io/WeatherInUkraine/ у новій вкладці
+ *   - клік / «Відкрити сайт ↗» → antiruskontrol.github.io/WeatherInUkraine/ у новій вкладці
  * Маркери консолі: WEATHER_*
  */
 (() => {
@@ -1062,7 +1183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     dbgW('WEATHER_CLICK', 'клік по кнопці → antiruskontrol.github.io/WeatherInUkraine/ (нова вкладка)');
   });
-  if (openLink) openLink.addEventListener('click', () => dbgW('WEATHER_CLICK', 'клік по «Відкрити сайт» у вікні → нова вкладка'));
+  if (openLink) openLink.addEventListener('click', () => dbgW('WEATHER_CLICK', 'клік по «Відкрити сайт ↗» у вікні → нова вкладка'));
 
   // ---- клавіатура
   wrap.addEventListener('focusin', () => { if (btn.matches(':focus-visible')) show('фокус з клавіатури'); });
@@ -1086,6 +1207,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /*
  * UAFilter-UI: кнопки футера (Шана Героям / Слава Героям / Тривога в Україні)
  * Журнал змін (нові записи додаються зверху):
+ * v2.1.14 | 2026-10-13 12:00 | Розробник: Афтіпа Марко Оцтович | кнопка «BanderiZZation!» (другий ряд, активне лого banderlogo.png, вікно з описом), усі спливаючі вікна з'являються/зникають 1,2 с, верхнє вікно версії: розробник і пошта; маркери BANDER_*
  * v2.1.13 | 2026-10-11 16:23 | Розробник: Афтіпа Марко Оцтович | друга позначка версії сторінки у верхньому правому куті шапки (не закріплена), вікно версії у стилі сайту; маркери VERSION_POPUP_* з назвою позначки
  * v2.1.12 | 2026-10-11 09:32 | Розробник: Афтіпа Марко Оцтович | вікно версії сторінки у стилі сайту замість браузерної підказки title (темне скло ~69%, синьо-жовтий неон, дата 11.10.2026 · 09:32), маркери VERSION_POPUP_*
  * v2.1.11 | 2026-10-10 23:01 | Розробник: Афтіпа Марко Оцтович | кнопка «Weather in Ukraine» (лого, зелений неон, вікно з описом через 0,75 с, нова вкладка), кнопки ряду по 300 px, колонка на телефонах, маркери WEATHER_*
