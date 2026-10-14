@@ -2,10 +2,17 @@
 <!--
   ==================================================================
   Файл:        index.html (сторінка UAFilter / Antirus-Control)
-  Версія:      2.1.14 (версія сторінки; розширення UAFilter v2.0)
-  Дата, час:   2026-10-13 12:00
+  Версія:      2.1.15 (версія сторінки; розширення UAFilter v2.0)
+  Дата, час:   2026-10-13 20:35
   Розробник:   Афтіпа Марко Оцтович
-  Опис змін (v2.1.14, кнопка BanderiZZation, плавні вікна 1,2 с):
+  Опис змін (v2.1.15, виправлення: вікно версії зникало раніше, ніж можна клікнути пошту):
+    - ГОЛОВНА ПРИЧИНА: у видимого вікна версії не було pointer-events:auto (воно лишалося «прозорим» для миші), тому клік по пошті не доходив
+      до посилання, а наведення на саме вікно ніколи не утримувало його. Додано pointer-events:auto для .ver-popup.show
+    - Додатково: між значком версії й вікном був проміжок ~6 px, а вікно ховалось через 120 мс після відходу зі значка.
+      Тепер: невидимий «місток» між значком і вікном (курсор переходить без розриву), затримка зникнення 700 мс при відході зі значка
+      і 500 мс при відході з вікна; поки курсор над вікном, воно не зникає; зникає плавно 1,2 с, як і було
+    - Консоль: VERSION_POPUP_KEEP (курсор над вікном — утримується), VERSION_POPUP_HIDE із затримкою; версія сторінки скрізь 2.1.15, дата 13.10.2026 · 20:35
+  Попередній опис (v2.1.14, кнопка BanderiZZation, плавні вікна 1,2 с):
     - Нова 4-та кнопка «BanderiZZation! ↗» другим рядком під трьома (по центру) з АКТИВНИМ лого banderlogo.png (корінь репозиторію):
       лого повільно пульсує рожево-блакитним світлом, при наведенні збільшується й яскравішає; зелений неон кнопки як у ZIP;
       клік відкриває https://antiruskontrol.github.io/BanderiZZation/index.html у новій вкладці
@@ -447,7 +454,7 @@
 /* v2.1.12: вікно версії сторінки у стилі сайту (замість білої браузерної підказки title) */
 .page-version:focus-visible,.page-version.open{outline:none;opacity:1;border-color:rgba(77,163,255,.7)}
 .ver-popup{position:absolute;left:14px;bottom:44px;min-width:190px;box-sizing:border-box;padding:10px 14px 11px;text-align:left;border-radius:12px;background:rgba(8,12,22,.69);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(77,163,255,.6);box-shadow:0 0 14px rgba(77,163,255,.45),0 0 26px rgba(255,223,0,.22),inset 0 0 14px rgba(77,163,255,.08);color:#c9d1d9;z-index:5;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity 1.2s ease,transform 1.2s ease,visibility 0s linear 1.2s;pointer-events:none}
-.ver-popup.show{opacity:1;visibility:visible;transform:translateY(0);transition:opacity 1.2s ease,transform 1.2s ease,visibility 0s}
+.ver-popup.show{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0);transition:opacity 1.2s ease,transform 1.2s ease,visibility 0s}
 .ver-popup .vp-t{display:block;font-size:.72rem;letter-spacing:.06em;color:#4da3ff;text-shadow:0 0 6px rgba(77,163,255,.7)}
 .ver-popup .vp-v{display:block;font:700 1.05rem/1.35 ui-monospace,Consolas,monospace;color:#ffdf00;text-shadow:0 0 8px rgba(255,223,0,.55)}
 .ver-popup .vp-d{display:block;font-size:.8rem;color:#9aa4b0}
@@ -461,6 +468,9 @@ header{position:relative}
 @media (max-width:700px){.page-version.top{right:12px}.ver-popup.top{right:12px}}
 /* v2.1.14: верхнє вікно версії — розробник і пошта */
 .ver-popup.top{min-width:250px}
+/* v2.1.15: невидимий «місток» між значком і вікном — курсор переходить без розриву й вікно не ховається */
+.ver-popup::before{content:"";position:absolute;left:0;right:0;bottom:-16px;height:16px}
+.ver-popup.top::before{bottom:auto;top:-16px}
 .ver-popup .vp-dev{display:block;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.12);font-size:.78rem;color:#c9d1d9;white-space:nowrap}
 .ver-popup .vp-mail{display:block;font-size:.8rem;color:#4da3ff;text-decoration:none;white-space:nowrap;transition:text-shadow 1.2s ease}
 .ver-popup .vp-mail:hover,.ver-popup .vp-mail:focus-visible{outline:none;text-shadow:0 0 8px rgba(77,163,255,.9)}
@@ -521,8 +531,8 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
 
     <header>
         <!-- v2.1.13: верхня позначка версії сторінки -->
-        <div class="page-version top" id="pageVersionBadgeTop" tabindex="0" role="button" aria-describedby="verPopupTop" aria-label="Версія сторінки 2.1.14, 13.10.2026 · 12:00. Розробник: Афтіпа Марко Оцтович, antiruskontrol@ukr.net"><span>Сторінка v2.1.14</span></div>
-        <div class="ver-popup top" id="verPopupTop" role="tooltip"><span class="vp-t">Версія сторінки</span><span class="vp-v">v2.1.14</span><span class="vp-d">13.10.2026 · 12:00</span><span class="vp-dev">Розробник: Афтіпа Марко Оцтович</span><a class="vp-mail" href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></div>
+        <div class="page-version top" id="pageVersionBadgeTop" tabindex="0" role="button" aria-describedby="verPopupTop" aria-label="Версія сторінки 2.1.15, 13.10.2026 · 20:35. Розробник: Афтіпа Марко Оцтович, antiruskontrol@ukr.net"><span>Сторінка v2.1.15</span></div>
+        <div class="ver-popup top" id="verPopupTop" role="tooltip"><span class="vp-t">Версія сторінки</span><span class="vp-v">v2.1.15</span><span class="vp-d">13.10.2026 · 20:35</span><span class="vp-dev">Розробник: Афтіпа Марко Оцтович</span><a class="vp-mail" href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></div>
                 <div class="badge-group">
             <!-- Робимо плашку клікабельною -->
             <span id="openChangelogBtn" class="badge" style="cursor: pointer;">UAFilter v2.0 UA</span>
@@ -674,8 +684,8 @@ dialog.pt-modal::backdrop{background:rgba(0,0,0,.78)}
             </div>
             <p>Автор: Афтіпа Марко Оцтович | Зворотний зв'язок: <a href="mailto:antiruskontrol@ukr.net">antiruskontrol@ukr.net</a></p>
             <p class="footer-city">Kyiv Ukraine 2026</p>
-            <div class="page-version" id="pageVersionBadge" tabindex="0" role="button" aria-describedby="verPopup" aria-label="Версія сторінки 2.1.14, 13.10.2026 · 12:00"><span>Сторінка v2.1.14</span></div>
-            <div class="ver-popup" id="verPopup" role="tooltip"><span class="vp-t">Версія сторінки</span><span class="vp-v">v2.1.14</span><span class="vp-d">13.10.2026 · 12:00</span></div>
+            <div class="page-version" id="pageVersionBadge" tabindex="0" role="button" aria-describedby="verPopup" aria-label="Версія сторінки 2.1.15, 13.10.2026 · 20:35"><span>Сторінка v2.1.15</span></div>
+            <div class="ver-popup" id="verPopup" role="tooltip"><span class="vp-t">Версія сторінки</span><span class="vp-v">v2.1.15</span><span class="vp-d">13.10.2026 · 20:35</span></div>
         </div>
     </footer>
     <script>
@@ -1009,7 +1019,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <script id="version-popup-js">
 /*
- * UAFilter-UI: вікна версії сторінки — нижня (футер) і верхня (шапка) позначки (v2.1.14 | 2026-10-13 12:00 | Розробник: Афтіпа Марко Оцтович)
+ * UAFilter-UI: вікна версії сторінки — нижня (футер) і верхня (шапка) позначки (v2.1.15 | 2026-10-13 20:35 | Розробник: Афтіпа Марко Оцтович)
  * Мишка: наведення на позначку показує вікно, відхід ховає (поява/зникнення 1,2 с задає CSS); вікно не зникає, поки курсор над ним.
  * Телефон: дотик відкриває/закриває. Клавіатура: Tab показує, Esc закриває.
  * Маркери консолі: VERSION_POPUP_* (у тексті — назва позначки: «верхня» / «нижня»)
@@ -1028,13 +1038,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const isOpen = () => pop.classList.contains('show');
     const show = why => { clearTimeout(hideT); if (isOpen()) return; pop.classList.add('show'); badge.classList.add('open'); dbgV('VERSION_POPUP_SHOW', 'вікно версії (' + cfg.name + ') показано: ' + why); };
     const hide = why => { clearTimeout(hideT); if (!isOpen()) return; pop.classList.remove('show'); badge.classList.remove('open'); dbgV('VERSION_POPUP_HIDE', 'вікно версії (' + cfg.name + ') сховано: ' + why); };
-    const hideSoon = why => { clearTimeout(hideT); hideT = setTimeout(() => hide(why), 120); };
+    const hideSoon = (why, ms) => { clearTimeout(hideT); hideT = setTimeout(() => hide(why + ' (затримка ' + ms + ' мс)'), ms); };  // v2.1.15: було 120 мс — курсор не встигав до пошти
 
     badge.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') show('наведення мишки'); });
-    badge.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') hideSoon('курсор пішов зі значка'); });
+    badge.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') hideSoon('курсор пішов зі значка', 700); });
     // курсор перейшов зі значка у вікно (щоб можна було клікнути пошту) — вікно лишається
     pop.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse' && isOpen()) { clearTimeout(hideT); dbgV('VERSION_POPUP_KEEP', 'вікно версії (' + cfg.name + ') утримується: курсор над вікном'); } });
-    pop.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') hideSoon('курсор пішов із вікна'); });
+    pop.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') hideSoon('курсор пішов із вікна', 500); });
     badge.addEventListener('pointerdown', e => { lastPtr = e.pointerType || 'mouse'; });
     badge.addEventListener('keydown', () => { lastPtr = 'keyboard'; });
     badge.addEventListener('click', () => {
@@ -1045,7 +1055,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pop.addEventListener('focusout', e => { if (e.relatedTarget !== badge && !pop.contains(e.relatedTarget)) hide('фокус пішов із вікна'); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen()) hide('натиснуто Esc'); });
     document.addEventListener('pointerdown', e => { if (isOpen() && !badge.contains(e.target) && !pop.contains(e.target)) hide('клік/дотик поза значком'); });
-    dbgV('VERSION_POPUP_INIT', 'вікно версії (' + cfg.name + ') ініціалізовано (v2.1.14, 13.10.2026 · 12:00)');
+    dbgV('VERSION_POPUP_INIT', 'вікно версії (' + cfg.name + ') ініціалізовано (v2.1.15, 13.10.2026 · 20:35)');
   });
 })();
 </script>
@@ -1207,6 +1217,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /*
  * UAFilter-UI: кнопки футера (Шана Героям / Слава Героям / Тривога в Україні)
  * Журнал змін (нові записи додаються зверху):
+ * v2.1.15 | 2026-10-13 20:35 | Розробник: Афтіпа Марко Оцтович | вікно версії: невидимий місток між значком і вікном, затримка зникнення 700/500 мс (раніше 120 мс) — тепер можна клікнути пошту; маркери VERSION_POPUP_KEEP/HIDE
  * v2.1.14 | 2026-10-13 12:00 | Розробник: Афтіпа Марко Оцтович | кнопка «BanderiZZation!» (другий ряд, активне лого banderlogo.png, вікно з описом), усі спливаючі вікна з'являються/зникають 1,2 с, верхнє вікно версії: розробник і пошта; маркери BANDER_*
  * v2.1.13 | 2026-10-11 16:23 | Розробник: Афтіпа Марко Оцтович | друга позначка версії сторінки у верхньому правому куті шапки (не закріплена), вікно версії у стилі сайту; маркери VERSION_POPUP_* з назвою позначки
  * v2.1.12 | 2026-10-11 09:32 | Розробник: Афтіпа Марко Оцтович | вікно версії сторінки у стилі сайту замість браузерної підказки title (темне скло ~69%, синьо-жовтий неон, дата 11.10.2026 · 09:32), маркери VERSION_POPUP_*
